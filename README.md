@@ -58,6 +58,3 @@ sudo node server.js
 And access the service with:
 
 `https://<your-dns-name>`
-
-```
-cd node

@@ -67,81 +67,95 @@
 
 	// publising a device
 	async function publish() {
-		const data = await socket.request("createProducerTransport", {
-			forceTcp: false,
-			rtpCapabilities: device.rtpCapabilities,
-		});
-		if (data.error) {
-			error = data.error;
-			return;
-		}
-		console.log("createProducerTransport:", data);
-		const transport = await device.createSendTransport(data);
-		message += "<br>Transport Created.";
-		transport.on(
-			"connect",
-			async ({ dtlsParameters }, callback, errback) => {
-				message += "<br>Trasport connected.";
-				socket
-					.request("connectProducerTransport", { dtlsParameters })
-					.then(callback)
-					.catch(errback);
+		return new Promise( async(resolve, reject) => {
+			const data = await socket.request("createProducerTransport", {
+				forceTcp: false,
+				rtpCapabilities: device.rtpCapabilities,
+			});
+			if (data.error) {
+				error = data.error;
+				reject();
+				return;
 			}
-		);
-		transport.on(
-			"produce",
-			async ({ kind, rtpParameters }, callback, errback) => {
-				try {
-					message += "<br>Producing...";
-					const { id } = await socket.request("produce", {
-						transportId: transport.id,
-						kind,
-						rtpParameters,
-					});
-					callback({ id });
-				} catch (err) {
-					errback(err);
+			
+			console.log("createProducerTransport:", data);
+			const transport = await device.createSendTransport(data);
+			message += "<br>Transport Created.";
+			transport.on(
+				"connect",
+				async ({ dtlsParameters }, callback, errback) => {
+					message += "<br>Trasport connected.";
+					socket
+						.request("connectProducerTransport", { dtlsParameters })
+						.then(callback)
+						.catch(errback);
 				}
-			}
-		);
+			);
+			transport.on(
+				"produce",
+				async ({ kind, rtpParameters }, callback, errback) => {
+					try {
+						message += "<br>Producing...";
+						const { id } = await socket.request("produce", {
+							transportId: transport.id,
+							kind,
+							rtpParameters,
+						});
+						callback({ id });
+					} catch (err) {
+						errback(err);
+					}
+				}
+			);
 
-		transport.on("connectionstatechange", (state) => {
-			switch (state) {
-				case "connecting":
-					message += "<br>Publishing...";
-					break;
+			transport.on("connectionstatechange", (state) => {
+				switch (state) {
+					case "connecting":
+						message += "<br>Publishing...";
+						break;
 
-				case "connected":
-					let video: HTMLVideoElement =
-						document.querySelector("#local_video");
-					video.srcObject = stream;
-					message += "<br>Published";
-					break;
+					case "connected":
+						let video: HTMLVideoElement =
+							document.querySelector("#local_video");
+						video.srcObject = stream;
+						message += "<br>Published";
+						resolve(producer)
+						break;
 
-				case "failed":
-					error = "Failed to publish";
-				default:
-					break;
+					case "failed":
+						error = "Failed to publish";
+						reject();
+					default:
+						break;
+				}
+			});
+
+			try {
+				stream = await navigator.mediaDevices.getUserMedia({
+					video: true,
+				});
+				const track = stream.getVideoTracks()[0];
+				const params = { track };
+				producer = await transport.produce(params);
+			} catch (err) {
+				error = "getUserMedia() failed:";
+				reject();
 			}
 		});
+	}
 
-		try {
-			stream = await navigator.mediaDevices.getUserMedia({ video: true });
-			const track = stream.getVideoTracks()[0];
-			const params = { track };
-			producer = await transport.produce(params);
-		} catch (err) {
-			error = "getUserMedia() failed:";
-		}
+	function subscribe() {
+		message += "<br>Subscribing..."
 	}
 
 	onMount(() => {
-		if (typeof navigator.mediaDevices.getDisplayMedia === "undefined") {
+		/*if (typeof navigator.mediaDevices.getDisplayMedia === "undefined") {
 			error = "This browser is unsupported";
 			return;
-		}
+		}*/
 		connect()
 			.then(publish)
+			.then(subscribe)
 			.catch((err) => {
 				error = err;
 			});
