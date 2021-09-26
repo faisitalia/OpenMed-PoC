@@ -1,7 +1,7 @@
 <script lang="ts">
 	import io from "socket.io-client";
 	import { onMount } from "svelte";
-	import * as config from "./config";
+	import * as config from "../config";
 	import * as mediasoup from "mediasoup-client";
 
 	const hostname = window.location.hostname;

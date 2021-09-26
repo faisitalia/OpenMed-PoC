@@ -27,8 +27,11 @@
     "typescript": "^4.0.0"
   },
   "dependencies": {
+    "bootstrap": "^5.1.1",
     "mediasoup-client": "^3.6.41",
+    "page": "^1.11.6",
     "sirv-cli": "^1.0.0",
-    "socket.io-client": "^2.2.0"
+    "socket.io-client": "^2.2.0",
+    "sveltestrap": "^3.3.2"
   }
 }
