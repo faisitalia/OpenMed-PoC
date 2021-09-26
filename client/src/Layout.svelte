@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { Styles } from "sveltestrap";
 	import Container from "sveltestrap/src/Container.svelte";
 	import Navbar from "./components/Navbar.svelte";
 	import Sidebar from "./components/Sidebar.svelte";
 	import Footer from "./components/Footer.svelte";
-	import Router from "./Router.svelte";
 
-	export let segment;
+	export let page;
+
+	let segment
 
 	let theme = "dark";
 	let color = "dark";
@@ -25,7 +25,7 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<Container fluid={true}>
-					<Router />
+					<svelte:component this={page} />
 				</Container>
 			</main>
 			<Footer />

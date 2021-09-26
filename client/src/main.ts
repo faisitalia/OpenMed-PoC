@@ -1,6 +1,6 @@
-import Layout from './Layout.svelte';
+import Router from './Router.svelte';
 
-const app = new Layout({
+const app = new Router({
 	target: document.body
 });
 
