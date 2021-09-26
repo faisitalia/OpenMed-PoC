@@ -8,6 +8,7 @@
     import Home from "./pages/Home.svelte";
     import About from "./pages/About.svelte";
     import Tables from "./pages/Tables.svelte";
+    import Conference from "./pages/Conference.svelte";
 
     import Activity from "./full/Activity.svelte";
     import Forgot from "./full/Forgot.svelte";
@@ -25,6 +26,7 @@
 
     router("/", () => (page = Home));
     router("/about", () => (page = About));
+    router("/conference", () => (page = Conference));
     router("/tables", () => (page = Tables));
 
     router("/login", () => {

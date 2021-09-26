@@ -4,7 +4,9 @@
 
   import SidebarItem from "./SidebarItem.svelte";
 
-  export let segment;
+  // TODO: fix this passing the current page to hightlight the link
+  let segment;
+  
   export let theme;
 
   $: sidenav_theme = `sb-sidenav-${theme}`;
@@ -65,26 +67,21 @@
         <Collapse isOpen={isLayoutOpen}>
           <Nav class="sb-sidenav-menu-nested">
             <SidebarItem
-              class={segment === "layouts" && activeLink === "Static Navigation"
-                ? "active"
-                : ""}
               href="/"
               text="Home"
             />
-            <SidebarItem
-              class={segment === "layouts" && activeLink === "Light Sidenav"
-                ? "active"
-                : ""}
+            <SidebarItem   
               href="/about"
               text="About"
             />
             <SidebarItem
-              class={segment === "layouts" && activeLink === "Light Sidenav"
-                ? "active"
-                : ""}
-              href="/tables"
-              text="Tables"
-            />
+            href="/conference"
+            text="Conference"
+          />
+          <SidebarItem
+          href="/tables"
+          text="Tables"
+        />
           </Nav>
         </Collapse>
         <SidebarItem

@@ -8,8 +8,9 @@ At some point there will be a release that will give some more hopes it works.
 
 Here some notes hopefully not too outdated to *try* run it (no promises it works). 
 
-
 # Prequisites
+
+You can run the client only for development. But conferencing won't work as it needs also the server.
 
 Unfortunately this is a webrtc server, so you need a public DNS name and a TLS certificate for https.
 
@@ -24,9 +25,16 @@ We are using for development Ubuntu 20.x and node v14, managed with `nvm`.
 
 Note that you have also to install gcc the build chain in the servers since when you run the `npm install` it will try to build some C++ code.
 
-Also you need root access: the server binds to port `443` so you have to run it with `sudo`.
+## Client only
 
-## Client
+
+You can also do `npm run dev` to put it in continous development mode.
+
+Note that the `localhost:5000` works for local development but not for conferencing.
+
+To enable conferencing you have to run also the server from a website with a DNS name and SSL certificates, providing also Websockets.
+
+## Client and Server
 
 First, build and setup the client.
 
@@ -37,24 +45,17 @@ npm run build
 cd ..
 ```
 
-You can also do `npm run dev` to put it in continous development mode.
+Once you have those, edit the `server/config.js` and change the keys `listenIPs` to the IP of your server.
 
-However do not use the `localhost:5000` it does not work because you need to serve the generated bundle from the server, that provides the required services (websocket and media services).
-
-## Server
-
-Once you have those, edit the `server/config.js` and change the keys:
-
-- `sslCrt` and `sslKeys` to the paths to the certificate files
-- `listenIPs` to the IP of your server
+Then you have to put the SSL certificate files `fullchain.pem` and `privkey.pem` in the folder `server/cert`.
 
 Then you can start the server with:
 
 ```
 cd server
-sudo node server.js
+node server.js
 ```
 
 And access the service with:
 
-`https://<your-dns-name>`
+`https://<your-dns-name>:4443`
