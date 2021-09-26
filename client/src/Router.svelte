@@ -2,6 +2,7 @@
     import { Styles } from "sveltestrap";
 
     import router from "page";
+    import { Container } from 'sveltestrap'
     import Layout from "./Layout.svelte";
 
     import Home from "./pages/Home.svelte";
@@ -9,10 +10,15 @@
     import Tables from "./pages/Tables.svelte";
 
     import Activity from "./full/Activity.svelte";
-    import Forgot from "./full/Login.svelte";
+    import Forgot from "./full/Forgot.svelte";
     import Login from "./full/Login.svelte";
-    import Register from "./full/Login.svelte";
+    import Register from "./full/Register.svelte";
     import Settings from "./full/Settings.svelte";
+
+    import Error401 from "./full/Error401.svelte";
+    import Error404 from "./full/Error404.svelte";
+    import Error500 from "./full/Error500.svelte";
+
 
     let page = Home;
     let full = false;
@@ -42,11 +48,28 @@
         page = Activity;
     });
 
+    router("/error_401", () => {
+        full = true;
+        page = Error401;
+    });
+
+    router("/error_404", () => {
+        full = true;
+        page = Error404;
+    });
+
+    router("/error_500", () => {
+        full = true;
+        page = Error500;
+    });
+
     router.start();
 </script>
 
 {#if full}
-    <svelte:component this={page} />
+    <Container fluid={true}>
+        <svelte:component this={page} />
+    </Container>
 {:else}
     <Layout {page} />
 {/if}

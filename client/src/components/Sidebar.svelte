@@ -135,7 +135,7 @@
             </SidebarItem>
             <Collapse isOpen={isAuthenticationOpen}>
               <Nav class="sb-sidenav-menu-nested">
-                <SidebarItem href="pages/authentication/login" text="Login" />
+                <SidebarItem href="/login" text="Login" />
                 <SidebarItem
                   href="/register"
                   text="Register"
