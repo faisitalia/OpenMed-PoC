@@ -11,8 +11,10 @@
         <a href="https://faisitalia.it">FAIS Italia</a>.
       </div>
       <div>
+        <!-- svelte-ignore a11y-missing-attribute -->
         <a href="#">Privacy Policy</a>
         &middot;
+        <!-- svelte-ignore a11y-missing-attribute -->
         <a href="#">Terms &amp; Conditions</a>
       </div>
     </div>

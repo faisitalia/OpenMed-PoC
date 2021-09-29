@@ -1,8 +1,6 @@
 <script lang="ts">
-    import { Styles } from "sveltestrap";
-
     import router from "page";
-    import { Container } from 'sveltestrap'
+    import { Container } from "sveltestrap";
     import Layout from "./Layout.svelte";
 
     import Home from "./pages/Home.svelte";
@@ -20,13 +18,17 @@
     import Error404 from "./full/Error404.svelte";
     import Error500 from "./full/Error500.svelte";
 
-
     let page = Home;
     let full = false;
 
     router("/", () => (page = Home));
     router("/about", () => (page = About));
-    router("/conference", () => (page = Conference));
+    
+    router("/conference", () => {
+        full = true;
+        page = Conference;
+    });
+
     router("/tables", () => (page = Tables));
 
     router("/login", () => {
