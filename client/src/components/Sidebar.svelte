@@ -6,7 +6,7 @@
 
   // TODO: fix this passing the current page to hightlight the link
   let segment;
-  
+
   export let theme;
 
   $: sidenav_theme = `sb-sidenav-${theme}`;
@@ -57,7 +57,7 @@
         <SidebarItem
           on:press={toggleLayout}
           class={!isLayoutOpen ? "collapsed" : ""}
-          text="Options"
+          text="Activities"
           leftIcon
           rightIcon
         >
@@ -66,22 +66,10 @@
         </SidebarItem>
         <Collapse isOpen={isLayoutOpen}>
           <Nav class="sb-sidenav-menu-nested">
-            <SidebarItem
-              href="/"
-              text="Home"
-            />
-            <SidebarItem   
-              href="/about"
-              text="About"
-            />
-            <SidebarItem
-            href="/conference"
-            text="Conference"
-          />
-          <SidebarItem
-          href="/tables"
-          text="Tables"
-        />
+            <SidebarItem href="/" text="Home" />
+            <SidebarItem href="/users" text="Users" />
+            <SidebarItem href="/schedule" text="Schedule" />
+            <SidebarItem href="/conference" text="Conference" />
           </Nav>
         </Collapse>
         <SidebarItem
@@ -133,14 +121,8 @@
             <Collapse isOpen={isAuthenticationOpen}>
               <Nav class="sb-sidenav-menu-nested">
                 <SidebarItem href="/login" text="Login" />
-                <SidebarItem
-                  href="/register"
-                  text="Register"
-                />
-                <SidebarItem
-                  href="/forgot"
-                  text="Forgot Password"
-                />
+                <SidebarItem href="/register" text="Register" />
+                <SidebarItem href="/forgot" text="Forgot Password" />
               </Nav>
             </Collapse>
             <SidebarItem

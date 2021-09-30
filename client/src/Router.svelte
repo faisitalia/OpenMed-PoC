@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { Styles } from "sveltestrap";
+   // import { Styles } from "sveltestrap";
 
     import router from "page";
     import { Container } from 'sveltestrap'
     import Layout from "./Layout.svelte";
 
     import Home from "./pages/Home.svelte";
-    import About from "./pages/About.svelte";
-    import Tables from "./pages/Tables.svelte";
     import Conference from "./pages/Conference.svelte";
+    import Users from "./pages/Users.svelte";
+    import Schedule from "./pages/Schedule.svelte";
 
     import Activity from "./full/Activity.svelte";
     import Forgot from "./full/Forgot.svelte";
@@ -25,10 +25,12 @@
     let full = false;
 
     router("/", () => (page = Home));
-    router("/about", () => (page = About));
+    router("/users", () => (page = Users));
+    router("/schedule", () => (page = Schedule));
     router("/conference", () => (page = Conference));
-    router("/tables", () => (page = Tables));
 
+
+    // Samples
     router("/login", () => {
         full = true;
         page = Login;
@@ -49,12 +51,10 @@
         full = true;
         page = Activity;
     });
-
     router("/error_401", () => {
         full = true;
         page = Error401;
     });
-
     router("/error_404", () => {
         full = true;
         page = Error404;
