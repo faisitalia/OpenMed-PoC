@@ -1,5 +1,5 @@
 
-<style>
+<style
 	video {
 		border: 1px solid black;
 	}
@@ -67,55 +67,88 @@
 	});
 
 	let messages = "Messages:";
-
-	let audioTrack = undefined;
-	let videoTrack = undefined;
-	let audioElem = undefined
-	let videoElem = undefined;
-	
 	let state = ""
 
+	let audioProdTrack = undefined;
+	let videoProdTrack = undefined;
+	let audioProdElem = undefined
+	let videoProdElem = undefined;
+
+	let audioConsTrack = undefined;
+	let videoConsTrack = undefined;
+	let audioConsElem = undefined
+	let videoConsElem = undefined;
+	
 	store.subscribe((value) => {
 		state = JSON.stringify(value, null, 2)
 		if (value.producers) {
 			for (let key in value.producers) {
 				let track = value.producers[key].track;
 				if (track && track.kind === "audio") {
-					if (audioTrack) continue;
-					audioTrack = track;
-					messages += "\naudio: "+track.id
+					if (audioProdTrack) continue;
+					audioProdTrack = track;
+					messages += "\naudio prod: "+track.id
 					console.log("found track:", audioTrack);
 
 					const stream = new MediaStream;
-					stream.addTrack(audioTrack);
-					audioElem.srcObject = stream;
-					//setTracks()
+					stream.addTrack(audioProdTrack);
+					audioProdElem.srcObject = stream;
 				}
 				if (track && track.kind === "video") {
-					if (videoTrack) continue;
-					videoTrack = track;
-					console.log("found track:", videoTrack);
-					messages += "\nvideo:"+videoTrack.id
+					if (videoProdTrack) continue;
+					videoProdTrack = track;
+					console.log("found track:", videoProdTrack);
+					messages += "\nvideo prod:"+videoProdTrack.id
 
 					const stream = new MediaStream;
-					stream.addTrack(videoTrack);
-					videoElem.srcObject = stream;
+					stream.addTrack(videoProdTrack);
+					videoProdElem.srcObject = stream;
+				}
+			}
+		}
+
+		if (value.consumers) {
+			for (let key in value.consumers) {
+				let track = value.consumers[key].track;
+				if (track && track.kind === "audio") {
+					if (audioConsTrack) continue;
+					audioConsTrack = track;
+					messages += "\naudio cons: "+track.id
+					console.log("found track:", audioConsTrack);
+
+					const stream = new MediaStream;
+					stream.addTrack(audioConsTrack);
+					audioConsElem.srcObject = stream;
+				}
+				if (track && track.kind === "video") {
+					if (videoConsTrack) continue;
+					videoConsTrack = track;
+					console.log("found track:", videoConsTrack);
+					messages += "\nvideo cons:"+videoConsTrack.id
+
+					const stream = new MediaStream;
+					stream.addTrack(videoConsTrack);
+					videoConsElem.srcObject = stream;
 				}
 			}
 		}
 	});
 
 	onMount(async () => {
-		audioElem = document.getElementById("audioElem");
-		videoElem = document.getElementById("videoElem");
+		audioProdElem = document.getElementById("audioProdElem");
+		videoProdElem = document.getElementById("videoProdElem");
+		audioConsElem = document.getElementById("audioConsElem");
+		videoConsElem = document.getElementById("videoConsElem");
 		await roomClient.join();
 	});
 </script>
 
 <h1>Conference</h1>
 
-<video id="videoElem" autoPlay playsInline muted controls={false} />
-<audio ref="audioElem" autoPlay playsInline muted={false} controls={false} />
+<video id="videoProdElem" autoPlay playsInline muted controls={false} />
+<audio ref="audioProdElem" autoPlay playsInline muted={false} controls={false} />
+<video id="videoConsElem" autoPlay playsInline muted controls={false} />
+<audio ref="audioConsElem" autoPlay playsInline muted={false} controls={false} />
 
 <div>
 	Room:{roomId}<br />
