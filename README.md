@@ -10,7 +10,7 @@ Here some notes hopefully not too outdated to *try* run it (no promises it works
 
 # Prequisites
 
-You can run the client only for development. But conferencing won't work as it needs also the server.
+You can run the client only for development. But conferencing won't work as it needs also the server with conferencing support.
 
 Unfortunately this is a webrtc server, so you need a public DNS name and a TLS certificate for https.
 
@@ -21,20 +21,26 @@ So the server will not work unless you have:
 - the certificates for this DNS name 
 
 You need to run whatever operating system supports `node`.
-We are using for development Ubuntu 20.x and node v14, managed with `nvm`.
+We are using for development Ubuntu 20.x and node v10, managed with `nvm`.
 
 Note that you have also to install gcc the build chain in the servers since when you run the `npm install` it will try to build some C++ code.
 
 ## Client only
 
+To run the client only do:
 
-You can also do `npm run dev` to put it in continous development mode.
+```
+cd client
+npm install
+npm run dev
+```
 
-Note that the `localhost:5000` works for local development but not for conferencing.
+Then access to  `localhost:5000` to work on local development but without the cnferencing.
 
-To enable conferencing you have to run also the server from a website with a DNS name and SSL certificates, providing also Websockets.
 
 ## Client and Server
+
+To enable conferencing you have to run also the server from a website with a DNS name and SSL certificates, providing also Websockets.
 
 First, build and setup the client.
 

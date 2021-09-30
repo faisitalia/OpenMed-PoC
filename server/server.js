@@ -11,6 +11,7 @@ console.log('config.js:\n%s', JSON.stringify(config, null, '  '));
 /* eslint-enable no-console */
 
 const fs = require('fs');
+const path = require('path');
 const https = require('https');
 const url = require('url');
 const protoo = require('protoo-server');
@@ -20,8 +21,9 @@ const bodyParser = require('body-parser');
 const { AwaitQueue } = require('awaitqueue');
 const Logger = require('./lib/Logger');
 const Room = require('./lib/Room');
-const interactiveServer = require('./lib/interactiveServer');
-const interactiveClient = require('./lib/interactiveClient');
+
+//const interactiveServer = require('./lib/interactiveServer');
+//const interactiveClient = require('./lib/interactiveClient');
 
 const logger = new Logger();
 
@@ -58,11 +60,11 @@ run();
 async function run()
 {
 	// Open the interactive server.
-	await interactiveServer();
+	//await interactiveServer();
 
 	// Open the interactive client.
-	if (process.env.INTERACTIVE === 'true' || process.env.INTERACTIVE === '1')
-		await interactiveClient();
+	//if (process.env.INTERACTIVE === 'true' || process.env.INTERACTIVE === '1')
+	//	await interactiveClient();
 
 	// Run a mediasoup Worker.
 	await runMediasoupWorkers();
@@ -137,8 +139,11 @@ async function createExpressApp()
 	expressApp.use(bodyParser.json());
 
 	expressApp.use(express.static(__dirname+"/../client/public"));
-	expressApp.get('/conference', (req, res) => 
-		res.sendFile(__dirname+"../client/public/index.html"))
+	expressApp.get('/conference', (req, res) => {
+		let file = path.dirname(__dirname)+"/client/public/index.html"
+		console.log(file)
+		res.sendFile(file)
+	})
 
 	/**
 	 * For every API request, verify that the roomId in the path matches and

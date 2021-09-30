@@ -29,14 +29,18 @@
   },
   "dependencies": {
     "bootstrap": "^5.1.1",
-    "js-cookie": "^3.0.1",
+    "js-cookie": "^2.2.1",
     "mediasoup-client": "^3.6.41",
     "page": "^1.11.6",
     "protoo-client": "^4.0.6",
     "random-string": "^0.2.0",
     "redux": "^4.1.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "sirv-cli": "^1.0.0",
     "socket.io-client": "^2.2.0",
-    "sveltestrap": "^3.3.2"
+    "svelte-redux-connect": "^1.2.1",
+    "sveltestrap": "^3.3.2",
+    "url-parse": "^1.5.3"
   }
 }
