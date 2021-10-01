@@ -16,7 +16,7 @@
   let isAuthenticationOpen = false;
   let isErrorOpen = false;
   let activeLink = "Dashboard";
-  let footerName = "SB Admin Svelte";
+  let footerName = "TestUser";
   let footerText = "Logged in as:";
 
   const updateActiveLink = (linkName) => (activeLink = linkName);
@@ -67,9 +67,9 @@
         <Collapse isOpen={isLayoutOpen}>
           <Nav class="sb-sidenav-menu-nested">
             <SidebarItem href="/" text="Home" />
-            <SidebarItem href="/users" text="Users" />
-            <SidebarItem href="/schedule" text="Schedule" />
-            <SidebarItem href="/conference" text="Conference" />
+            <SidebarItem href="/app/users" text="Users" />
+            <SidebarItem href="/app/schedule" text="Schedule" />
+            <SidebarItem href="/app/conference" text="Conference" />
           </Nav>
         </Collapse>
         <SidebarItem
@@ -120,9 +120,9 @@
             </SidebarItem>
             <Collapse isOpen={isAuthenticationOpen}>
               <Nav class="sb-sidenav-menu-nested">
-                <SidebarItem href="/login" text="Login" />
-                <SidebarItem href="/register" text="Register" />
-                <SidebarItem href="/forgot" text="Forgot Password" />
+                <SidebarItem href="/app/login" text="Login" />
+                <SidebarItem href="/app/register" text="Register" />
+                <SidebarItem href="/app/forgot" text="Forgot Password" />
               </Nav>
             </Collapse>
             <SidebarItem
@@ -135,9 +135,9 @@
             </SidebarItem>
             <Collapse isOpen={isErrorOpen}>
               <Nav class="sb-sidenav-menu-nested">
-                <SidebarItem href="/error_401" text="401 Page" />
-                <SidebarItem href="/error_404" text="404 Page" />
-                <SidebarItem href="/error_500" text="500 Page" />
+                <SidebarItem href="/app/error_401" text="401 Page" />
+                <SidebarItem href="/app/error_404" text="404 Page" />
+                <SidebarItem href="/app/error_500" text="500 Page" />
               </Nav>
             </Collapse>
           </Nav>

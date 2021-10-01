@@ -22,45 +22,45 @@
     let full = false;
 
     router("/", () => (page = Home));
-    router("/users", () => (page = Users));
-    router("/schedule", () => (page = Schedule));
+    router("/app/users", () => (page = Users));
+    router("/app/schedule", () => (page = Schedule));
     
-    router("/conference", () => {
+    router("/app/conference", () => {
         full = true;
         page = Conference;
     });
 
     // Samples
-    router("/login", () => {
+    router("/app/login", () => {
         full = true;
         page = Login;
     });
-    router("/register", () => {
+    router("/app/register", () => {
         full = true;
         page = Register;
     });
-    router("/settings", () => {
+    router("/app/settings", () => {
         full = true;
         page = Settings;
     });
-    router("/forgot", () => {
+    router("/app/forgot", () => {
         full = true;
         page = Forgot;
     });
-    router("/activity", () => {
+    router("/app/activity", () => {
         full = true;
         page = Activity;
     });
-    router("/error_401", () => {
+    router("/app/error_401", () => {
         full = true;
         page = Error401;
     });
-    router("/error_404", () => {
+    router("/app/error_404", () => {
         full = true;
         page = Error404;
     });
 
-    router("/error_500", () => {
+    router("/app/error_500", () => {
         full = true;
         page = Error500;
     });

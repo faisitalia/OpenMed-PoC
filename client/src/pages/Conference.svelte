@@ -1,5 +1,5 @@
 
-<style
+<style>
 	video {
 		border: 1px solid black;
 	}
