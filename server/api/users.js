@@ -3,8 +3,8 @@ module.exports = function(app, db) {
     // Get all users
     app.get("/api/users", (req, res) => {
         let out = [
-            { "id": "michele", "email": "michele@example.com" },
-            { "id": "mirella", "email": "mirella@example.com" }
+            { "id": "michele", "email": "michele@sciabarra.com" },
+            { "id": "mirella", "email": "mirella@sciabarra.com" }
         ]
         res.send(out) 
     })
