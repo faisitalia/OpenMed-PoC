@@ -139,7 +139,7 @@ async function createExpressApp()
 	expressApp.use(bodyParser.json());
 
 	expressApp.use(express.static(__dirname+"/../client/public"));
-	expressApp.get('/conference', (req, res) => {
+	expressApp.get('/app/conference', (req, res) => {
 		let file = path.dirname(__dirname)+"/client/public/index.html"
 		console.log(file)
 		res.sendFile(file)
