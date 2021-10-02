@@ -6,8 +6,12 @@
   import CardHeader from "sveltestrap/src/CardHeader.svelte";
 
   import Table from "../components/Table.svelte";
+  import {get} from "../util"
 </script>
-
+{#await get("/users") then users}
+<pre>{JSON.stringify(users)}</pre>
+{/await}
+xxx
 <h1 class="mt-4">Tables</h1>
 <Breadcrumb class="mb-4">
   <BreadcrumbItem>

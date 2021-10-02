@@ -2,6 +2,7 @@ module.exports = function(app, db) {
 
     // Get all users
     app.get("/api/users", (req, res) => {
+        console.log("get /api/users")
         let out = [
             { "id": "michele", "email": "michele@sciabarra.com" },
             { "id": "mirella", "email": "mirella@sciabarra.com" }
@@ -11,12 +12,15 @@ module.exports = function(app, db) {
 
     // Get a single user
     app.get("/api/user", (req, res) => {
+        console.log("get /api/user")
         let out = { "id": "michele", "email": "michele@example.com" }
         res.send(out)
     })
 
     // Create a new user
     app.post("/api/user", (req, res) => {
+        console.log("post /api/user ", req.body)
+        let out = { "id": "michele", "email": "michele@example.com" }
         res.send(out)
     })
 

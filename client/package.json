@@ -5,7 +5,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public --single --no-clear",
+    "start": "sirv public --single --no-clear --cors",
     "start-with-node": "PORT=5000 node ../server/devserver.js",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },

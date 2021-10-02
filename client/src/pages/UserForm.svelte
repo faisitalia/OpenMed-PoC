@@ -1,4 +1,5 @@
 <script>
+    import { post } from '../util'
     import Card from "sveltestrap/src/Card.svelte";
     import CardBody from "sveltestrap/src/CardBody.svelte";
     import CardHeader from "sveltestrap/src/CardHeader.svelte";
@@ -11,7 +12,14 @@
     import Row from "sveltestrap/src/Row.svelte";
     import Col from "sveltestrap/src/Col.svelte";
     let roles = "Patient"
-  </script>
+
+    let data = { }
+    function save(event) {
+      console.log(data)
+      event.preventDefault()
+      post("/user", data)
+    }
+  </script> 
   
   <Col class="col-lg-7">
     <Card class="shadow-lg border-0 rounded-lg mt-5">
@@ -45,6 +53,7 @@
               <FormGroup>
                 <Label for="inputFirstName" class="small mb-1">First Name</Label>
                 <Input
+                  bind:value={data.name}
                   class="py-4"
                   type="text"
                   name="firstName"
@@ -56,6 +65,7 @@
               <FormGroup>
                 <Label for="inputLastName" class="small mb-1">Last Name</Label>
                 <Input
+                  bind:value={data.lastName}
                   class="py-4"
                   type="text"
                   name="lastName"
@@ -124,15 +134,12 @@
             </div>
           </Row>
           <FormGroup class="mt-4 mb-0">
-            <Button color="primary" block href="pages/authentication/login">
+            <Button on:click={save} color="primary" block href="pages/authentication/login">
               Create Account
             </Button>
           </FormGroup>
         </Form>
       </CardBody>
-      <CardFooter class="text-center small">
-        <a href="pages/authentication/login">Have an account? Go to login</a>
-      </CardFooter>
     </Card>
   </Col>
   

@@ -2,7 +2,7 @@
   import UserList from "./UserList.svelte";
   import UserForm from "./UserForm.svelte";
 
-  let edit = true
+  let edit = false
 
 </script>
 
