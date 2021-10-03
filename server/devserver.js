@@ -1,14 +1,29 @@
-const express = require('express')
+const https = require("https")
+const fs = require('fs')
 const path = require("path")
-const port = process.env.PORT || "3000"
-const app = express()
+const express = require('express')
+const port = process.env.PORT || "4443"
+const cors = require('cors')
+
+const rootDir = path.dirname(__dirname) + "/client/public"
+const config = require('./config')
 const api = require('./api')
 
-// start server
-const rootDir = path.dirname(__dirname)+"/client/public"
-console.log("serving "+rootDir)
-
+const app = express()
+app.use(cors());
 api(app, rootDir)
-app.listen(parseInt(port), () => {
-    console.log(`Example app listening at http://localhost:${port}`)
-})
+
+console.log("serving " + rootDir)
+
+const tls =
+{
+    cert: fs.readFileSync(config.https.tls.cert),
+    key: fs.readFileSync(config.https.tls.key)
+};
+
+httpsServer = https.createServer(tls, app);
+httpsServer.listen(
+    Number(config.https.listenPort), config.https.listenIp, () => {
+        console.log(`Development server app listening at http://localhost:${port}`)
+    });
+

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-process.title = 'mediasoup-demo-server';
+process.title = 'openmed-server';
 process.env.DEBUG = process.env.DEBUG || '*INFO* *WARN* *ERROR*';
 
 const config = require('./config');
@@ -17,13 +17,14 @@ const url = require('url');
 const protoo = require('protoo-server');
 const mediasoup = require('mediasoup');
 const express = require('express');
-const bodyParser = require('body-parser');
+const cors = require('cors');
 const { AwaitQueue } = require('awaitqueue');
 const Logger = require('./lib/Logger');
 const Room = require('./lib/Room');
+const api = require("./api")
 
-//const interactiveServer = require('./lib/interactiveServer');
-//const interactiveClient = require('./lib/interactiveClient');
+const interactiveServer = require('./lib/interactiveServer');
+const interactiveClient = require('./lib/interactiveClient');
 
 const logger = new Logger();
 
@@ -60,11 +61,11 @@ run();
 async function run()
 {
 	// Open the interactive server.
-	//await interactiveServer();
+	await interactiveServer();
 
 	// Open the interactive client.
-	//if (process.env.INTERACTIVE === 'true' || process.env.INTERACTIVE === '1')
-	//	await interactiveClient();
+	if (process.env.INTERACTIVE === 'true' || process.env.INTERACTIVE === '1')
+		await interactiveClient();
 
 	// Run a mediasoup Worker.
 	await runMediasoupWorkers();
@@ -79,13 +80,13 @@ async function run()
 	await runProtooWebSocketServer();
 
 	// Log rooms status every X seconds.
-	setInterval(() =>
+	/*setInterval(() =>
 	{
 		for (const room of rooms.values())
 		{
 			room.logStatus();
 		}
-	}, 120000);
+	}, 120000);*/
 }
 
 /**
@@ -135,15 +136,12 @@ async function createExpressApp()
 	logger.info('creating Express app...');
 
 	expressApp = express();
+	expressApp.use(express.json());
+	expressApp.use(cors());
 
-	expressApp.use(bodyParser.json());
-
-	expressApp.use(express.static(__dirname+"/../client/public"));
-	expressApp.get('/app/conference', (req, res) => {
-		let file = path.dirname(__dirname)+"/client/public/index.html"
-		console.log(file)
-		res.sendFile(file)
-	})
+	// hook the api and app routes
+	const rootDir = path.dirname(__dirname)+"/client/public"
+	api(expressApp, rootDir)
 
 	/**
 	 * For every API request, verify that the roomId in the path matches and

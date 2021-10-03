@@ -12,7 +12,6 @@ module.exports = async function(app, rootDir) {
     const db = client.db(mongoDb)
 
     app.use(express.json())
-    app.use(express.urlencoded())
     app.use(express.static(rootDir));
 	app.get('/app/*', (req, res) => {
 		let file = rootDir+"/index.html"

@@ -4,7 +4,6 @@
     import Layout from "./Layout.svelte";
 
     import Home from "./pages/Home.svelte";
-    import Conference from "./pages/Conference.svelte";
     import Users from "./pages/Users.svelte";
     import Schedule from "./pages/Schedule.svelte";
 
@@ -13,7 +12,8 @@
     import Login from "./full/Login.svelte";
     import Register from "./full/Register.svelte";
     import Settings from "./full/Settings.svelte";
-
+    import Conference from "./full/Conference.svelte";
+  
     import Error401 from "./full/Error401.svelte";
     import Error404 from "./full/Error404.svelte";
     import Error500 from "./full/Error500.svelte";

@@ -9,6 +9,7 @@ import css from 'rollup-plugin-css-only';
 import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
 import json from '@rollup/plugin-json';
+import fs from 'fs'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -78,8 +79,11 @@ export default {
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
 		!production && livereload({
-			base: 'public', 
-			hostname: '0.0.0.0'  
+			base: 'public',
+			https: {			
+				cert : fs.readFileSync("../server/certs/fullchain.pem"),
+				key  : fs.readFileSync("../server/certs/privkey.pem")
+			}
 		}),
 
 		// If we're building for production (npm run build
