@@ -1,5 +1,4 @@
-
-const base = "http://localhost:3000/api"
+const base = "//api"
 
 export function get(path) {
     return fetch(base+path)
@@ -9,6 +8,7 @@ export function get(path) {
         return x
     })
 }
+
 export function post(path, data) {
     fetch(base+path,
     {
