@@ -1,6 +1,7 @@
 const express = require("express")
 const mongo = require("mongodb");
 const users = require("./users.js")
+const schedules = require("./schedules.js")
 const path = require("path")
 
 module.exports = async function(app, rootDir) {
@@ -19,4 +20,5 @@ module.exports = async function(app, rootDir) {
 		res.sendFile(file)
 	})
     users(app, db)
+    schedules(app, db)
 }
