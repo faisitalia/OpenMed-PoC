@@ -1,4 +1,4 @@
-const base = "//api"
+const base = location.protocol+"//"+location.host + "/api"
 
 export function get(path) {
     return fetch(base+path)
