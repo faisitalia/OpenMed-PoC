@@ -1,67 +1,89 @@
 # OpenMed
 
-In this repository there is a completely unstable code drop of OpenMed, as it is in development.
+*Warning* this repo contains code under heavy development.
 
-At the moment there are no guarantee at all.
+So keep in mind:
 
-At some point there will be a release that will give some more hopes it works.
+- the code is not yet feature complete
+- the code may not even compile or work at all 
+- the code WILL certainly contains bug
+- if you run it, because of the previous facts, it may destroy your machine, or even the entire universe...
 
-Here some notes hopefully not too outdated to *try* run it (no promises it works). 
+Here some notes hopefully not too outdated to *try* run it (no promises it works) in development mode
 
-# Prequisites
+(there are not yet instructions for a production mode)
 
-You can run the client only for development. But conferencing won't work as it needs also the server with conferencing support.
+## Prequisites
 
-Unfortunately this is a webrtc server, so you need a public DNS name and a TLS certificate for https.
+Unfortunately this is a webrtc server, so even for development you need a public DNS name and a TLS certificate for https.
 
-So the server will not work unless you have:
+So if you want to develop you need:
 
-- a server on internet with a public IP
-- a DNS name that points to it, 
+- a server on internet with a public IP (a virtul machine is fine)
+- a DNS name that points to it
 - the certificates for this DNS name 
 
-You need to run whatever operating system supports `node`.
-We are using for development Ubuntu 20.x and node v10, managed with `nvm`.
+You need to run whatever operating system supports `node`, although the underlying library for conferencing (mediasoup) may not compile on all the systems.
+
+Also you need a locally available  `mongodb`
+
+We are using for development Ubuntu 20.x and node v12
 
 Note that you have also to install gcc the build chain in the servers since when you run the `npm install` it will try to build some C++ code.
 
-## Client only
+## Installation (for development)
 
-To run the client only do:
+First, get the SSL certificates.
+
+On Ubuntu, shut down any server can be running on port 80 and do this:
+
+```
+sudo snap install certbot --classic
+certbot standalone -d <yourdomain>
+```
+
+then copy the files in `/etc/letsencrypt/live/<yourdomain>/*.pem` in `server/conf` folder
+
+Then install prerequisites:
 
 ```
 cd client
 npm install
-npm run dev
-```
-
-Then access to  `localhost:5000` to work on local development but without the cnferencing.
-
-
-## Client and Server
-
-To enable conferencing you have to run also the server from a website with a DNS name and SSL certificates, providing also Websockets.
-
-First, build and setup the client.
-
-```
-cd client
+cd ../server
 npm install
-npm run build
 cd ..
 ```
 
-Once you have those, edit the `server/config.js` and change the keys `listenIPs` to the IP of your server.
+## Launch (for development)
 
-Then you have to put the SSL certificate files `fullchain.pem` and `privkey.pem` in the folder `server/cert`.
+You can launch in two modes: without and with conferencing support
 
-Then you can start the server with:
+To launch without conferencing support:
 
 ```
-cd server
-node server.js
+cd client
+npm run dev
 ```
 
-And access the service with:
+Then access to `https://<yourdomain>:4443` to see the user interface.
 
-`https://<your-dns-name>:4443`
+
+Client code is under `client/src`.
+
+Server code for the API is under `server/api`
+
+You can change everything under those folders and both server and client will reload. *But conferencing wont't work*
+
+To run also in conferencing mode:
+
+```
+cd client
+npm run conf 
+```
+
+In this mode conferencing will work, and you can change client code and it will reload.
+
+Server won't reload automatically as it takes a long time to start the conferencing. If you change the code you have to manually stop and restart.
+
+However you can connect to the server with an interactive prompt with `cd server ; npm run connect`.
+
