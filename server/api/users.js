@@ -2,7 +2,7 @@ module.exports = function(app, db) {
 
     // Get all users
     app.get("/api/users", (req, res) => {
-        console.log("GET /api/users")
+        console.log("get /api/users")
         let out = [
             { "id": "michele", "email": "michele@sciabarra.com" },
             { "id": "mirella", "email": "mirella@sciabarra.com" }

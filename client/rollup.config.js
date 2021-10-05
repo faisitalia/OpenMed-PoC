@@ -23,7 +23,8 @@ function serve() {
 	return {
 		writeBundle() {
 			if (server) return;
-			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
+			let start = process.env.START || "start";
+			server = require('child_process').spawn('npm', ['run', start, '--', '--dev'], {
 				stdio: ['ignore', 'inherit', 'inherit'],
 				shell: true
 			});
@@ -80,6 +81,7 @@ export default {
 		// browser on changes when not in production
 		!production && livereload({
 			base: 'public',
+			port: Number(process.env.OVERRIDE_LIVERELOAD_PORT || 35729),
 			https: {			
 				cert : fs.readFileSync("../server/certs/fullchain.pem"),
 				key  : fs.readFileSync("../server/certs/privkey.pem")

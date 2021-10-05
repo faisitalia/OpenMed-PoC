@@ -11,7 +11,7 @@
 {#await get("/users") then users}
 <pre>{JSON.stringify(users)}</pre>
 {/await}
-xxx
+
 <h1 class="mt-4">Tables</h1>
 <Breadcrumb class="mb-4">
   <BreadcrumbItem>

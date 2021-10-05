@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "oldstart": "sirv public --single --no-clear --cors",
-    "start": "cd ../server ; npm run dev",
+    "dev": "rollup -c -w --environment START:serverdev",
+    "conf": "rollup -c -w --environment START:serverconf",
+    "serverdev": "cd ../server ; npm run dev",
+    "serverconf": "cd ../server ; npm run conf",
+    "start": "sirv public --single --no-clear --cors",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {

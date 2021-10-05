@@ -1,7 +1,4 @@
-let protooPort = 4443;
-
-if (window.location.hostname === 'test.mediasoup.org')
-	protooPort = 4444;
+let protooPort = window.location.port;
 
 export function getProtooUrl({ roomId, peerId })
 {
