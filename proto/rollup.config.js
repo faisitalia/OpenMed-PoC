@@ -6,6 +6,7 @@ import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
+import fs from 'fs'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -36,7 +37,7 @@ export default {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: 'public/build/bundle.js'
+		file: '../client/public/build/proto.js'
 	},
 	plugins: [
 		svelte({
@@ -48,7 +49,7 @@ export default {
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
-		css({ output: 'bundle.css' }),
+		css({ output: 'proto.css' }),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
@@ -71,7 +72,14 @@ export default {
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
-		!production && livereload('public'),
+		!production && livereload({
+			base: 'public',
+			port: Number(process.env.OVERRIDE_LIVERELOAD_PORT || 35729),
+			https: {
+				cert: fs.readFileSync("../server/certs/fullchain.pem"),
+				key: fs.readFileSync("../server/certs/privkey.pem")
+			}
+		}),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
