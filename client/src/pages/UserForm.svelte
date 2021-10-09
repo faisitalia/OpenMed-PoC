@@ -11,13 +11,16 @@
     import Button from "sveltestrap/src/Button.svelte";
     import Row from "sveltestrap/src/Row.svelte";
     import Col from "sveltestrap/src/Col.svelte";
-    let roles = "Patient"
+    import {usersEdit} from "../state";
+    let ruolo = "Patient"
 
     let data = { }
-    function save(event) {
+    async function  save(event) {
       console.log(data)
       event.preventDefault()
-      post("/user", data)
+      let res = await post("/user", data)
+      console.log(res)
+      usersEdit.set(false)
     }
   </script> 
   
@@ -31,45 +34,55 @@
             <FormGroup>
                 <h3>Role</h3>
                 <label>
-                    <input type=radio group={roles} name="roles" value={"Administrator"}>
+                    <input type=radio bind:group={data.ruolo} name="ruolo" value={"Administrator"}>
                     Administrator
                 </label>
                 <label>
-                    <input type=radio group={roles} name="roles" value={"Patient"}>
+                    <input type=radio bind:group={data.ruolo} name="ruolo" value={"Patient"}>
                     Patient
                 </label>
                 <label>
-                    <input type=radio group={roles} name="roles" value={"Nurse"}>
+                    <input type=radio bind:group={data.ruolo} name="ruolo" value={"Nurse"}>
                     Nurse
                 </label>
                 <label>
-                    <input type=radio group={roles} name="roles" value={"Doctor"}>
+                    <input type=radio bind:group={data.ruolo} name="ruolo" value={"Doctor"}>
                     Doctor
                 </label>
             
               </FormGroup>
+              <FormGroup>
+                <Label for="codicediscale" class="small mb-1">CodicFiscale</Label>
+                <Input
+                bind:value={data.CF}
+                  class="py-4"
+                  type="text"
+                  name="CF"
+                  id="CF"
+                  placeholder="Codice Fiscale" />
+              </FormGroup>
           <Row form>
             <div class="col-md-6">
               <FormGroup>
-                <Label for="inputFirstName" class="small mb-1">First Name</Label>
+                <Label for="inputFirstName" class="small mb-1">Nome</Label>
                 <Input
-                  bind:value={data.name}
+                  bind:value={data.nome}
                   class="py-4"
                   type="text"
-                  name="firstName"
-                  id="inputFirstName"
+                  name="nome"
+                  id="nome"
                   placeholder="Enter first name" />
               </FormGroup>
             </div>
             <div class="col-md-6">
               <FormGroup>
-                <Label for="inputLastName" class="small mb-1">Last Name</Label>
+                <Label for="inputLastName" class="small mb-1">Cognome</Label>
                 <Input
-                  bind:value={data.lastName}
+                  bind:value={data.cognome}
                   class="py-4"
                   type="text"
-                  name="lastName"
-                  id="inputLastName"
+                  name="cognome"
+                  id="cognome"
                   placeholder="Enter last name" />
               </FormGroup>
             </div>
@@ -77,23 +90,25 @@
           <Row form>
             <div class="col-md-6">
               <FormGroup>
-                <Label for="inputAddress" class="small mb-1">Address</Label>
+                <Label for="inputAddress" class="small mb-1">Indirizzo</Label>
                 <Input
+                  bind:value={data.indirizzo}
                   class="py-4"
                   type="text"
-                  name="address"
-                  id="inputAddress"
+                  name="indirizzo"
+                  id="indirizzo"
                   placeholder="Enter Address" />
               </FormGroup>
             </div>
             <div class="col-md-6">
               <FormGroup>
-                <Label for="inputPhone" class="small mb-1">Phone</Label>
+                <Label for="inputPhone" class="small mb-1">Telefono</Label>
                 <Input
+                  bind:value={data.telefono}
                   class="py-4"
                   type="text"
-                  name="phone"
-                  id="inputPhone"
+                  name="telefono"
+                  id="telefono"
                   placeholder="Enter Phone" />
               </FormGroup>
             </div>
@@ -101,6 +116,7 @@
           <FormGroup>
             <Label for="exampleEmail" class="small mb-1">Email</Label>
             <Input
+              bind:value={data.email}
               class="py-4"
               type="email"
               name="email"
@@ -112,6 +128,7 @@
               <FormGroup>
                 <Label for="inputPassword" class="small mb-1">Password</Label>
                 <Input
+                  bind:value={data.pwd}
                   class="py-4"
                   type="password"
                   name="inputPassword"
@@ -142,4 +159,5 @@
       </CardBody>
     </Card>
   </Col>
+  <button on:click={() => usersEdit.set(false) }>List</button>
   

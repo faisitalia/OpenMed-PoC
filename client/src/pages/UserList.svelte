@@ -4,13 +4,24 @@
   import Card from "sveltestrap/src/Card.svelte";
   import CardBody from "sveltestrap/src/CardBody.svelte";
   import CardHeader from "sveltestrap/src/CardHeader.svelte";
-
-  import Table from "../components/Table.svelte";
-  import {get} from "../util"
+  import Table from "sveltestrap/src/Table.svelte";
+  import Button from "sveltestrap/src/Button.svelte";
+  //import Table from "../components/Table.svelte";
+  import {get,post,del} from "../util"
+  import {usersEdit} from "../state";
+  let tableHeading = ["Ruolo","Nome","Cognome","email"]
+  let usrCF=""
+  let data = {}
+  async function  elimina(event) {
+      console.log(usrCF)
+      let data = {"CF":usrCF}
+      event.preventDefault()
+      let res = await del("/user", data)
+      console.log(res)
+      usersEdit.set(false)
+    }
 </script>
-{#await get("/users") then users}
-<pre>{JSON.stringify(users)}</pre>
-{/await}
+
 
 <h1 class="mt-4">Tables</h1>
 <Breadcrumb class="mb-4">
@@ -20,39 +31,35 @@
   <BreadcrumbItem active>Tables</BreadcrumbItem>
 </Breadcrumb>
 
-<Card class="mb-4">
-  <CardBody>
-    DataTables is a third party plugin that is used to generate the demo table
-    below. For more information about DataTables, please visit the
-    <a target="_blank" href="https://datatables.net/">
-      official DataTables documentation
-    </a>
-    .
-  </CardBody>
-</Card>
 
-<Card class="mb-4">
-  <CardHeader>
-    <svg
-      class="svg-inline--fa fa-table fa-w-16"
-      aria-hidden="true"
-      focusable="false"
-      data-prefix="fas"
-      data-icon="table"
-      role="img"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 512 512"
-      data-fa-i2svg="">
-      <path
-        fill="currentColor"
-        d="M464 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h416c26.51
-        0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM224
-        416H64v-96h160v96zm0-160H64v-96h160v96zm224
-        160H288v-96h160v96zm0-160H288v-96h160v96z" />
-    </svg>
-    DataTable Example
-  </CardHeader>
-  <CardBody>
-    <Table />
-  </CardBody>
-</Card>
+
+
+
+
+<Table bordered responsive>
+  <thead>
+    <tr>
+      {#each tableHeading as heading}
+        <th>{heading}</th>
+      {/each}
+    </tr>
+  </thead>
+  {#await get("/users") then users}
+  
+  <tbody>
+    <tr></tr>
+    {#each users as usr }
+      <tr>
+        <th scope="row"><input type=radio bind:group={usrCF} name="CF" value={usr.CF}> {usr.ruolo}</th>
+        <td>{usr.nome}</td>
+        <td>{usr.cognome}</td>
+        <td>{usr.email}</td>
+      </tr>
+    {/each}
+  
+  </tbody>
+ 
+     {/await}
+</Table>
+<Button on:click={elimina} color="primary" block href="pages/authentication/login">Elimina</Button>
+<Button on:click={() => usersEdit.set(true)}>New</Button>
