@@ -5,7 +5,7 @@
 
     import Home from "./pages/Home.svelte";
     import Users from "./pages/Users.svelte";
-    import Conference from "./full/Conference.svelte";
+    import Conference from "./pages/Conference.svelte";
 
     let page = Home;
 
