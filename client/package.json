@@ -26,12 +26,16 @@
     "rollup-plugin-terser": "^7.0.0",
     "svelte": "^3.0.0",
     "svelte-check": "^2.0.0",
-    "svelte-preprocess": "^4.0.0",
+    "svelte-preprocess": "^4.7.3",
     "tslib": "^2.0.0",
-    "typescript": "^4.0.0"
+    "typescript": "^4.0.0",
+    "tailwindcss": "^2.1.2",
+    "autoprefixer": "^10.2.6",
+    "daisyui": "^1.2.0",
+    "postcss": "^8.3.0",
+    "postcss-load-config": "^3.0.1"
   },
   "dependencies": {
-    "bootstrap": "^5.1.1",
     "js-cookie": "^2.2.1",
     "mediasoup-client": "^3.6.41",
     "page": "^1.11.6",
@@ -40,7 +44,6 @@
     "redux": "^4.1.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "sirv-cli": "^1.0.0",
     "socket.io-client": "^2.2.0",
     "svelte-redux-connect": "^1.2.1",
     "sveltestrap": "^3.3.2",
