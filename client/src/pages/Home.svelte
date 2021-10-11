@@ -1,11 +1,17 @@
-<h1>Welcome!!!</h1>
 
-Idea &amp; Funding: Nicola Caione
 
-<br>
+<script lang="ts">
+    import Card from '../components/Card.svelte'
+    import Metric from '../components/Metric.svelte'
+</script>
 
-Design &amp; Implementation:
-<ul>
-<li>Michele Sciabarrà</li>
-<li>Mirella Di Girolamo</li>
-</ul>
+
+<div class="flex flex-wrap">
+    <Metric></Metric>
+    <Metric></Metric>
+</div>
+
+<div class="flex flex-row flex-wrap flex-grow mt-2">
+   <Card></Card>
+   <Card></Card>
+</div>

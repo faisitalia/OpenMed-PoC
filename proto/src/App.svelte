@@ -1,18 +1,26 @@
-<script lang="ts">
-	function ciao() { alert("ciao")}
-</script>
-
-<ons-page id="helloworld-page">
-	<ons-toolbar>
-		<div class="center" />
-		<div class="right">
-			<ons-toolbar-button >
-				<ons-icon icon="ion-ios-menu, material:md-menu" />
-			</ons-toolbar-button>
-		</div>
-	</ons-toolbar>
-
-	<p style="text-align: center">
-		<ons-button on:click={ciao}>Click me!</ons-button>
-	</p>
-</ons-page>
+<!-- Prerequisite=This example use ionicons(http://ionicons.com) to display icons. -->
+<div class="tabbar">
+	<label class="tabbar__item">
+	  <input type="radio" name="tabbar-a" checked="checked">
+	  <button class="tabbar__button">
+		<i class="tabbar__icon ion-ios-square"></i>
+		<div class="tabbar__label">One</div>
+	  </button>
+	</label>
+  
+	<label class="tabbar__item">
+	  <input type="radio" name="tabbar-a">
+	  <button class="tabbar__button">
+		<i class="tabbar__icon ion-ios-radio-button-on"></i>
+		<div class="tabbar__label">Two</div>
+	  </button>
+	</label>
+  
+	<label class="tabbar__item">
+	  <input type="radio" name="tabbar-a">
+	  <button class="tabbar__button">
+		<i class="tabbar__icon ion-ios-star"></i>
+		<div class="tabbar__label">Three</div>
+	  </button>
+	</label>
+  </div>

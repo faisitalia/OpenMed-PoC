@@ -1,10 +1,5 @@
-
-<style>
-	video {
-		border: 1px solid black;
-	}
-</style>
 <script>
+	import { Row, Col, Container } from "sveltestrap";
 	import RoomClient from "../lib/RoomClient";
 	import deviceInfo from "../lib/deviceInfo";
 	import UrlParse from "url-parse";
@@ -12,7 +7,6 @@
 	import * as cookiesManager from "../lib/cookiesManager";
 	import { onMount } from "svelte";
 	import store from "../store";
-	import { setProducerResumed } from "../lib/stateActions";
 
 	const urlParser = new UrlParse(window.location.href, true);
 
@@ -25,7 +19,7 @@
 		urlParser.query.roomId = roomId;
 		//window.history.pushState('', '', urlParser.toString());
 	}*/
-	let roomId = "theRoom"
+	let roomId = "theRoom";
 
 	let displayName =
 		urlParser.query.displayName ||
@@ -67,30 +61,37 @@
 	});
 
 	let messages = "Messages:";
-	let state = ""
+	let state = "";
 
 	let audioProdTrack = undefined;
 	let videoProdTrack = undefined;
-	let audioProdElem = undefined
+	let audioProdElem = undefined;
 	let videoProdElem = undefined;
 
-	let audioConsTrack = undefined;
-	let videoConsTrack = undefined;
-	let audioConsElem = undefined
-	let videoConsElem = undefined;
-	
+	let audioConsTrack = {};
+	let videoConsTrack = {};
+
+	function findEmptySrc(elemType) {
+		let elems = document.querySelectorAll(elemType);
+		for (let elem of elems) {
+			if (elem.srcObject === null) {
+				return elem;
+			}
+		}
+		return null;
+	}
+
 	store.subscribe((value) => {
-		state = JSON.stringify(value, null, 2)
+		state = JSON.stringify(value, null, 2);
 		if (value.producers) {
 			for (let key in value.producers) {
 				let track = value.producers[key].track;
 				if (track && track.kind === "audio") {
 					if (audioProdTrack) continue;
 					audioProdTrack = track;
-					messages += "\naudio prod: "+track.id
+					messages += "\naudio prod: " + track.id;
 					console.log("found track:", audioTrack);
-
-					const stream = new MediaStream;
+					const stream = new MediaStream();
 					stream.addTrack(audioProdTrack);
 					audioProdElem.srcObject = stream;
 				}
@@ -98,9 +99,9 @@
 					if (videoProdTrack) continue;
 					videoProdTrack = track;
 					console.log("found track:", videoProdTrack);
-					messages += "\nvideo prod:"+videoProdTrack.id
+					messages += "\nvideo prod:" + videoProdTrack.id;
 
-					const stream = new MediaStream;
+					const stream = new MediaStream();
 					stream.addTrack(videoProdTrack);
 					videoProdElem.srcObject = stream;
 				}
@@ -111,24 +112,32 @@
 			for (let key in value.consumers) {
 				let track = value.consumers[key].track;
 				if (track && track.kind === "audio") {
-					if (audioConsTrack) continue;
-					audioConsTrack = track;
-					messages += "\naudio cons: "+track.id
-					console.log("found track:", audioConsTrack);
-
-					const stream = new MediaStream;
-					stream.addTrack(audioConsTrack);
-					audioConsElem.srcObject = stream;
+					if (audioConsTrack[key]) continue;
+					let audioElem = findEmptySrc("audio");
+					if (audioElem) {
+						audioConsTrack[key] = track;
+						messages += "\naudio cons: " + track.id;
+						console.log("found track:", track);
+						const stream = new MediaStream();
+						stream.addTrack(track);
+						audioElem.srcObject = stream;
+					} else {
+						console.log("cannot find audio slot");
+					}
 				}
 				if (track && track.kind === "video") {
-					if (videoConsTrack) continue;
-					videoConsTrack = track;
-					console.log("found track:", videoConsTrack);
-					messages += "\nvideo cons:"+videoConsTrack.id
-
-					const stream = new MediaStream;
-					stream.addTrack(videoConsTrack);
-					videoConsElem.srcObject = stream;
+					if (videoConsTrack[key]) continue;
+					let videoElem = findEmptySrc("video");
+					if (videoElem) {
+						videoConsTrack[key] = track;
+						messages += "\nvideo cons:" + videoConsTrack.id;
+						console.log("found track:", track);
+						const stream = new MediaStream();
+						stream.addTrack(track);
+						videoElem.srcObject = stream;
+					} else {
+						console.log("cannot find video slot");
+					}
 				}
 			}
 		}
@@ -137,24 +146,102 @@
 	onMount(async () => {
 		audioProdElem = document.getElementById("audioProdElem");
 		videoProdElem = document.getElementById("videoProdElem");
-		audioConsElem = document.getElementById("audioConsElem");
-		videoConsElem = document.getElementById("videoConsElem");
 		await roomClient.join();
 	});
+
+	let jsonState = JSON.stringify(state, null, 2);
 </script>
 
-<h1>Conference</h1>
+<style>
+	.top-fill {
+		width:100%;
+		height: 100%;
+		border: 1px solid red;
+	}
+	.conference-main {
+		width: 100%;
+		height: 50%;
+		border: 1px solid black;
+	}
+	.conference-other {
+		width: 30%;
+		height: 30%;
+		border: 1px solid black;
+	}
 
-<video id="videoProdElem" autoPlay playsInline muted controls={false} />
-<audio ref="audioProdElem" autoPlay playsInline muted={false} controls={false} />
-<video id="videoConsElem" autoPlay playsInline muted controls={false} />
-<audio ref="audioConsElem" autoPlay playsInline muted={false} controls={false} />
+</style>
+<div class="top-fill">
+		<video
+			class="conference-main"
+			id="videoProdElem"
+			autoPlay
+			playsInline
+			muted
+			controls={false}
+		/>
+		<audio
+			ref="audioProdElem"
+			autoPlay
+			playsInline
+			muted={false}
+			controls={false}
+		/>
+<div>
+	<video
+	class="conference-other"
+	id="videoConsElem1"
+	autoPlay
+	playsInline
+	muted
+	controls={false}
+/>
+<audio
+	ref="audioConsElem1"
+	autoPlay
+	playsInline
+	muted={false}
+	controls={false}
+/>
 
+<video
+			class="conference-other"
+			id="videoConsElem2"
+			autoPlay
+			playsInline
+			muted
+			controls={false}
+		/>
+		<audio
+			ref="audioConsElem2"
+			autoPlay
+			playsInline
+			muted={false}
+			controls={false}
+		/>
+<video
+			class="conference-other"
+			id="videoConsElem3"
+			autoPlay
+			playsInline
+			muted
+			controls={false}
+		/>
+		<audio
+			ref="audioConsElem3"
+			autoPlay
+			playsInline
+			muted={false}
+			controls={false}
+		/>
+	</div>
+</div>
+<!--
 <div>
 	Room:{roomId}<br />
 	Peer:{peerId}<br />
 </div>
 <pre>{messages}</pre>
-<hr>
-<pre>{state}</pre>
-<hr>
+<textarea cols="20" rows="20" bind:value={state} />
+-->
+
+
