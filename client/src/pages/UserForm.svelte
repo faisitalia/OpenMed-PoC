@@ -1,5 +1,5 @@
 <script>
-    import { post } from '../util'
+    import { post, get, put } from '../util'
     import Card from "sveltestrap/src/Card.svelte";
     import CardBody from "sveltestrap/src/CardBody.svelte";
     import CardHeader from "sveltestrap/src/CardHeader.svelte";
@@ -12,6 +12,7 @@
     import Row from "sveltestrap/src/Row.svelte";
     import Col from "sveltestrap/src/Col.svelte";
     import {usersEdit} from "../state";
+import { loop_guard } from 'svelte/internal';
     let ruolo = "Patient"
 
     let data = { }
@@ -22,6 +23,24 @@
       console.log(res)
       usersEdit.set(false)
     }
+    async function  updateUsr(event) {
+      console.log(data)
+      event.preventDefault()
+      let res = await put("/user", data)
+      console.log(res)
+      usersEdit.set(false)
+    }
+
+    async function load(id) {
+      data = await get("/user/"+id)
+    }
+
+    usersEdit.update( (id) => {
+        console.log("update", id)
+        if(id == "-")
+           data = {}
+         else load(id)
+    })
   </script> 
   
   <Col class="col-lg-7">
@@ -153,6 +172,9 @@
           <FormGroup class="mt-4 mb-0">
             <Button on:click={save} color="primary" block href="pages/authentication/login">
               Create Account
+            </Button>
+            <Button on:click={updateUsr} color="primary" block href="pages/authentication/login">
+              Update Account
             </Button>
           </FormGroup>
         </Form>

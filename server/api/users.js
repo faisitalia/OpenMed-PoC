@@ -8,10 +8,12 @@ module.exports = function(app, db) {
     })
 
     // Get a single user
-    app.get("/api/user", (req, res) => {
-        console.log("get /api/user")
-        let out = { "id": "michele", "email": "michele@example.com" }
-        res.send(out)
+    app.get("/api/user/:id", async(req, res) => {
+        console.log("get /api/user", req.params.id)
+        //let out = { "id": "michele", "email": "michele@example.com" }
+        let id = req.params.id
+        let data = await db.collection("anagrafica").findOne( {"CF": id })
+        res.send(data)
     })
 
     // Create a new user
@@ -25,8 +27,12 @@ module.exports = function(app, db) {
     })
 
     // Update a user
-    app.put("/api/user", (req, res)  => {
-        let out = {"ok": true, "count": 1}
+    app.put("/api/user", async(req, res)  => {
+        //let out = {"ok": true, "count": 1}
+        let data = req.body
+        let upd = {"$set":data}
+        console.log("put /api/user ", req.body)
+        let out = await db.collection("anagrafica").updateOne({"CF":data.CF},upd)
         res.send(out)
     })
 

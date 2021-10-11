@@ -25,6 +25,22 @@ export function post(path, data) {
         return x
     })   
 }
+export function put(path, data) {
+    return fetch(base+path,
+    {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "PUT",
+        body: JSON.stringify(data)
+    })
+    .then(x => x.json())
+    .then(x => {
+        console.log(x)
+        return x
+    })   
+}
 export function del(path, data) {
     return fetch(base+path,
     {

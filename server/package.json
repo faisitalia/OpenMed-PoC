@@ -10,7 +10,8 @@
     "lint": "eslint -c .eslintrc.js server.js lib connect.js",
     "dev": "nodemon devserver.js",
     "conf": "DEBUG=${DEBUG:='*mediasoup* *INFO* *WARN* *ERROR*'} node server.js",
-    "connect": "node connect.js"
+    "connect": "node connect.js",
+    "mongo": "node --experimental-repl-await dbconnect.js"
   },
   "dependencies": {
     "@sitespeed.io/throttle": "^0.5.4",
