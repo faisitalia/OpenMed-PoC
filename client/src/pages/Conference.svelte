@@ -1,45 +1,96 @@
 <script>
-import { EnhancedEventEmitter } from "mediasoup-client/lib/EnhancedEventEmitter";
+    import { conferenceInit, associateTrack } from "../lib/conference.js";
+    import UrlParse from "url-parse";
+    import { onMount } from "svelte";
 
-    import { setWebcamInProgress } from "../lib/stateActions";
+    const urlParser = new UrlParse(window.location.href, true);
+    const roomId = urlParser.query.roomId;
+    const peerId = urlParser.query.peerId;
+    const displayName = peerId;
 
-    let main = "https://picsum.photos/id/50/200/300";
-    let icons = [
-        "https://picsum.photos/id/61/200/200",
-        "https://picsum.photos/id/62/200/200",
-        "https://picsum.photos/id/63/200/200",
-    ];
-    function swap(event) {
-        console.log(event)
-        let n = icons.indexOf(event.srcElement.src)
-        let tmp = icons[n] 
-        icons[n] = main
-        main = tmp
+    function onStateUpdate(state) {
+        associateTrack(state.producers, "video", "producer");
+        associateTrack(state.producers, "audio", "producer");
+        associateTrack(state.consumers, "video", "consumer");
+        associateTrack(state.consumers, "audio", "consumer");
     }
-    function info() {
-        alert("hei")
-    }
+
+    onMount(() => {
+        if (roomId && peerId) {
+            console.log("starting with room:", roomId, "and peer:", peerId)
+            conferenceInit(roomId, peerId, displayName, onStateUpdate);
+        } else {
+            alert("roomId and peerId are required");
+        }
+    });
 </script>
 
 <div class="w-full h-full border-2 border=red">
-    <img class="w-full h-full" alt="first" src={main} on:click={info} />
-    <img
-        class="absolute bottom-0 left-0 w-1/3 h-1/3"
-        alt="first"
-        src={icons[0]}
-        on:click={swap}
+    <!-- top -->
+    <video
+        id="producer-video0"
+        class="w-full h-2/3 border border-red"
+        autoPlay
+        playsInline
+        muted
+        controls={false}
     />
+    <audio
+        id="producer-audio0"
+        autoPlay
+        playsInline
+        muted={false}
+        controls={false}
+    />
+    <div class="absolute top-0 left-0 badge badge-primary">{roomId}y</div>
+    <div class="absolute top-0 right-0 badge badge-secondary">{peerId}</div>
 
-    <img
-        class="absolute bottom-0 left-1/3 w-1/3 h-1/3"
-        alt="first"
-        src={icons[1]}
-        on:click={swap}
+    <!-- first -->
+    <video
+        id="consumer-video1"
+        class="absolute bottom-0 left-0 w-1/3 h-1/3 border border-red"
+        autoPlay
+        playsInline
+        muted
+        controls={false}
     />
-    <img
-        class="absolute bottom-0 left-2/3 w-1/3 h-1/3"
-        alt="first"
-        src={icons[2]}
-        on:click={swap}
+    <audio
+        id="consumer-audio1"
+        autoPlay
+        playsInline
+        muted={false}
+        controls={false}
+    />
+    <!-- second -->
+    <video
+        id="consumer-video2"
+        class="absolute bottom-0 left-1/3 w-1/3 h-1/3 border border-red"
+        autoPlay
+        playsInline
+        muted
+        controls={false}
+    />
+    <audio
+        id="consumer-audio2"
+        autoPlay
+        playsInline
+        muted={false}
+        controls={false}
+    />
+    <!-- third -->
+    <video
+        id="consumer-video3"
+        class="absolute bottom-0 left-2/3 w-1/3 h-1/3 border border-red"
+        autoPlay
+        playsInline
+        muted
+        controls={false}
+    />
+    <audio
+        id="consumer-audio3"
+        autoPlay
+        playsInline
+        muted={false}
+        controls={false}
     />
 </div>

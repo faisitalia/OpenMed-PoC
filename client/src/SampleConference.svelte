@@ -1,12 +1,12 @@
 <script>
 	import { Row, Col, Container } from "sveltestrap";
-	import RoomClient from "../lib/RoomClient";
-	import deviceInfo from "../lib/deviceInfo";
+	import RoomClient from "./lib/RoomClient";
+	import deviceInfo from "./lib/deviceInfo";
 	import UrlParse from "url-parse";
 	import randomString from "random-string";
-	import * as cookiesManager from "../lib/cookiesManager";
+	import * as cookiesManager from "./lib/cookiesManager";
 	import { onMount } from "svelte";
-	import store from "../store";
+	import store from "./store";
 
 	const urlParser = new UrlParse(window.location.href, true);
 
@@ -152,59 +152,41 @@
 	let jsonState = JSON.stringify(state, null, 2);
 </script>
 
-<style>
-	.top-fill {
-		width:100%;
-		height: 100%;
-		border: 1px solid red;
-	}
-	.conference-main {
-		width: 100%;
-		height: 50%;
-		border: 1px solid black;
-	}
-	.conference-other {
-		width: 30%;
-		height: 30%;
-		border: 1px solid black;
-	}
-
-</style>
-<div class="top-fill">
+<div class="w-full h-full border-2 border=red">
+	<video
+		class="w-full h-2/3 border border-red"
+		id="videoProdElem"
+		autoPlay
+		playsInline
+		muted
+		controls={false}
+	/>
+	<audio
+		ref="audioProdElem"
+		autoPlay
+		playsInline
+		muted={false}
+		controls={false}
+	/>
+	<div>
 		<video
-			class="conference-main"
-			id="videoProdElem"
+			class="absolute bottom-0 left-0 w-1/3 h-1/3 border border-red"
+			id="videoConsElem1"
 			autoPlay
 			playsInline
 			muted
 			controls={false}
 		/>
 		<audio
-			ref="audioProdElem"
+			ref="audioConsElem1"
 			autoPlay
 			playsInline
 			muted={false}
 			controls={false}
 		/>
-<div>
-	<video
-	class="conference-other"
-	id="videoConsElem1"
-	autoPlay
-	playsInline
-	muted
-	controls={false}
-/>
-<audio
-	ref="audioConsElem1"
-	autoPlay
-	playsInline
-	muted={false}
-	controls={false}
-/>
 
-<video
-			class="conference-other"
+		<video
+			class="absolute bottom-0 left-1/3 w-1/3 h-1/3 border border-red"
 			id="videoConsElem2"
 			autoPlay
 			playsInline
@@ -218,8 +200,8 @@
 			muted={false}
 			controls={false}
 		/>
-<video
-			class="conference-other"
+		<video
+			class="absolute bottom-0 left-2/3 w-1/3 h-1/3 border border-red"
 			id="videoConsElem3"
 			autoPlay
 			playsInline
@@ -235,13 +217,11 @@
 		/>
 	</div>
 </div>
-<!--
+
+<pre>{messages}</pre>
+<textarea class="absolute top-0 right-0 w-1/3 h-1/3 textarea textarea-bordered"  bind:value={state} />
 <div>
 	Room:{roomId}<br />
 	Peer:{peerId}<br />
 </div>
-<pre>{messages}</pre>
-<textarea cols="20" rows="20" bind:value={state} />
--->
-
 

@@ -50,7 +50,7 @@
             </li>
             <li class="mr-3 flex-1">
                 <a
-                    href="/app/Conference"
+                    href="/app/conference"
                     class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 {selected("Conference")}"
                 >
                     <i
