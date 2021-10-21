@@ -1,17 +1,18 @@
 
 
-<script lang="ts">
-    import Card from '../components/Card.svelte'
-    import Metric from '../components/Metric.svelte'
+<script>
+    import { get, post, del } from "../util";
+   
 </script>
 
+{#await get("/schedules") then schedules}
+            
 
-<div class="flex flex-wrap">
-    <Metric></Metric>
-    <Metric></Metric>
-</div>
+{#each schedules as sched}
+<a href="" class="block p-6 bg-white hover:bg-gray-100 shadow-md border border-gray-200 rounded-lg max-w-sm">
+<h5 class="text-gray-900 font-bold text-2xl tracking-tight mb-2">Appuntamento con <br>{sched.paziente}</h5>
+<p class="font-normal text-gray-700"> il {sched.data} alle {sched.ora} </p>
+</a>
+{/each}
 
-<div class="flex flex-row flex-wrap flex-grow mt-2">
-   <Card></Card>
-   <Card></Card>
-</div>
+{/await}

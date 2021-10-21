@@ -30,8 +30,10 @@ module.exports = function(app, db) {
     app.put("/api/user", async(req, res)  => {
         //let out = {"ok": true, "count": 1}
         let data = req.body
+        console.log("put /api/user ", data)
+        let id = data._id 
+        delete data._id
         let upd = {"$set":data}
-        console.log("put /api/user ", req.body)
         let out = await db.collection("anagrafica").updateOne({"CF":data.CF},upd)
         res.send(out)
     })

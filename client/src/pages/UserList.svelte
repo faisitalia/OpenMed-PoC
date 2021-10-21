@@ -61,7 +61,7 @@
  
      {/await}
 </Table>
-<Button on:click={elimina} color="primary" block href="pages/authentication/login">Elimina</Button>
+<button class="btn btn-accent" on:click={elimina} color="primary" block href="pages/authentication/login">Elimina</button>
 <Button on:click={() => usersEdit.set("-")}>New</Button>
 <Button on:click={() => usersEdit.set(usrCF)}>Edit</Button>
 

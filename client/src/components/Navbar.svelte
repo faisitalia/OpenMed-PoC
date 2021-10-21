@@ -9,7 +9,7 @@
             class="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white"
         >
             <a href="/">
-                <span class="text-xl pl-2"><i class="em em-smile" /></span>
+                <img src="/openmed2.png" alt="openmed" width="60">
             </a>
         </div>
 

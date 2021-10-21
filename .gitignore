@@ -6,3 +6,4 @@ package-lock.json
 build/
 server/certs/fullchain.pem
 server/certs/privkey.pem
+server/config.js

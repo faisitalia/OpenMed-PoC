@@ -13,7 +13,7 @@
             <div
                 class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white"
             >
-                <h3 class="font-bold pl-2">Analytics</h3>
+                <h3 class="font-bold pl-2">OpenMed</h3>
             </div>
         </div>
         <svelte:component this={page} />
