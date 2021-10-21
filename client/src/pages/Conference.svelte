@@ -1,45 +1,112 @@
 <script>
-import { EnhancedEventEmitter } from "mediasoup-client/lib/EnhancedEventEmitter";
+    import { onMount } from "svelte";
+    import UrlParse from "url-parse";
+    import {
+        conferenceInit,
+        associateTrack,
+        cleanupUnusedElements,
+        logState,
+    } from "../lib/conference.js";
 
-    import { setWebcamInProgress } from "../lib/stateActions";
+    const urlParser = new UrlParse(window.location.href, true);
+    const roomId = urlParser.query.roomId;
+    let peerId = urlParser.query.peerId;
+    let errorMessage = undefined;
+    let displayName = peerId;
+    let roomClient = undefined;
 
-    let main = "https://picsum.photos/id/50/200/300";
-    let icons = [
-        "https://picsum.photos/id/61/200/200",
-        "https://picsum.photos/id/62/200/200",
-        "https://picsum.photos/id/63/200/200",
-    ];
-    function swap(event) {
-        console.log(event)
-        let n = icons.indexOf(event.srcElement.src)
-        let tmp = icons[n] 
-        icons[n] = main
-        main = tmp
+    function onStateUpdate(state) {
+        logState(state);
+        cleanupUnusedElements(state.producers, state.consumers);
+        associateTrack(state.producers, "video", "producer");
+        //associateTrack(state.producers, "audio", "producer");
+        associateTrack(state.consumers, "video", "consumer");
+        //associateTrack(state.consumers, "audio", "consumer");
     }
-    function info() {
-        alert("hei")
-    }
+
+    onMount(() => {
+        if (!roomId || !peerId) {
+            errorMessage = "roomId and peerId are required";
+            return;
+        }
+        console.log("starting with room:", roomId, "and peer:", peerId);
+        roomClient = conferenceInit(roomId, peerId, displayName, onStateUpdate);
+        roomClient.join();
+    });
 </script>
 
 <div class="w-full h-full border-2 border=red">
-    <img class="w-full h-full" alt="first" src={main} on:click={info} />
-    <img
-        class="absolute bottom-0 left-0 w-1/3 h-1/3"
-        alt="first"
-        src={icons[0]}
-        on:click={swap}
-    />
+    {#if errorMessage}
+        <div class="text-red-500">
+            <h1>#{errorMessage}</h1>
+        </div>
+    {:else}
+        <!-- top -->
+        <video
+            id="producer-video0"
+            class="w-full h-2/3 border border-red"
+            autoPlay
+            playsInline
+            muted
+            controls={false}
+        />
+        <audio
+            id="producer-audio0"
+            autoPlay
+            playsInline
+            muted={false}
+            controls={false}
+        />
+        <div class="absolute top-0 left-0 badge badge-primary">{roomId}y</div>
+        <div class="absolute top-0 right-0 badge badge-secondary">{peerId}</div>
 
-    <img
-        class="absolute bottom-0 left-1/3 w-1/3 h-1/3"
-        alt="first"
-        src={icons[1]}
-        on:click={swap}
-    />
-    <img
-        class="absolute bottom-0 left-2/3 w-1/3 h-1/3"
-        alt="first"
-        src={icons[2]}
-        on:click={swap}
-    />
+        <!-- first -->
+        <video
+            id="consumer-video1"
+            class="absolute bottom-0 left-0 w-1/3 h-1/3 border border-red"
+            autoPlay
+            playsInline
+            muted
+            controls={false}
+        />
+        <audio
+            id="consumer-audio1"
+            autoPlay
+            playsInline
+            muted={false}
+            controls={false}
+        />
+        <!-- second -->
+        <video
+            id="consumer-video2"
+            class="absolute bottom-0 left-1/3 w-1/3 h-1/3 border border-red"
+            autoPlay
+            playsInline
+            muted
+            controls={false}
+        />
+        <audio
+            id="consumer-audio2"
+            autoPlay
+            playsInline
+            muted={false}
+            controls={false}
+        />
+        <!-- third -->
+        <video
+            id="consumer-video3"
+            class="absolute bottom-0 left-2/3 w-1/3 h-1/3 border border-red"
+            autoPlay
+            playsInline
+            muted
+            controls={false}
+        />
+        <audio
+            id="consumer-audio3"
+            autoPlay
+            playsInline
+            muted={false}
+            controls={false}
+        />
+        #{/if}
 </div>
