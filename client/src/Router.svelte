@@ -6,15 +6,20 @@
     import Home from "./pages/Home.svelte";
     import Users from "./pages/Users.svelte";
     import Conference from "./pages/Conference.svelte";
+    import SampleConference from "./SampleConference.svelte";
+
 
     let page = Home;
+    let title = "Home"
+    let hideTitle = true
 
-    router("/", () => (page = Home));
-    router("/app/users", () => (page = Users));
-    router("/app/conference", () => (page = Conference));
-    router("/app/schedule", () => (page = Schedule));
+    router("/", () => [page,title] = [Home,"Home"]);
+    router("/app/users", () => [page,title,hideTitle] = [Users,"Users", false] );
+    router("/app/conference", () => [page,title,hideTitle] = [Conference,"Conference", true]);
+    router("/app/schedule", () => [page, title,hideTitle]  = [Schedule, "Schedule",false] );
+    router("/app/sample", () => [page, title,hideTitle]  = [SampleConference, "Sample",false] );
 
     router.start();
 </script>
 
-<Layout {page} />
+<Layout {page} {title} {hideTitle}/>

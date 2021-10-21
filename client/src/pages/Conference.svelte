@@ -1,31 +1,112 @@
-<div class="card bordered">
-    <figure>
-        <img src="https://picsum.photos/id/1005/400/250" />
-    </figure>
-    <div class="card-body">
-        <div class="avatar">
-            <div class="mb-8 w-24 h-24 mask mask-squircle">
-                <img
-                    src="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
-                />
-            </div>
+<script>
+    import { onMount } from "svelte";
+    import UrlParse from "url-parse";
+    import {
+        conferenceInit,
+        associateTrack,
+        cleanupUnusedElements,
+        logState,
+    } from "../lib/conference.js";
+
+    const urlParser = new UrlParse(window.location.href, true);
+    const roomId = urlParser.query.roomId;
+    let peerId = urlParser.query.peerId;
+    let errorMessage = undefined;
+    let displayName = peerId;
+    let roomClient = undefined;
+
+    function onStateUpdate(state) {
+        logState(state);
+        cleanupUnusedElements(state.producers, state.consumers);
+        associateTrack(state.producers, "video", "producer");
+        //associateTrack(state.producers, "audio", "producer");
+        associateTrack(state.consumers, "video", "consumer");
+        //associateTrack(state.consumers, "audio", "consumer");
+    }
+
+    onMount(() => {
+        if (!roomId || !peerId) {
+            errorMessage = "roomId and peerId are required";
+            return;
+        }
+        console.log("starting with room:", roomId, "and peer:", peerId);
+        roomClient = conferenceInit(roomId, peerId, displayName, onStateUpdate);
+        roomClient.join();
+    });
+</script>
+
+<div class="w-full h-full border-2 border=red">
+    {#if errorMessage}
+        <div class="text-red-500">
+            <h1>#{errorMessage}</h1>
         </div>
-        <div class="justify-end card-actions">
-            <button class="btn btn-outline btn-square btn-lg">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    class="inline-block w-6 h-6 stroke-current"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M6 18L18 6M6 6l12 12"
-                    />
-                </svg>
-            </button>
-        </div>
-    </div>
+    {:else}
+        <!-- top -->
+        <video
+            id="producer-video0"
+            class="w-full h-2/3 border border-red"
+            autoPlay
+            playsInline
+            muted
+            controls={false}
+        />
+        <audio
+            id="producer-audio0"
+            autoPlay
+            playsInline
+            muted={false}
+            controls={false}
+        />
+        <div class="absolute top-0 left-0 badge badge-primary">{roomId}y</div>
+        <div class="absolute top-0 right-0 badge badge-secondary">{peerId}</div>
+
+        <!-- first -->
+        <video
+            id="consumer-video1"
+            class="absolute bottom-0 left-0 w-1/3 h-1/3 border border-red"
+            autoPlay
+            playsInline
+            muted
+            controls={false}
+        />
+        <audio
+            id="consumer-audio1"
+            autoPlay
+            playsInline
+            muted={false}
+            controls={false}
+        />
+        <!-- second -->
+        <video
+            id="consumer-video2"
+            class="absolute bottom-0 left-1/3 w-1/3 h-1/3 border border-red"
+            autoPlay
+            playsInline
+            muted
+            controls={false}
+        />
+        <audio
+            id="consumer-audio2"
+            autoPlay
+            playsInline
+            muted={false}
+            controls={false}
+        />
+        <!-- third -->
+        <video
+            id="consumer-video3"
+            class="absolute bottom-0 left-2/3 w-1/3 h-1/3 border border-red"
+            autoPlay
+            playsInline
+            muted
+            controls={false}
+        />
+        <audio
+            id="consumer-audio3"
+            autoPlay
+            playsInline
+            muted={false}
+            controls={false}
+        />
+        #{/if}
 </div>
