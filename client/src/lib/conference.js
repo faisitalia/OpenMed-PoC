@@ -47,21 +47,56 @@ export function conferenceInit(roomId, peerId, displayName, onStateUpdate) {
 // find an element with an empty source of a given type with an id with the given prefix
 function findEmptySrc(componentType, prefix) {
 	let elems = document.querySelectorAll(componentType)
+	//console.log("findEmptySrc", componentType, elems)
 	for (let elem of elems) {
-		if (elem.id.startWith(prefix) && elem.srcObject == null) {
+		//console.log(elem)
+		if (elem && elem.id.startsWith(prefix) && elem.srcObject == null) {
 			return elem
 		}
 	}
 	return null
 }
 
+// log a simplified view of the state when changes
+let lastLog = "";
+export function logState(state) {
+	window.STATE = state;
+	let out = "*** changed state ***";
+	for (let i in state.producers) {
+		out += "p:"+i+ " ";
+	}
+	for (let i in state.consumers) {
+		out += "c:" +i + " ";
+	}
+	if (lastLog != out) {
+		lastLog = out;
+		console.log(lastLog);
+	}
+}
+
+// remove no more used elements
+export function cleanupUnusedElements(producers, consumers) {
+	let map = {}
+	for (let id in producers)
+		map[id] = true
+	for (let id in consumers)
+		map[id] = true
+	for (let id in associationMap) {
+		if (map[id])
+			continue
+		document.getElementById(map[id]).srcObject = null
+		delete associationMap[key]
+	}
+}
+
+// find an empty audio/video component and create a track for it
 export function associateTrack(components, componentType, prefix) {
 	if (!components)
 		return null
 	for (let key in components) {
 		let track = components[key].track;
-		if(!track) {
-			console.log("no track for ",prefix, componentType, key)
+		if (!track) {
+			console.log("no track for ", prefix, componentType, key)
 			continue
 		}
 		if (track.kind != componentType)
@@ -75,7 +110,7 @@ export function associateTrack(components, componentType, prefix) {
 			return
 		}
 		console.log("associating ", prefix, componentType, key, " to ", element.id)
-		associationMap[key] = track
+		associationMap[key] = element.id
 		const stream = new MediaStream()
 		stream.addTrack(track)
 		element.srcObject = stream
