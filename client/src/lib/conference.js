@@ -76,15 +76,17 @@ export function logState(state) {
 
 // remove no more used elements
 export function cleanupUnusedElements(producers, consumers) {
-	let map = {}
-	for (let id in producers)
-		map[id] = true
-	for (let id in consumers)
-		map[id] = true
-	for (let id in associationMap) {
-		if (map[id])
+	let tracks = {}
+	for (let key in producers)
+		tracks[key] = true
+	for (let key in consumers)
+		tracks[key] = true
+	for (let key in associationMap) {
+		if (tracks[key])
 			continue
-		document.getElementById(map[id]).srcObject = null
+		let id = associationMap[key]
+		let elem = document.getElementById(id)
+		elem.srcObject = null
 		delete associationMap[key]
 	}
 }
