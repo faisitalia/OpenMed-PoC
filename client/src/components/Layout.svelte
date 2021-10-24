@@ -1,16 +1,14 @@
 <script>
     import Navbar from "./Navbar.svelte";
-    import Sidebar from "./Sidebar.svelte";
-    import Home from "../pages/Home.svelte";
+    import Home from "../pages/Calendar.svelte";
     export let page = Home;
     export let title = ""
     export let hideTitle = false
+    export let menu;
 </script>
-
-<Navbar />
 <div class="flex flex-col md:flex-row">
-    <Sidebar {title} />
     <div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
+        <Navbar {menu}/>
         {#if !hideTitle}
         <div class="bg-gray-800 pt-3">
             <div

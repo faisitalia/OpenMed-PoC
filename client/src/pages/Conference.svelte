@@ -11,9 +11,10 @@
     const urlParser = new UrlParse(window.location.href, true);
     const roomId = urlParser.query.roomId;
     let peerId = urlParser.query.peerId;
-    let errorMessage = undefined;
     let displayName = peerId;
     let roomClient = undefined;
+
+    let generateRoom = false;
 
     function onStateUpdate(state) {
         logState(state);
@@ -26,7 +27,7 @@
 
     onMount(() => {
         if (!roomId || !peerId) {
-            errorMessage = "roomId and peerId are required";
+            generateRoom = true
             return;
         }
         console.log("starting with room:", roomId, "and peer:", peerId);
@@ -36,9 +37,12 @@
 </script>
 
 <div class="w-full h-full border-2 border=red">
-    {#if errorMessage}
+    {#if generateRoom}
         <div class="text-red-500">
-            <h1>#{errorMessage}</h1>
+            <a href="/app/conference?roomId=test&peerId=user1">User 1</a><br>
+            <a href="/app/conference?roomId=test&peerId=user2">User 2</a><br>
+            <a href="/app/conference?roomId=test&peerId=user3">User 3</a><br>
+            <a href="/app/conference?roomId=test&peerId=user4">User 4</a><br>
         </div>
     {:else}
         <!-- top -->

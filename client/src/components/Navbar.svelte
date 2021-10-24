@@ -1,62 +1,80 @@
 <script>
-    import Dropdown from "./Dropdown.svelte";
+    export let menu;
+    import { onMount } from "svelte";
+    import { intros } from "svelte/internal";
+
+    onMount(() => {
+        const btn = document.querySelector("button.mobile-menu-button");
+        const menu = document.querySelector(".mobile-menu");
+
+        btn.addEventListener("click", () => {
+            menu.classList.toggle("hidden");
+        });
+    });
 </script>
 
-<nav
-    class="bg-gray-800 pt-2 md:pt-1 pb-1 px-1 mt-0 h-auto fixed w-full z-20 top-0"
->
-    <div class="flex flex-wrap items-center">
-        <div
-            class="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white"
-        >
-            <a href="/">
-                <img src="/openmed2.png" alt="openmed" width="60">
-            </a>
-        </div>
-
-        <div
-            class="flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2"
-        >
-            <span class="relative w-full">
-                <button class="btn btn-outline btn-square">
-                    &nbsp;&nbsp;&nbsp;<i
-                        class="fa fa-microphone pr-0 md:pr-3"
-                    />
-                </button>
-                <button class="btn btn-outline btn-square">
-                    &nbsp;&nbsp;&nbsp;<i class="fas fa-video pr-0 md:pr-3" />
-                </button>
-            </span>
-        </div>
-
-        <div
-            class="flex w-full pt-2 content-center justify-between md:w-1/3 md:justify-end"
-        >
-            <ul>
-                <li class="flex-1 md:flex-none md:mr-3">
-                    <div class="relative inline-block">
-                        <button
-                            onclick="toggleDD('myDropdown')"
-                            class="drop-button text-white focus:outline-none"
+<nav class="bg-white shadow-lg">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="flex justify-between">
+            <div class="flex space-x-7">
+                <div>
+                    <!-- Website Logo -->
+                    <a href="/" class="flex items-center py-4 px-2">
+                        <img
+                            src="/openmed2.png"
+                            alt="Logo"
+                            class="h-8 w-8 mr-2"
+                        />
+                    </a>
+                </div>
+                <!-- Primary Navbar items -->
+                <div class="hidden md:flex items-center space-x-1">
+                    {#each menu as item}
+                        <a
+                            href={item.path}
+                            class="py-4 px-2 text-green-500 border-b-4 border-green-500 font-semibold "
+                            >{item.name}</a
                         >
-                            <span class="pr-2"
-                                ><i class="em em-robot_face" /></span
-                            >
-                            Hi, User
-                            <svg
-                                class="h-3 fill-current inline"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                            >
-                                <path
-                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
-                                /></svg
-                            ></button
-                        >
-                        <Dropdown />
-                    </div>
+                    {/each}
+                </div>
+            </div>
+            <!-- Secondary Navbar items -->
+            <div class="hidden md:flex items-center space-x-3 ">
+                <a
+                    href="/"
+                    class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300"
+                    >Log In</a
+                >
+            </div>
+            <!-- Mobile menu button -->
+            <div class="md:hidden flex items-center">
+                <button class="outline-none mobile-menu-button">
+                    <svg
+                        class=" w-6 h-6 text-gray-500 hover:text-green-500 "
+                        x-show="!showMenu"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- mobile menu -->
+    <div class="hidden mobile-menu">
+        <ul class="">
+            {#each menu as item}
+                <li class="active">
+                    <a href={item.path}
+                        class="block text-sm px-2 py-4 text-white bg-green-500 font-semibold"
+                        >{item.name}</a>
                 </li>
-            </ul>
-        </div>
+            {/each}
+        </ul>
     </div>
 </nav>
