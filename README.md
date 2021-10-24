@@ -22,6 +22,7 @@ So if you want to develop you need:
 - a server on internet with a public IP (a virtul machine is fine)
 - a DNS name that points to it
 - the certificates for this DNS name 
+- the app password for a gmail account to send emails
 
 You need to run whatever operating system supports `node`, although the underlying library for conferencing (mediasoup) may not compile on all the systems.
 
@@ -54,6 +55,11 @@ npm install
 cd ..
 ```
 
+## Configure
+
+In the folder `server` copy the `config.example.js` in `config.js` and edit it.
+
+You should specify at the minimum your gmail username and password.
 ## Launch (for development)
 
 You can launch in two modes: without and with conferencing support
