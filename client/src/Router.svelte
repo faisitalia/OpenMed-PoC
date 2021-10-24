@@ -6,8 +6,7 @@
     import Home from "./pages/Home.svelte";
     import Users from "./pages/Users.svelte";
     import Conference from "./pages/Conference.svelte";
-    import SampleConference from "./SampleConference.svelte";
-
+    
 
     let page = Home;
     let title = "Home"
@@ -17,7 +16,6 @@
     router("/app/users", () => [page,title,hideTitle] = [Users,"Users", false] );
     router("/app/conference", () => [page,title,hideTitle] = [Conference,"Conference", true]);
     router("/app/schedule", () => [page, title,hideTitle]  = [Schedule, "Schedule",false] );
-    router("/app/sample", () => [page, title,hideTitle]  = [SampleConference, "Sample",false] );
 
     router.start();
 </script>
