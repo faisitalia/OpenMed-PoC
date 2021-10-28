@@ -6,8 +6,7 @@
     {#each schedules as sched}
         <a
             href=""
-            class="block p-6 bg-white hover:bg-gray-100 shadow-md border border-gray-200 rounded-lg max-w-sm"
-        >
+            class="block p-6 bg-white hover:bg-gray-100 shadow-md border border-gray-200 rounded-lg max-w-sm">
             <h5 class="text-gray-900 font-bold text-2xl tracking-tight mb-2">
                 Appuntamento con <br />{sched.paziente}
             </h5>

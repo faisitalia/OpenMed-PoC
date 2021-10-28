@@ -1,10 +1,8 @@
 <script>
     import { get, post, del } from "../util";
-    import { usersEdit } from "../state";
     import Datepicker from "@themesberg/tailwind-datepicker/Datepicker";
     import { onMount } from "svelte";
     
-
     let hours = [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
         21, 22, 23,
@@ -20,10 +18,8 @@
         paziente: "",
         confermato: true
     };
-    
-    
-    function save(event) {
         
+    function save(event) {    
         event.preventDefault();
         data.ora = selectedH+":"+selectedM;
         data.data=document.getElementById("datepicker").value;
@@ -34,7 +30,6 @@
     onMount(() => {
         const datepickerEl = document.getElementById("datepicker");
         new Datepicker(datepickerEl, {
-            // options
         });
     });
 </script>

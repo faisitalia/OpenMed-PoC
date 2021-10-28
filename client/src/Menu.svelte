@@ -30,7 +30,8 @@
                     {#each menu as item}
                         <a
                             href={item.path}
-                            class={"py-4 px-2 text-green-500 border-b-4  font-semibold border "+(item.name == title ? "bg-black" : "bg-white")}
+                            class={"py-4 px-2 text-green-500 border-b-4  font-semibold border " +
+                                (item.name == title ? "bg-black" : "bg-white")}
                             >{item.name}</a
                         >
                     {/each}
@@ -68,9 +69,12 @@
         <ul class="">
             {#each menu as item}
                 <li class="active">
-                    <a href={item.path}
-                        class={"block text-sm px-2 py-4 text-white font-semibold " +(item.name == title ? "bg-black" : "bg-green-500")}
-                        >{item.name}</a>
+                    <a
+                        href={item.path}
+                        class={"block text-sm px-2 py-4 text-white font-semibold " +
+                            (item.name == title ? "bg-black" : "bg-green-500")}
+                        >{item.name}</a
+                    >
                 </li>
             {/each}
         </ul>
