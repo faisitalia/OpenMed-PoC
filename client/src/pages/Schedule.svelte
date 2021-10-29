@@ -2,42 +2,39 @@
     import { get, post, del } from "../util";
     import Datepicker from "@themesberg/tailwind-datepicker/Datepicker";
     import { onMount } from "svelte";
-    
+
     let hours = [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
         21, 22, 23,
     ];
     let minutes = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
     let selectedH, selectedM, selectedP;
-   
+
     let usrCF = "";
     let data = {
         CF: "TTTTTT61C01W111T",
         idstanza: "pippo",
-        ora: selectedH+selectedM,
+        ora: selectedH + selectedM,
         paziente: "",
-        confermato: true
+        confermato: true,
     };
-        
-    function save(event) {    
+
+    function save(event) {
         event.preventDefault();
-        data.ora = selectedH+":"+selectedM;
-        data.data=document.getElementById("datepicker").value;
+        data.ora = selectedH + ":" + selectedM;
+        data.data = document.getElementById("datepicker").value;
         console.log(data);
         post("/schedule", data);
     }
 
     onMount(() => {
         const datepickerEl = document.getElementById("datepicker");
-        new Datepicker(datepickerEl, {
-        });
+        new Datepicker(datepickerEl, {});
     });
 </script>
 
 <h1>Schedule</h1>
 <form>
-    
-         
     <div class="form-control">
         <!-- svelte-ignore a11y-label-has-associated-control -->
         <label class="label">
@@ -86,14 +83,14 @@
                     </select></th
                 >
                 <th class="border  w-1/4">
-                    <input type="text"
+                    <input
+                        type="text"
                         name="period"
                         id="period"
                         bind:value={data.period}
                         class="input input-accent input-bordered w-full max-w-xs "
-                    >
-                        </th
-                >
+                    />
+                </th>
             </tr>
         </table>
     </div>
@@ -103,18 +100,15 @@
             <span class="label-text">Seleziona paziente</span>
         </label>
         <select
-                bind:value={data.paziente}
-                class="select select-bordered select-accent w-full max-w-xs"
-            >
-        {#await get("/schedule/Patient") then users}
-            
-                <option disabled="disabled">Paziente</option
-                >
+            bind:value={data.paziente}
+            class="select select-bordered select-accent w-full max-w-xs"
+        >
+            {#await get("/schedule/Patient") then users}
+                <option disabled="disabled">Paziente</option>
                 {#each users as usr}
                     <option value={usr.cognome}>{usr.cognome}</option>
                 {/each}
-            
-        {/await}
+            {/await}
         </select>
     </div>
     <br />

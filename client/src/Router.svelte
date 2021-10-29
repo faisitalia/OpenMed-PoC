@@ -11,7 +11,7 @@
     let title = "Home"
     let hideTitle = true
 
-    router("/", () => [page,title] = [Home,"Home"]);
+    router("/", () => [page,title,hideTitle] = [Home,"Home",true]);
     router("/app/calendar", () => [page,title,hideTitle]  = [Calendar,"Appuntamenti",false] );
     router("/app/schedule", () => [page,title,hideTitle]  = [Schedule,"Prenota",false] );
     router("/app/users", () => [page,title,hideTitle] = [Users,"Gestione",false] );
