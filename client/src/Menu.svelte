@@ -19,31 +19,23 @@
                     <!-- Website Logo -->
                     <a href="/" class="flex items-center py-4 px-2">
                         <img
-                            src="/openmed2.png"
+                            src="/openmed-logo.jpg"
                             alt="Logo"
-                            class="h-8 w-8 mr-2"
+                            class="h-8 w-auto mr-2"
                         />
                     </a>
                 </div>
-                <!-- Primary Navbar items -->
                 <div class="hidden md:flex items-center space-x-1">
-                    {#each menu as item}
-                        <a
-                            href={item.path}
-                            class={"py-4 px-2 text-green-500 border-b-4  font-semibold border " +
-                                (item.name == title ? "bg-black" : "bg-white")}
-                            >{item.name}</a
-                        >
-                    {/each}
+                    <ul
+                        class="menu items-stretch px-3 shadow-lg bg-base-100 horizontal rounded-box"
+                    >
+                        {#each menu as item}
+                            <li class={ item.name == title ? "bordered" : ""}>
+                                <a href={item.path}>{item.name}</a>
+                            </li>
+                        {/each}
+                    </ul>
                 </div>
-            </div>
-            <!-- Secondary Navbar items -->
-            <div class="hidden md:flex items-center space-x-3 ">
-                <a
-                    href="/"
-                    class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300"
-                    >Log In</a
-                >
             </div>
             <!-- Mobile menu button -->
             <div class="md:hidden flex items-center">
