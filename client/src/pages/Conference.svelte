@@ -63,8 +63,8 @@
                 controls={false}
             />
         </div>
-        <div class="absolute top-0 left-0 badge badge-primary">{roomId}y</div>
-        <div class="absolute top-0 right-0 badge badge-secondary">{peerId}</div>
+        <div class="absolute top-15 left-0 badge badge-primary">{roomId}</div>
+        <div class="absolute top-15 right-0 badge badge-secondary">{peerId}</div>
 
         <!-- first -->
         <div class="absolute bottom-0 left-0 w-1/3 h-1/3 border border-red">

@@ -8,11 +8,11 @@
             message = "Credentials cannot be empty.";
             return;
         }
-        if (username != "demo" && password != "demo") {
-            message = "Bad username or password.";
+        if (username == "demo" &&  password == "demo") {
+            loggedUser.set(username);
             return;
         }
-        loggedUser.set(username);
+        message = "Bad username or password.";
     }
     function logout() {
         message = "Please input your access credentials";
