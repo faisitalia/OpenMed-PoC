@@ -13,7 +13,7 @@
                         Appuntamento con <br />{sched.paziente}
                     </h1>
                     <div class="justify-end card-actions">
-                        <button class="btn btn-primary">
+                        <a href="/app/conference?roomId=theRoom&peerId=doctor" class="btn btn-primary">
                             il {sched.data} alle {sched.ora}
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +28,7 @@
                                     d="M9 5l7 7-7 7"
                                 />
                             </svg>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
