@@ -18,7 +18,8 @@
 
   return Boolean(val) && regex.test(val);
 }
-  let ruolo = "Patient";
+  let ruolo = ["Patient","Doctor","Nurse","Administrator"];
+  let role;
 
   let data = {};
   async function save(event) {
@@ -57,80 +58,16 @@
         <Label for="inputFirstName" class="small mb-1">Ruolo</Label>
         
           <legend class="sr-only"> Ruolo </legend><br>
+          <select  bind:value={data.ruolo} class="select select-bordered select-accent w-full max-w-xs ">
+            {#each ruolo as role}
+            <option value={role}>
+                {role}
+            </option>
+            {/each}
+          </select>
       
           
-            <input
-              id="country-option-1"
-              type="radio"
-              bind:group={data.ruolo}
-              name="ruolo"
-              value={"Administrator"}
-              class="h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-              aria-labelledby="country-option-1"
-              aria-describedby="country-option-1"
-              checked
-            />
-            <label
-              for="country-option-1"
-              class="text-sm font-medium text-gray-900 ml-2 block"
-            >
-              Amministratore
-            </label>
-          
-            <input
-              id="country-option-2"
-              type="radio"
-              bind:group={data.ruolo}
-              name="ruolo"
-              value={"Patient"}
-              class="h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-              aria-labelledby="country-option-2"
-              aria-describedby="country-option-2"
-            />
-            <label
-              for="country-option-2"
-              class="text-sm font-medium text-gray-900 ml-2 block"
-            >
-              Paziente
-            </label>
-          
-            
-          
-            <input
-              id="country-option-3"
-              type="radio"
-              bind:group={data.ruolo}
-              name="ruolo"
-              value={"Nurse"}
-              class="h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-              aria-labelledby="country-option-3"
-              aria-describedby="country-option-3"
-            />
-            <label
-              for="country-option-3"
-              class="text-sm font-medium text-gray-900 ml-2 block"
-            >
-              Infermiere
-            </label>
-          
-            
-          
-            <input
-              id="country-option-4"
-              type="radio"
-              bind:group={data.ruolo}
-              name="ruolo"
-              value={"Doctor"}
-              class="h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-              aria-labelledby="country-option-4"
-              aria-describedby="country-option-4"
-            />
-            <label
-              for="country-option-4"
-              class="text-sm font-medium text-gray-900 ml-2 block"
-            >
-              Dottore
-            </label>
+           
           
        
     </th>
@@ -184,11 +121,11 @@
       <th>
         <Label for="inputPhone" class="small mb-1">Telefono</Label>
         <Input
-          bind:value={data.telefono}
+          bind:value={data.cellulare}
           class="input input-accent input-bordered w-full max-w-xs "
           type="text"
-          name="telefono"
-          id="telefono"
+          name="cellulare"
+          id="cellulare"
           placeholder="Numero di telefono"
         />
       </th>
@@ -208,7 +145,7 @@
       <th>
         <Label for="inputPassword" class="small mb-1">Password</Label>
         <Input
-          bind:value={data.pwd}
+          bind:value={data.password}
           class="input input-accent input-bordered w-full max-w-xs "
           type="password"
           name="inputPassword"
