@@ -5,6 +5,7 @@
     
     import validate from "validate.js";
     validate.validators.presence.message = "Non può essere vuoto"
+    validate.validators.email.message = "Non è un indirizzo email valido"
 
     import moment from "moment";
     window["moment"]=moment;
@@ -184,7 +185,7 @@
                     </label>
                     <input
                     id="scheduledata"
-                    class="form-control input input-accent input-bordered w-1/3"
+                    class="input input-accent input-bordered w-1/3"
                     type="date"
                     placeholder="YYYY-MM-DD"
                     name="scheduledata"
