@@ -39,6 +39,7 @@
     "@themesberg/tailwind-datepicker": "^1.0.1",
     "js-cookie": "^2.2.1",
     "mediasoup-client": "^3.6.41",
+    "moment": "^2.29.1",
     "page": "^1.11.6",
     "protoo-client": "^4.0.6",
     "random-string": "^0.2.0",
@@ -49,6 +50,7 @@
     "svelte-forms": "^1.1.51",
     "svelte-redux-connect": "^1.2.1",
     "sveltestrap": "^3.3.2",
-    "url-parse": "^1.5.3"
+    "url-parse": "^1.5.3",
+    "validate.js": "^0.13.1"
   }
 }
