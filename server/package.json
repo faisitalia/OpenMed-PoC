@@ -1,16 +1,15 @@
 {
-  "name": "mediasoup-demo-server",
+  "name": "openmed-server",
   "version": "3.0.0",
   "private": true,
-  "description": "mediasoup demo server",
-  "author": "Iñaki Baz Castillo <ibc@aliax.net>",
-  "license": "All Rights Reserved",
+  "description": "openmed server",
+  "author": "Michele Sciabarrà",
+  "license": "Apache License",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "eslint -c .eslintrc.js server.js lib connect.js",
     "dev": "nodemon devserver.js",
     "conf": "DEBUG=${DEBUG:='*mediasoup* *INFO* *WARN* *ERROR*'} node server.js",
-    "connect": "node connect.js",
+    "start": "node server.js",
     "mongo": "node --experimental-repl-await dbconnect.js"
   },
   "dependencies": {

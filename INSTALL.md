@@ -113,20 +113,21 @@ Copy the `config.json.sample` to `config.json` and replace the following:
 
 # Installation
 
-Install client libraries
+Install and build client libraries:
 
 ```
 cd client
 npm install
+npm run build
 cd ..
 ```
 
-Install server libraries and setup the database
+Install server libraries and setup the database:
 
 ```
 cd server
 npm install
-npm setup
+npm run setup
 cd ...
 ```
 
@@ -139,5 +140,13 @@ cd server
 npm run start
 ```
 
-# Developmet Start
+# Development Start
+
+You can start quickly without conferencing with
+
+```
+cd client
+npm run dev
+````
+
 
