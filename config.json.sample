@@ -1,0 +1,8 @@
+{
+    "public.hostname": "<your-host-name>",
+    "mongodb.url": "mongodb://<your-mongo-username>:<your-mongo-password>@<your-mongo-host-name>:27017/<your-mongo-database-name>",
+    "gmail.username": "<your-gmail-address>",
+    "gmail.app_password": "<your-gmail-app-password>"
+    "ssl.cert": "/etc/letsencrypt/live/<your-host-name>/fullchain.pem",
+    "ssl.key": "/etc/letsencrypt/live/<your-hostname-name>/privkey.pem",
+}
