@@ -1,14 +1,22 @@
-
+const config = require("../config.json")
 const mongo = require("mongodb");
-const mongoUrl = process.env.OPENMED_DB_URL || "mongodb://localhost"
-const mongoDb = process.env.OPENMED_DB_NAME || "openmed"
+const mongoUrl = config.mongodbUrl
 
 async function init() {
-    const client =  new mongo.MongoClient(mongoUrl)
-    await client.connect()
-    const db = client.db(mongoDb)
-    return db
+    const client = new mongo.MongoClient(mongoUrl)
+    return client.connect()
 }
 
-let repl = require("repl").start();
-init().then( db => repl.context["db"] = db)
+if (process.argv.length < 3) {
+    let repl = require("repl").start();
+    init().then(client => { 
+        repl.context["client"] = client
+        repl.context["db"] = client.db()
+    })
+} else {
+    let setup = require(process.argv[2])
+    init().then(async (client) => {
+        await setup(client.db())
+        return client  
+    }).then(client => client.close())
+}

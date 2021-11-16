@@ -1,13 +1,13 @@
 # Installing OpenMed
 
-This document describes how to install OpenMed
+This document describes how to install OpenMed.
 
-Unfortunately, OpenMed is a webrtc server and generates email, so to run it you need to run it 
+Since OpenMed is a WebRTC server and generates email, to run it in production you need:
 
 - a server on internet with a public IP (a virtul machine is fine)
 - a DNS name that points to it
-- the certificates for this DNS name 
-- the app password for a gmail account to send emails
+- a SSL certificates for this DNS name 
+- a passowrd or an app password for a Gmail account 
 
 You can run locally for development but conferencing will not work.
 
@@ -18,8 +18,10 @@ Essential prerequisites for development:
 - node v14
 - mongodb
 
-Essential prerequisites for production, optional for development: 
+Essential prerequisites for production, that are optional for development: 
 
+- node v14
+- mongodb
 - a public server with a DNS name 
 - an SSL certificate for that domain name
 - a gmail account with an app password
@@ -48,17 +50,21 @@ Check you have a `v14.x.y`
 
 Note that since to install libraries it will try to build some native libraries (most notably [mediasoup](https://mediasoup.org/), you have also to install [the  appropriate C compiler](https://github.com/nodejs/node-gyp) for your platform.
 
+Hints for the more common cases: 
+
+- on Debian and Ubuntu you need to run `sudo apt-get install build-essential`;
+- on RedHat and CentOS you need `sudo yum groupinstall 'Development Tools'`;
+- on OSX you need to install XCode command line tools.
+
 ### Installing mongodb
 
-The application stores data on Mongodb, this prerequisite is essential both for development and production.
-
-You need to install mongodb on your platform or use a cloud version.
+The application uses [MongoDB](https://www.mongodb.com/) to store data. Hence, this prerequisite is essential both for development and production. You need  either to install mongodb on your platform or provision a cloud-based instance.
 
 Instructions to install a local community edition are [here](https://docs.mongodb.com/manual/administration/install-community/)
 
-Many cloud companies also offers Mongodb hosted in cloud. You need to get the credentials to access it
+Many cloud companies also offers Mongodb hosted in cloud. You need to get from them credentials to access it.
 
-Take note of the server host, user, password and database to use, since those informations are essential to connect to the database.
+Once you got the credentials, either local or in cloud, take note of the server host, user, password and database to use, since those informations are required to connect to the database.
 
 ### Provision an SSL certificate
 
@@ -83,13 +89,14 @@ The certificates will be then stored in:
 
 where `<your-domain-name>` is, of course, your domain name.
 
-### Get a gmail api key
+### Get a Gmail api key
 
 For sending emails OpenMed currently uses Gmail.
 
-You need to put your account and an app password to be able to use their SMTP server.
+You need to put your account and your password. If you have 2FA enabled you need to generate an app password to be able to use their SMTP server.
 
 To get an app password, go to:
+
 1. Go to Google Account
 2. Click on Security
 3. Click on Passwords under Signing to Google

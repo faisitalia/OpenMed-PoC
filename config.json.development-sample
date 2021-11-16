@@ -1,0 +1,8 @@
+{
+    "publicHostname": "localhost:3000",
+    "mongodbUrl": "mongodb://localhost/openmed",
+    "gmailUsername": "",
+    "gmailPassword": "",
+    "sslCert": "",
+    "sslKey": ""
+}
