@@ -7,8 +7,8 @@ This document describe how to configure and install OpenMed.
 - Perform the [installation](#installation) steps described
 - Launch it either in [development](#development) or [production](#production) mode.
 
-# Configuration
 <a name="configuration"/>
+# Configuration
 
 Now you are ready to configure.
 
@@ -24,9 +24,8 @@ For production, copy the `config.json.production-sample` to `config.json` and re
 - replace also `<your-host-name>` for `ssl` keys and 
 - check that the `ssl.cert` and `ssl.key` points to the correct files for your SSL certificates
 
-# Installation
 <a name="installation"/>
-
+# Installation
 
 Install and build client libraries:
 
@@ -46,8 +45,8 @@ npm run setup
 cd ...
 ```
 
-# Production Launch
 <a name="production"/>
+# Production Launch
 
 To start the full server:
 
@@ -56,8 +55,8 @@ cd server
 npm run start
 ```
 
-# Development Launch
 <a name="development"/>
+# Development Launch
 
 You can start quickly without conferencing with:
 
