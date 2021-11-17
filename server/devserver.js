@@ -25,5 +25,5 @@ if (config.https.tls.cert != "") {
 
 let server = require(protocol).createServer(tls, app);
 server.listen(config.https.listenPort, config.https.listenIp, () => {
-    console.log(`Development server listening at ${protocol}://localhost:${port}`)
+    console.log(`Development server listening at ${protocol}://${config.domain}:${port}`)
 });
