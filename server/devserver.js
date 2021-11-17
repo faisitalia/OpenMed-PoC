@@ -1,4 +1,3 @@
-const https = require("https")
 const fs = require('fs')
 const path = require("path")
 const express = require('express')
@@ -13,15 +12,18 @@ const app = express()
 app.use(cors());
 api(app, rootDir)
 
-console.log("serving " + rootDir)
 
-const tls =
-{
-    cert: fs.readFileSync(config.https.tls.cert),
-    key: fs.readFileSync(config.https.tls.key)
-};
+let protocol = "http"
+let tls = {}
+if (config.https.tls.cert != "") {
+    tls = {
+        cert: fs.readFileSync(config.https.tls.cert),
+        key: fs.readFileSync(config.https.tls.key)
+    };
+    protocol = "https"
+}
 
-httpsServer = https.createServer(tls, app);
-httpsServer.listen(port, config.https.listenIp, () => {
-        console.log(`Development server app listening at http://localhost:${port}`)
-    });
+let server = require(protocol).createServer(tls, app);
+server.listen(config.https.listenPort, config.https.listenIp, () => {
+    console.log(`Development server listening at ${protocol}://${config.domain}:${port}`)
+});

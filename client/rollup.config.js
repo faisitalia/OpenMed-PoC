@@ -10,9 +10,23 @@ import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
 import json from '@rollup/plugin-json';
 import fs from 'fs'
+import { sslCert, sslKey } from '../openmed.json'
 
 const production = !process.env.ROLLUP_WATCH;
 
+// configure livereload
+let livereloadConf = {
+	base: 'public',
+	port: Number(process.env.OVERRIDE_LIVERELOAD_PORT || 35729)
+}
+
+if(sslCert!="") {
+	livereloadConf['https'] = {
+		cert: fs.readFileSync(sslCert),
+		key: fs.readFileSync(sslKey)
+	}
+}
+ 
 function serve() {
 	let server;
 
@@ -45,7 +59,7 @@ export default {
 	},
 	plugins: [
 		svelte({
-			preprocess: sveltePreprocess({ 
+			preprocess: sveltePreprocess({
 				sourceMap: !production,
 				postcss: true
 			}),
@@ -82,14 +96,7 @@ export default {
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
-		!production && livereload({
-			base: 'public',
-			port: Number(process.env.OVERRIDE_LIVERELOAD_PORT || 35729),
-			https: {			
-				cert : fs.readFileSync("../server/certs/fullchain.pem"),
-				key  : fs.readFileSync("../server/certs/privkey.pem")
-			}
-		}),
+		!production && livereload(livereloadConf),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
