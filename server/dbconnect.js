@@ -1,4 +1,4 @@
-const config = require("../config.json")
+const config = require("../openmed.json")
 const mongo = require("mongodb");
 const mongoUrl = config.mongodbUrl
 

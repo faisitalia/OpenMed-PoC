@@ -3,7 +3,7 @@
 This document describe how to configure and install OpenMed.
 
 - Before going on, check you have the [prerequisites](PREREQ.md)
-- Create a [configuration](#configuration) file: `config.json` in the top level as described below
+- Create a [configuration](#configuration) file: `openmed.json` in the top level as described below
 - Perform the [installation](#installation) steps described
 - Launch it either in [development](#development) or [production](#production) mode.
 
@@ -13,9 +13,9 @@ This document describe how to configure and install OpenMed.
 
 Now you are ready to configure.
 
-For development, just copy `config.json-development-sample` to `config.json`. 
+For development, just copy `openmed.dev.sample` to `openmed.json`. 
 
-For production, copy the `config.json.production-sample` to `config.json` and replace the following:
+For production, copy the `openmed.prod.sample` to `openmed.json` and replace *all* the following strings in it with the correct values:
 
 - `<your-host-name>` with the fully qualified hostname you generate the the SSL for 
 - `<your-gmail-address>` with your Gmail email address
@@ -62,12 +62,14 @@ npm run start
 
 # Development Launch
 
-You can start quickly without conferencing with:
+For development, you can start quickly **without conferencing** with:
 
 ```
 cd client
 npm run dev
 ```
+
+It will put both node and svelte in development mode: if your change the code it will reload. You can change with reload only code under `client/src` and `server/api`.
 
 You can get a node cli able to run access to your configured database (database accessible in the `db` object) with:
 

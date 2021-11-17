@@ -1,5 +1,6 @@
 {
     "publicHostname": "<your-host-name>",
+    "publicPort": 443,
     "mongodbUrl": "mongodb://<your-mongo-username>:<your-mongo-password>@<your-mongo-host-name>:27017/<your-mongo-database-name>",
     "gmailUsername": "<your-gmail-address>",
     "gmailPassword": "<your-gmail-app-password>",

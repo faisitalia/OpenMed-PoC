@@ -1,5 +1,6 @@
 {
-    "publicHostname": "localhost:3000",
+    "publicHostname": "localhost",
+    "publicPort": 5000,
     "mongodbUrl": "mongodb://localhost/openmed",
     "gmailUsername": "",
     "gmailPassword": "",

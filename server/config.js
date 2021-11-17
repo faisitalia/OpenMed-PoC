@@ -7,24 +7,40 @@
  * application just reads settings from this file (once copied to config.js) and
  * calls the mediasoup API with those settings when appropriate.
  */
-
+const config = require("../openmed.json")
 const os = require('os');
 
+const gmailMailer = {
+	service: 'gmail',
+	auth: {
+		user: config.gmailUsername,
+		pass: config.gmailPassword
+	}
+}
+
+const streamMailer = {
+	streamTransport: true
+}
+
+const mailer = config.gmailUsername == "" ? streamMailer : gmailMailer
+
 module.exports =
-{
+{  
+	// mailer
+	mailer: mailer,
 	// Listening hostname (just for `gulp live` task).
-	domain : process.env.DOMAIN || 'localhost',
+	domain : config.publicHostname,
 	// Signaling settings (protoo WebSocket server and HTTP API server).
 	https  :
 	{
 		listenIp   : '0.0.0.0',
 		// NOTE: Don't change listenPort (client app assumes 4443).
-		listenPort : process.env.PROTOO_LISTEN_PORT || 4443,
+		listenPort : config.publicPort,
 		// NOTE: Set your own valid certificate files.
 		tls        :
 		{
-			cert : process.env.HTTPS_CERT_FULLCHAIN || `${__dirname}/certs/fullchain.pem`,
-			key  : process.env.HTTPS_CERT_PRIVKEY || `${__dirname}/certs/privkey.pem`
+			cert : config.sslCert,
+			key  : config.sslKey,
 		}
 	},
 	// mediasoup settings.
