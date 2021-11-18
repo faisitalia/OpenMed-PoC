@@ -1,15 +1,12 @@
 <script>
     import { get, post, del } from "../util";
-    import Datepicker from "@themesberg/tailwind-datepicker/Datepicker";
     import { onMount } from "svelte";
-    
+
     import validate from "validate.js";
-    validate.validators.presence.message = "Non può essere vuoto"
-    validate.validators.email.message = "Non è un indirizzo email valido"
+    validate.validators.presence.message = "Non può essere vuoto";
+    validate.validators.email.message = "Non è un indirizzo email valido";
 
     import moment from "moment";
-    window["moment"]=moment;
-   
 
     // Hook up the form so we can prevent it from being posted
     let form = {};
@@ -17,18 +14,14 @@
     onMount(() => (form = document.querySelector("form#main")));
 
     function error(map, name) {
+        if (!map) return;
         if (name in map) {
-            //document.getElementById(name).classList.add("text-red")
-            let label = document.querySelector("label[for='" + name + "']")
-            if(label)
-              label.classList.add("text-red-500")
-
+            let label = document.querySelector("label[for='" + name + "']");
+            if (label) label.classList.add("text-red-500");
             return map[name].join("<br>");
         } else {
-            let label = document.querySelector("label[for='" + name + "']")
-            if(label)
-              label.classList.remove("text-red-500")
-            //document.getElementById(name).classList.remove("text-red")
+            let label = document.querySelector("label[for='" + name + "']");
+            if (label) label.classList.remove("text-red-500");
         }
         return "";
     }
@@ -51,18 +44,15 @@
     });
     // These are the constraints used to validate the form
     var constraints = {
-        
         scheduledata: {
             // The user needs to give a valide schedule data
             presence: true,
             // and must be after now
             date: {
                 earliest: moment().add(1, "days"),
-                message:
-                    "Almeno domani",
+                message: "Almeno domani",
             },
         },
-        
     };
 
     function submit(event) {
@@ -136,8 +126,6 @@
         post("/schedule", data);
         sent = true;
     }
-
-    
 </script>
 
 <div class="p-3">
@@ -153,19 +141,6 @@
                         on:click={() => (sent = false)}
                     >
                         OK
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            class="inline-block w-6 h-6 ml-2 stroke-current"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M9 5l7 7-7 7"
-                            />
-                        </svg>
                     </button>
                 </div>
             </div>
@@ -184,14 +159,17 @@
                         >
                     </label>
                     <input
-                    id="scheduledata"
-                    class="input input-accent input-bordered w-1/3"
-                    type="date"
-                    placeholder="YYYY-MM-DD"
-                    name="scheduledata"
-                />
-                <div class="col-sm-5 messages">{error(errors, "scheduledata")}</div>
-                    
+                        id="scheduledata"
+                        class="input input-accent input-bordered w-1/3"
+                        type="date"
+                        placeholder="YYYY-MM-DD"
+                        name="scheduledata"
+                    />
+                    <label for="scheduledata" class="label">
+                        <span class="text-red"
+                            >{error(errors, "scheduledata")}</span
+                        >
+                    </label>
                 </div>
                 <div class="form-control w-1/2">
                     <!-- svelte-ignore a11y-label-has-associated-control -->

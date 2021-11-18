@@ -17,6 +17,7 @@ For development, just copy `openmed.dev.sample` to `openmed.json`.
 
 For production, copy the `openmed.prod.sample` to `openmed.json` and replace *all* the following strings in it with the correct values:
 
+- `<your-public-ip>` with the public IP address of your server 
 - `<your-host-name>` with the fully qualified hostname you generate the the SSL for 
 - `<your-gmail-address>` with your Gmail email address
 - `<your-gmail-app-password>` with your Gmail app password
