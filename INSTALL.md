@@ -25,6 +25,8 @@ For production, copy the `openmed.prod.sample` to `openmed.json` and replace *al
 - replace also `<your-host-name>` for `ssl` keys and 
 - check that the `ssl.cert` and `ssl.key` points to the correct files for your SSL certificates
 
+The server can be further configured in many ways, changing the mailer, tuning the conferences and much more, editing manually the `./server/config.js`.
+
 <a name="installation"/>
 
 # Installation

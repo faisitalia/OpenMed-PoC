@@ -8,7 +8,11 @@ Welcome to OpenMed.
 
 # TL;DR
 
-Install nodejs v14.x.y and Mongodb v5.x, locally accessible.
+How to start in development mode (without conferencing!):
+
+- Install nodejs v14.x.y and Mongodb v5.x.
+- Ensure node is available on the path.
+- Ensure mongodb is accessible on localhost without authorization.
 
 ```
 cp openmed.dev.sample openmed.json
@@ -20,6 +24,6 @@ npm install
 npm run dev
 ```
 
-You will get a locally running OpenMed server *without conferencing* 
+Wait a bit (it needs to preprocess css) then you will get a locally running OpenMed server *without conferencing* but with live reload of both the client and the server.
 
-To get conferencing to work and have it to send email, you have to read the [installation instructions](INSTALL.md).
+To get conferencing to work and have it to send email, you have to follow the [installation instructions](INSTALL.md).
