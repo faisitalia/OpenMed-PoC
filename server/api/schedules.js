@@ -2,7 +2,7 @@ const config = require("../config.js")
 const mailer = require("nodemailer").createTransport(config.mailer)
 
 function sendmail(dest, subject, html) {
-    mailer.sendMail({
+    return mailer.sendMail({
       "to": dest,
       "subject": subject,
       "html": html
@@ -15,11 +15,10 @@ let message = `
 
 <p>You have a scheduled visit on 15/10/2021 at 10.00</p>
 
-<a href="https://openmed.noiopen.it:4444/app/conference?roomId=theRoom&peerId=patient">Click here to join the call</a>.
+<a href="https://${config.openmed.publicHostname}:${config.openmed.publicPort}/app/conference?roomId=theRoom&peerId=patient">Click here to join the call</a>.
 `
 
 module.exports = function(app, db) {
-
     // Get all schedules
     app.get("/api/schedules/", async(req, res) => {
         console.log("get /api/schedules")
@@ -42,7 +41,7 @@ module.exports = function(app, db) {
     app.post("/api/schedule", async(req, res) => {
         console.log("post /api/schedule ", req.body)
         let out = await db.collection("schedule").insertOne(req.body)
-        sendmail("michele@sciabarra.com", "Your Medical Visit", message)
+        await sendmail("michele@sciabarra.com", "Your Medical Visit", message)
         res.send(out)
     })
 

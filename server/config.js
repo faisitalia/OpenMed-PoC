@@ -26,6 +26,7 @@ const mailer = config.gmailUsername == "" ? streamMailer : gmailMailer
 
 module.exports =
 {  
+	openmed: config,
 	// mailer
 	mailer: mailer,
 	// Listening hostname (just for `gulp live` task).
@@ -136,7 +137,7 @@ module.exports =
 			listenIps :
 			[
 				{
-					ip          : process.env.MEDIASOUP_LISTEN_IP || '1.2.3.4',
+					ip          : config.publicIp,
 					announcedIp : process.env.MEDIASOUP_ANNOUNCED_IP
 				}
 			],
@@ -153,7 +154,7 @@ module.exports =
 		{
 			listenIp :
 			{
-				ip          : process.env.MEDIASOUP_LISTEN_IP || '1.2.3.4',
+				ip          : config.publicIp,
 				announcedIp : process.env.MEDIASOUP_ANNOUNCED_IP
 			},
 			maxSctpMessageSize : 262144

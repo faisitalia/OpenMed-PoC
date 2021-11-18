@@ -1,23 +1,75 @@
-<script lang="ts">
-    import { loggedUser } from "../state";
-    let message = "Please input your access credentials";
-    let username = "";
-    let password = "";
-    function login() {
-        if (username == "" || password == "") {
-            message = "Credentials cannot be empty.";
-            return;
+<script>
+    import { get, post, del } from "../util";
+    import { onMount } from "svelte";
+    import { token, name, role } from "../state";
+    import moment from "moment";
+    import validate from "validate.js";
+    validate.validators.presence.message = "Non può essere vuoto";
+    validate.validators.email.message = " non valida";
+
+    // Hook up the form so we can prevent it from being posted
+    let form = {};
+    let errors = {};
+    let isUser;
+    let message = "";
+
+    onMount(() => (form = document.querySelector("form#main")));
+
+    function error(map, name) {
+        if (!map) return "";
+        if (name in map) {
+            //document.getElementById(name).classList.add("text-red")
+            let label = document.querySelector("label[for='" + name + "']");
+            if (label) label.classList.add("text-red-500");
+
+            return map[name].join("<br>");
+        } else {
+            let label = document.querySelector("label[for='" + name + "']");
+            if (label) label.classList.remove("text-red-500");
+            //document.getElementById(name).classList.remove("text-red")
         }
-        if (username == "demo" &&  password == "demo") {
-            loggedUser.set(username);
-            return;
+        return "";
+    }
+    var constraints = {
+        email: {
+            // Email is required
+            presence: true,
+            // and must be an email (duh)
+            email: true,
+        },
+        password: {
+            // Password is also required
+            presence: true,
+            // And must be at least 5 characters long
+            length: {
+                minimum: 5,
+            },
+        },
+    };
+    async function submit() {
+        // validate the form against the constraints
+        errors = validate(form, constraints);
+        if (!errors) {
+            //alert("success");
+            isUser = await post("/login", data);
+            if ("error" in isUser) message = isUser.error;
+            else {
+                token.set(isUser.token);
+                name.set(isUser.name);
+                role.set(isUser.role);
+            }
+            console.log("Utente", isUser);
+        } else {
+            console.log("errors", errors);
         }
-        message = "Bad username or password.";
     }
     function logout() {
-        message = "Please input your access credentials";
-        loggedUser.set("");
+        token.set("");
+        name.set("");
+        role.set("");
     }
+    let data = {};
+    import { loggedUser } from "../state";
 </script>
 
 <div class="p-3">
@@ -27,27 +79,63 @@
         </figure>
         <div class="justify-end card-body">
             <img alt="openmed" src="/openmed2.png" />
-            {#if $loggedUser == ""}
-                <div class="form-control">
-                    <h1 class="card-title">{message}</h1>
-                    <input
-                        type="text"
-                        placeholder="username"
-                        class="input input-bordered mb-3"
-                        bind:value={username}
-                    />
-                    <input
-                        type="text"
-                        placeholder="password"
-                        class="input input-bordered mb-3"
-                        bind:value={password}
-                    />
-                    <button class="btn btn-primary" on:click={login}
-                        >Login</button
-                    >
-                </div>
+            {#if $token == ""}
+                <form id="main">
+                    <!-- svelte-ignore a11y-label-has-associated-control -->
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text text-white">Email</span>
+                        </label>
+                        <input
+                            bind:value={data.email}
+                            class="input input-accent input-bordered w-full max-w-xs "
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Enter email address"
+                        />
+                        <label class="label">
+                            <span class="label-text text-red-600"
+                                >{error(errors, "email")}</span
+                            >
+                        </label>
+                    </div>
+                    <!-- svelte-ignore a11y-label-has-associated-control -->
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text text-white">Password</span>
+                        </label>
+                        <input
+                            bind:value={data.password}
+                            class="input input-accent input-bordered w-full max-w-xs "
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Enter password"
+                        />
+                        <label class="label">
+                            <span class="label-text text-red-600"
+                                >{error(errors, "password")}</span
+                            >
+                        </label>
+                    </div>
+                    <br />
+                    <!-- svelte-ignore a11y-label-has-associated-control -->
+                    <label class="label">
+                        <span class="label-text text-red-600">{message}</span>
+                    </label>
+                    <div class="form-control">
+                        <button
+                            class="btn btn-accent content-center max-w-xs"
+                            on:click|preventDefault={submit}
+                            color="primary"
+                            block
+                            href="pages/authentication/login">Login</button
+                        >
+                    </div>
+                </form>
             {:else}
-                <h1 class="card-title">Welcome, {$loggedUser}</h1>
+                <h1 class="card-title">Benvenuto, {$loggedUser}</h1>
                 <div class="card-actions">
                     <a href="/app/calendar" class="btn btn-primary"
                         >Attend a visit</a
