@@ -6,3 +6,6 @@ package-lock.json
 build/
 config.js
 config.json
+attic/
+certs/
+openmed.json
