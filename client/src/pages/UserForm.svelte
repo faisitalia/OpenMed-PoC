@@ -1,88 +1,168 @@
 <script>
+  import validate from "validate.js";
+  import { onMount } from "svelte";
   import { post, get, put } from "../util";
-  import Card from "sveltestrap/src/Card.svelte";
-  import CardBody from "sveltestrap/src/CardBody.svelte";
-  import CardHeader from "sveltestrap/src/CardHeader.svelte";
-  import CardFooter from "sveltestrap/src/CardFooter.svelte";
   import Form from "sveltestrap/src/Form.svelte";
-  import FormGroup from "sveltestrap/src/FormGroup.svelte";
   import Label from "sveltestrap/src/Label.svelte";
   import Input from "sveltestrap/src/Input.svelte";
-  import Row from "sveltestrap/src/Row.svelte";
-  import Col from "sveltestrap/src/Col.svelte";
   import { usersEdit } from "../state";
-
-  export function email(val, args) {
-  // Email regex from Open Web Application Security Project (OWASP) : https://owasp.org/www-community/OWASP_Validation_Regex_Repository
-  const regex = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/
-
-  return Boolean(val) && regex.test(val);
-}
-  let ruolo = ["Patient","Doctor","Nurse","Administrator"];
+  
+  validate.validators.presence.message = "Non può essere vuoto";
+  validate.validators.email.message = " non valida";
+  
+  let ruolo = ["Patient", "Doctor", "Nurse", "Administrator"];
   let role;
+  let errors = {};
+  let form = {};
+  let message = "";
 
   let data = {};
-  async function save(event) {
-    console.log(data);
-    event.preventDefault();
-    let res = await post("/user", data);
-    console.log(res);
-    usersEdit.set(false);
+  onMount(() => (form = document.querySelector("form#main")));
+
+  function error(map, name) {
+    if (!map) return "";
+    if (name in map) {
+      //document.getElementById(name).classList.add("text-red")
+      let label = document.querySelector("label[for='" + name + "']");
+      if (label) label.classList.add("text-red-500");
+
+      return map[name].join("<br>");
+    } else {
+      let label = document.querySelector("label[for='" + name + "']");
+      if (label) label.classList.remove("text-red-500");
+      //document.getElementById(name).classList.remove("text-red")
+    }
+    return "";
   }
+  var constraints = {
+    nome: {
+      // nome is required
+      presence: true,
+     },
+     cognome: {
+      // nome is required
+      presence: true,
+     },
+    email: {
+      // Email is required
+      presence: true,
+      // and must be an email (duh)
+      email: true,
+    },
+    password: {
+      // Password is also required
+      presence: true,
+      // And must be at least 5 characters long
+      length: {
+        minimum: 5,
+      },
+    },
+    CF: {
+      // Codice Fiscale is also required
+      presence: true,
+      // And must be at least 16 characters long
+      length: {
+        minimum: 16,
+        message: "deve essere almeno di 16 caratteri"
+      },
+    },
+    "Conferma-password": $usersEdit == "-" ? {
+      // You need to confirm your password
+      presence: true,
+      // and it needs to be equal to the other password
+      equality: {
+        attribute: "password",
+        message: "^Le password non combaciano",
+      },
+    } : {},
+
+    cellulare: {
+      presence: true,
+      // Number of phone has to be an integer >= 0
+      numericality: {
+        onlyInteger: true,
+        greaterThanOrEqualTo: 0,
+      },
+    },
+  };
+
+  async function save(event) {
+    console.log(data)
+    errors = validate(form, constraints);
+    
+    if (!errors) {
+      console.log(data);
+      event.preventDefault();
+      let res = await post("/user", data);
+      usersEdit.set("");
+      console.log(res);
+      } else {
+      console.log("errors", errors);
+    }
+  }
+
   async function updateUsr(event) {
-    console.log(data);
-    event.preventDefault();
-    let res = await put("/user", data);
-    console.log(res);
-    usersEdit.set(false);
+    errors = validate(form, constraints);
+    if (!errors) {
+      console.log("put", data);
+      event.preventDefault();
+      let res = await put("/user", data);
+      usersEdit.set("");
+      console.log(res);  
+    } else {
+      console.log("errors", errors);
+    }
   }
 
   async function load(id) {
     data = await get("/user/" + id);
+    console.log("loaded", data)
   }
 
-  usersEdit.update((id) => {
-    console.log("update", id);
-    if (id == "-") data = {};
+
+  usersEdit.subscribe((id) => {
+    if(id == "")
+      return;
+    if (id == "-") 
+        data = {};
     else load(id);
   });
 </script>
 
-<h1>Create Account</h1>
 
-<Form>
-  
+<h1>Gestione profilo</h1>
+
+<form id="main">
   <table class="table-fixed">
     <tr>
       <th colspan="3" align="left">
         <Label for="inputFirstName" class="small mb-1">Ruolo</Label>
-        
-          <legend class="sr-only"> Ruolo </legend><br>
-          <select  bind:value={data.ruolo} class="select select-bordered select-accent w-full max-w-xs ">
-            {#each ruolo as role}
+
+        <legend class="sr-only"> Ruolo </legend><br />
+        <select
+          bind:value={data.ruolo}
+          class="select select-bordered select-accent w-full max-w-xs "
+        >
+          {#each ruolo as role}
             <option value={role}>
-                {role}
+              {role}
             </option>
-            {/each}
-          </select>
-      
-          
-           
-          
-       
-    </th>
-  </tr>
+          {/each}
+        </select>
+      </th>
+    </tr>
     <tr>
       <th>
         <Label for="codicediscale" class="small mb-1">CodicFiscale</Label>
-    <Input
-      bind:value={data.CF}
-      class="input input-accent input-bordered w-full max-w-xs "
-      type="text"
-      name="CF"
-      id="CF"
-      placeholder="Codice Fiscale"
-    />
+        <Input
+          bind:value={data.CF}
+          class="input input-accent input-bordered w-full max-w-xs "
+          type="text"
+          name="CF"
+          id="CF"
+          placeholder="Codice Fiscale"
+        />
+        <div class="col-sm-5 messages">{error(errors, "CF")}</div>
       </th>
       <th>
         <Label for="inputFirstName" class="small mb-1">Nome</Label>
@@ -92,8 +172,11 @@
           type="text"
           name="nome"
           id="nome"
-          placeholder="Enter first name"
-        /></th>
+          placeholder="Inserisci il nome"
+        />
+        <div class="col-sm-5 messages">{error(errors, "nome")}</div>
+        </th
+      >
       <th>
         <Label for="inputLastName" class="small mb-1">Cognome</Label>
         <Input
@@ -102,9 +185,10 @@
           type="text"
           name="cognome"
           id="cognome"
-          placeholder="Enter last name"
+          placeholder="Inserisci il cognome"
         />
-        </th>
+        <div class="col-sm-5 messages">{error(errors, "cognome")}</div>
+      </th>
     </tr>
     <tr>
       <th colspan="2">
@@ -115,7 +199,7 @@
           type="text"
           name="indirizzo"
           id="indirizzo"
-          placeholder="Enter Address"
+          placeholder="Inserisci indirizzo"
         />
       </th>
       <th>
@@ -128,19 +212,21 @@
           id="cellulare"
           placeholder="Numero di telefono"
         />
+        <div class="col-sm-5 messages">{error(errors, "Cellulare")}</div>
       </th>
     </tr>
     <tr>
       <th>
         <Label for="exampleEmail" class="small mb-1">Email</Label>
-    <Input
-      bind:value={data.email}
-      class="input input-accent input-bordered w-full max-w-xs "
-      type="email"
-      name="email"
-      id="exampleEmail"
-      placeholder="Enter email address"
-    />
+        <Input
+          bind:value={data.email}
+          class="input input-accent input-bordered w-full max-w-xs "
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Inserisci email"
+        />
+        <div class="col-sm-5 messages">{error(errors, "email")}</div>
       </th>
       <th>
         <Label for="inputPassword" class="small mb-1">Password</Label>
@@ -148,45 +234,53 @@
           bind:value={data.password}
           class="input input-accent input-bordered w-full max-w-xs "
           type="password"
-          name="inputPassword"
-          id="inputPassword"
-          placeholder="Enter password"
+          name="password"
+          id="password"
+          placeholder="Inserisci password"
         />
+        <div class="col-sm-5 messages">{error(errors, "password")}</div>
       </th>
       <th>
+        {#if $usersEdit == "-"}
         <Label for="inputConfirmPassword" class="small mb-1">
           Confirm Password
         </Label>
         <Input
-        class="input input-accent input-bordered w-full max-w-xs "
+          class="input input-accent input-bordered w-full max-w-xs "
           type="password"
-          name="inputConfirmPassword"
-          id="inputConfirmPassword"
-          placeholder="Confirm password"
+          name="Conferma-password"
+          id="Conferma-password"
+          placeholder="Conferma password"
         />
+        <div class="col-sm-5 messages">
+          {error(errors, "Conferma-password")}
+        </div>
+        {/if}
       </th>
     </tr>
   </table>
-  
-  
 
+  {#if $usersEdit == "-"}
   <button
     class="btn btn-accent"
-    on:click={save}
+    on:click|preventDefault={save}
     block
     href="pages/authentication/login"
   >
     Create Account
   </button>
+  {:else}
   <button
     class="btn btn-accent"
-    on:click={updateUsr}
+    on:click|preventDefault={updateUsr}
     block
     href="pages/authentication/login"
   >
     Update Account
   </button>
-  <button class="btn btn-accent" on:click={() => usersEdit.set(false)}
+  
+  {/if}
+  <button class="btn btn-accent" on:click={() => usersEdit.set("")}
     >List</button
   >
-</Form>
+</form>

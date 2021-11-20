@@ -6,15 +6,16 @@
   import { get, post, del } from "../util";
   import { usersEdit } from "../state";
   let tableHeading = ["Ruolo", "Nome", "Cognome", "email"];
-  let usrCF = "";
+  let _id = "";
   let data = {};
+
   async function elimina(event) {
-    console.log(usrCF);
-    let data = { CF: usrCF };
+    let data = { _id: _id };
     event.preventDefault();
     let res = await del("/user", data);
     console.log(res);
-    usersEdit.set(false);
+     //usersEdit.update(n => n);
+     location.href = location.href
   }
 </script>
 
@@ -34,7 +35,7 @@
       {#each users as usr}
         <tr>
           <th scope="row"
-            ><input type="radio" bind:group={usrCF} name="CF" value={usr.CF} />
+            ><input type="radio" bind:group={_id} name="_id" value={usr._id} />
             {usr.ruolo}</th
           >
           <td>{usr.nome}</td>
@@ -53,4 +54,4 @@
   href="pages/authentication/login">Elimina</button
 >
 <Button on:click={() => usersEdit.set("-")}>New</Button>
-<Button on:click={() => usersEdit.set(usrCF)}>Edit</Button>
+<Button on:click={() => usersEdit.set(_id)}>Edit</Button>
