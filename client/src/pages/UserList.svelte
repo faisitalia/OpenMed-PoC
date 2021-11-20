@@ -14,8 +14,7 @@
     event.preventDefault();
     let res = await del("/user", data);
     console.log(res);
-     //usersEdit.update(n => n);
-     location.href = location.href
+    location.href = location.href
   }
 </script>
 
