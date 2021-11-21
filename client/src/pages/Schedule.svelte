@@ -108,13 +108,13 @@
         "55",
     ];
     let selectedH, selectedM, selectedP;
-
     let usrCF = "";
+    let selectedUser;
+
     let data = {
         CF: "TTTTTT61C01W111T",
         idstanza: "pippo",
         ora: selectedH + selectedM,
-        paziente: "",
         confermato: true,
     };
 
@@ -122,9 +122,15 @@
         event.preventDefault();
         data.ora = selectedH + ":" + selectedM;
         data.data = document.getElementById("scheduledata").value;
+        data.paziente = selectedUser;
         console.log(data);
         post("/schedule", data);
         sent = true;
+    }
+
+    let users;
+    async function loadUsers() {
+        users = await get("/schedule/Patient");
     }
 </script>
 
@@ -150,7 +156,7 @@
             <div class="card-header">
                 <h1 class="text-black text-lg">Nuovo appuntamento</h1>
             </div>
-            <form id="main">
+            <form id="main" on:submit|preventDefault={submit}>
                 <div class="form-control">
                     <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label class="label">
@@ -223,25 +229,27 @@
                             >Seleziona paziente</span
                         >
                     </label>
-                    <select
-                        bind:value={data.paziente}
-                        class="select select-bordered select-accent w-full max-w-xs"
-                    >
-                        {#await get("/schedule/Patient") then users}
+                    {#await loadUsers()}
+                        <p>Caricamento...</p>
+                    {:then}
+                        <select
+                            bind:value={selectedUser}
+                            class="select select-bordered select-accent w-full max-w-xs"
+                        >
                             <option disabled="disabled">Paziente</option>
                             {#each users as usr}
-                                <option value={usr.cognome}
-                                    >{usr.cognome}</option
-                                >
+                                <option value={usr}>
+                                    {usr.nome} {usr.cognome}
+                                </option>
                             {/each}
-                        {/await}
-                    </select>
+                        </select>
+                    {/await}
                 </div>
                 <br />
                 <div class="form-control">
                     <button
                         class="btn btn-accent content-center max-w-xs"
-                        on:click|preventDefault={submit}
+                        type=submit
                         color="primary"
                         block
                         href="pages/authentication/login">Prenota</button

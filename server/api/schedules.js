@@ -36,12 +36,11 @@ module.exports = function(app, db) {
         res.send(data)
     })
 
-
     // Create a new schedule
     app.post("/api/schedule", async(req, res) => {
         console.log("post /api/schedule ", req.body)
         let out = await db.collection("schedule").insertOne(req.body)
-        await sendmail("michele@sciabarra.com", "Your Medical Visit", message)
+        await sendmail(req.body.paziente.email, "Your Medical Visit", message)
         res.send(out)
     })
 
