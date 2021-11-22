@@ -1,15 +1,11 @@
 <script>
     import { get, post, del } from "../util";
 
-    let schedules;
-    async function loadSchedules() {
-        schedules = await get("/schedules");
-    }
 </script>
 
-{#await loadSchedules()}
+{#await get("/schedules")}
     <p>Caricamento...</p>
-{:then}
+{:then schedules}
     {#each schedules as sched}
         <div class="p-2">
             <div
