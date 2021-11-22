@@ -1,8 +1,15 @@
 <script>
     import { get, post, del } from "../util";
+
+    let schedules;
+    async function loadSchedules() {
+        schedules = await get("/schedules");
+    }
 </script>
 
-{#await get("/schedules") then schedules}
+{#await loadSchedules()}
+    <p>Caricamento...</p>
+{:then}
     {#each schedules as sched}
         <div class="p-2">
             <div
@@ -10,7 +17,7 @@
             >
                 <div class="card-body">
                     <h1>
-                        Appuntamento con <br />{sched.paziente}
+                        Appuntamento con <br />{sched.paziente.nome} {sched.paziente.cognome}
                     </h1>
                     <div class="justify-end card-actions">
                         <a href="/app/conference?roomId=theRoom&peerId=doctor" class="btn btn-primary">
