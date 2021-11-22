@@ -17,7 +17,7 @@
             >
                 <div class="card-body">
                     <h1>
-                        Appuntamento con <br />{sched.paziente.nome} {sched.paziente.cognome}
+                        Appuntamento con <br />{sched.paziente?.nome} {sched.paziente?.cognome}
                     </h1>
                     <div class="justify-end card-actions">
                         <a href="/app/conference?roomId=theRoom&peerId=doctor" class="btn btn-primary">
