@@ -1,8 +1,11 @@
 <script>
     import { get, post, del } from "../util";
+
 </script>
 
-{#await get("/schedules") then schedules}
+{#await get("/schedules")}
+    <p>Caricamento...</p>
+{:then schedules}
     {#each schedules as sched}
         <div class="p-2">
             <div
@@ -10,7 +13,7 @@
             >
                 <div class="card-body">
                     <h1>
-                        Appuntamento con <br />{sched.paziente}
+                        Appuntamento con <br />{sched.paziente?.nome ?? "Nome"} {sched.paziente?.cognome ?? "Cognome"}
                     </h1>
                     <div class="justify-end card-actions">
                         <a href="/app/conference?roomId=theRoom&peerId=doctor" class="btn btn-primary">
