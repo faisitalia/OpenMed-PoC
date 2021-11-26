@@ -88,7 +88,7 @@
                         </label>
                         <input
                             bind:value={data.email}
-                            class="input input-accent input-bordered w-full max-w-xs "
+                            class="input input-accent input-bordered w-full max-w-xs text-black"
                             type="email"
                             name="email"
                             id="email"
@@ -107,7 +107,7 @@
                         </label>
                         <input
                             bind:value={data.password}
-                            class="input input-accent input-bordered w-full max-w-xs "
+                            class="input  input-accent input-bordered w-full max-w-xs text-black"
                             type="password"
                             name="password"
                             id="password"
@@ -135,7 +135,7 @@
                     </div>
                 </form>
             {:else}
-                <h1 class="card-title">Benvenuto, {$loggedUser}</h1>
+                <h1 class="card-title">Benvenuto, {$name}</h1>
                 <div class="card-actions">
                     <a href="/app/calendar" class="btn btn-primary"
                         >Attend a visit</a
