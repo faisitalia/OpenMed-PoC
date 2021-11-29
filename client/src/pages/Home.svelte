@@ -57,7 +57,7 @@
                 token.set(isUser.token);
                 name.set(isUser.name);
                 role.set(isUser.role);
-                LoggedUserCF.set(isUser.CFUser);
+                loggedUserCF.set(isUser.loggedUserCF);
             }
             console.log("Utente", isUser);
         } else {
@@ -137,7 +137,7 @@
                     </div>
                 </form>
             {:else}
-                <h1 class="card-title">Benvenuto, {$name} </h1>
+                <h1 class="card-title">Benvenuto, {$name}</h1>
                 <div class="card-actions">
                     <a href="/app/calendar" class="btn btn-primary"
                         >Attend a visit</a

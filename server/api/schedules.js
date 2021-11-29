@@ -22,10 +22,10 @@ function message(roomId,peerId) {
 
 module.exports = function(app, db) {
     // Get all schedules
-    app.get("/api/schedules/", async(req, res) => {
+    app.get("/api/schedules/:cf", async(req, res) => {
         console.log("get /api/schedules")
         //let out = { "id": "michele", "email": "michele@example.com" }
-        let CFUser=$loggedUserCF;
+        let CFUser = req.params.cf;
         let data = await db.collection("schedule").find( {"CF": CFUser }).toArray()
         res.send(data) 
     })
