@@ -14,4 +14,4 @@ export const name = writable("");
 
 export const role = writable("")
 
-export const CFLoggedUser = writable("")
+export const loggedUserCF = writable("")

@@ -25,7 +25,7 @@ module.exports = function(app, db) {
     app.get("/api/schedules/", async(req, res) => {
         console.log("get /api/schedules")
         //let out = { "id": "michele", "email": "michele@example.com" }
-        let CFUser=$CFLoggedUser;
+        let CFUser=$loggedUserCF;
         let data = await db.collection("schedule").find( {"CF": CFUser }).toArray()
         res.send(data) 
     })

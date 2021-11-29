@@ -1,7 +1,7 @@
 <script>
     import { get, post, del } from "../util";
     import { onMount } from "svelte";
-    import { token, name, role, CFLoggedUser } from "../state";
+    import { token, name, role, loggedUserCF } from "../state";
     import moment from "moment";
     import validate from "validate.js";
     validate.validators.presence.message = " non può essere vuoto";
@@ -57,7 +57,7 @@
                 token.set(isUser.token);
                 name.set(isUser.name);
                 role.set(isUser.role);
-                CFLoggedUser.set(isUser.CFUser);
+                LoggedUserCF.set(isUser.CFUser);
             }
             console.log("Utente", isUser);
         } else {
@@ -68,7 +68,7 @@
         token.set("");
         name.set("");
         role.set("");
-        CFLoggedUser.set("");
+        loggedUserCF.set("");
     }
     let data = {};
     import { loggedUser } from "../state";

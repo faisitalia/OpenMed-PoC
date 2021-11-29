@@ -7,7 +7,7 @@
     validate.validators.email.message = "Non è un indirizzo email valido";
 
     import moment from "moment";
-    import { CFLoggedUser, role, loggedUser } from "../state";
+    import { loggedUserCF, role, loggedUser } from "../state";
 
     // Hook up the form so we can prevent it from being posted
     let form = {};
@@ -113,8 +113,8 @@
     let selectedUser;
 
     let data = {
-        CF: $CFLoggedUser,
-        idstanza: " ",
+        CF: $loggedUserCF,
+
         ora: selectedH + selectedM,
         confermato: true,
     };
