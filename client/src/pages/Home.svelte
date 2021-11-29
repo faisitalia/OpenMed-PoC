@@ -1,10 +1,10 @@
 <script>
     import { get, post, del } from "../util";
     import { onMount } from "svelte";
-    import { token, name, role } from "../state";
+    import { token, name, role, CFLoggedUser } from "../state";
     import moment from "moment";
     import validate from "validate.js";
-    validate.validators.presence.message = "Non può essere vuoto";
+    validate.validators.presence.message = " non può essere vuoto";
     validate.validators.email.message = " non valida";
 
     // Hook up the form so we can prevent it from being posted
@@ -57,6 +57,7 @@
                 token.set(isUser.token);
                 name.set(isUser.name);
                 role.set(isUser.role);
+                CFLoggedUser.set(isUser.CFUser);
             }
             console.log("Utente", isUser);
         } else {
@@ -67,6 +68,7 @@
         token.set("");
         name.set("");
         role.set("");
+        CFLoggedUser.set("");
     }
     let data = {};
     import { loggedUser } from "../state";
@@ -135,7 +137,7 @@
                     </div>
                 </form>
             {:else}
-                <h1 class="card-title">Benvenuto, {$name}</h1>
+                <h1 class="card-title">Benvenuto, {$name} </h1>
                 <div class="card-actions">
                     <a href="/app/calendar" class="btn btn-primary"
                         >Attend a visit</a
