@@ -1,10 +1,10 @@
 <script>
     import { get, post, del } from "../util";
     import { onMount } from "svelte";
-    import { token, name, role } from "../state";
+    import { token, name, role, loggedUserCF } from "../state";
     import moment from "moment";
     import validate from "validate.js";
-    validate.validators.presence.message = "Non può essere vuoto";
+    validate.validators.presence.message = " non può essere vuoto";
     validate.validators.email.message = " non valida";
 
     // Hook up the form so we can prevent it from being posted
@@ -57,6 +57,7 @@
                 token.set(isUser.token);
                 name.set(isUser.name);
                 role.set(isUser.role);
+                loggedUserCF.set(isUser.loggedUserCF);
             }
             console.log("Utente", isUser);
         } else {
@@ -67,6 +68,7 @@
         token.set("");
         name.set("");
         role.set("");
+        loggedUserCF.set("");
     }
     let data = {};
     import { loggedUser } from "../state";

@@ -7,6 +7,7 @@
     validate.validators.email.message = "Non è un indirizzo email valido";
 
     import moment from "moment";
+    import { name, loggedUserCF, role, loggedUser } from "../state";
 
     // Hook up the form so we can prevent it from being posted
     let form = {};
@@ -112,8 +113,7 @@
     let selectedUser;
 
     let data = {
-        CF: "TTTTTT61C01W111T",
-        idstanza: "pippo",
+        CF: $loggedUserCF,
         ora: selectedH + selectedM,
         confermato: true,
     };
@@ -155,6 +155,7 @@
         <div class="card-bordered w-full">
             <div class="card-header">
                 <h1 class="text-black text-lg">Nuovo appuntamento</h1>
+               
             </div>
             <form id="main" on:submit|preventDefault={submit}>
                 <div class="form-control">

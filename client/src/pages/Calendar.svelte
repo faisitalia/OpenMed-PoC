@@ -1,9 +1,10 @@
 <script>
     import { get, post, del } from "../util";
-
+    import {loggedUserCF} from "../state";
+    
 </script>
 
-{#await get("/schedules")}
+{#await get("/schedules/"+$loggedUserCF)}
     <p>Caricamento...</p>
 {:then schedules}
     {#each schedules as sched}

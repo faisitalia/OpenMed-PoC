@@ -10,20 +10,23 @@ function sendmail(dest, subject, html) {
     .catch(console.error)
 }
 
-let message = `
+function message(roomId,peerId) {
+    return `
 <h1>Your appointment</h1>
 
 <p>You have a scheduled visit on 15/10/2021 at 10.00</p>
 
-<a href="https://${config.openmed.publicHostname}:${config.openmed.publicPort}/app/conference?roomId=theRoom&peerId=patient">Click here to join the call</a>.
+<a href="https://${config.openmed.publicHostname}:${config.openmed.publicPort}/app/conference?roomId=${roomId}&peerId=${peerId}">Click here to join the call</a>.
 `
+}
 
 module.exports = function(app, db) {
     // Get all schedules
-    app.get("/api/schedules/", async(req, res) => {
+    app.get("/api/schedules/:cf", async(req, res) => {
         console.log("get /api/schedules")
         //let out = { "id": "michele", "email": "michele@example.com" }
-        let data = await db.collection("schedule").find( {"CF": "TTTTTT61C01W111T" }).toArray()
+        let CFUser = req.params.cf;
+        let data = await db.collection("schedule").find( {"CF": CFUser }).toArray()
         res.send(data) 
     })
 
@@ -40,7 +43,9 @@ module.exports = function(app, db) {
     app.post("/api/schedule", async(req, res) => {
         console.log("post /api/schedule ", req.body)
         let out = await db.collection("schedule").insertOne(req.body)
-        await sendmail(req.body.paziente.email, "Your Medical Visit", message)
+        let roomId = out.insertedId ;
+        let peerId = req.body.paziente._id;
+        await sendmail(req.body.paziente.email, "Your Medical Visit", message(roomId,peerId))
         res.send(out)
     })
 
