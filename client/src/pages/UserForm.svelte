@@ -10,7 +10,7 @@
   validate.validators.presence.message = "Non può essere vuoto";
   validate.validators.email.message = " non valida";
   
-  let ruolo = ["Patient", "Doctor", "Nurse", "Administrator"];
+  let ruolo = ["Paziente", "Medico", "Infermiere", "Amministratore"];
   let role;
   let errors = {};
   let form = {};
@@ -243,7 +243,7 @@
       <th>
         {#if $usersEdit == "-"}
         <Label for="inputConfirmPassword" class="small mb-1">
-          Confirm Password
+          Conferma Password
         </Label>
         <Input
           class="input input-accent input-bordered w-full max-w-xs "

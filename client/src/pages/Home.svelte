@@ -54,10 +54,12 @@
             isUser = await post("/login", data);
             if ("error" in isUser) message = isUser.error;
             else {
+                console.log("isUser",isUser);
                 token.set(isUser.token);
                 name.set(isUser.name);
                 role.set(isUser.role);
                 loggedUserCF.set(isUser.loggedUserCF);
+               
             }
             console.log("Utente", isUser);
         } else {
@@ -140,10 +142,10 @@
                 <h1 class="card-title">Benvenuto, {$name}</h1>
                 <div class="card-actions">
                     <a href="/app/calendar" class="btn btn-primary"
-                        >Attend a visit</a
+                        >Lista visite programmate</a
                     >
                     <a href="/app/schedule" class="btn btn-primary"
-                        >Schedule a visit</a
+                        >Programma una visita</a
                     >
                     <button class="btn btn-secondary" on:click={logout}
                         >Logout</button

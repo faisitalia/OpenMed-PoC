@@ -6,26 +6,46 @@
     import Calendar from "./pages/Calendar.svelte";
     import Conference from "./pages/Conference.svelte";
     import Users from "./pages/Users.svelte";
-    
+    import { role } from "./state";
+
     let page = Home;
-    let title = "Home"
-    let hideTitle = true
+    let title = "Home";
+    let hideTitle = true;
+    let menu = [];
 
-    router("/", () => [page,title,hideTitle] = [Home,"Home",true]);
-    router("/app/calendar", () => [page,title,hideTitle]  = [Calendar,"Appuntamenti",false] );
-    router("/app/schedule", () => [page,title,hideTitle]  = [Schedule,"Prenota",false] );
-    router("/app/users", () => [page,title,hideTitle] = [Users,"Gestione",false] );
-    router("/app/conference", () => [page,title,hideTitle] = [Conference,"Conferenza",true]);
-    
-    
+    role.subscribe((r) => {
+        menu = [];
+        if (r != "") {
+            menu.push({ path: "/app/calendar", name: "Appuntamenti" });
+            menu.push({ path: "/app/schedule", name: "Prenota" });
+            menu.push({ path: "/app/users", name: "Gestione" });
+            menu.push({ path: "/app/conference", name: "Conferenza" });
+        }
+    });
+ 
+    router("/", () => ([page, title, hideTitle] = [Home, "Home", true]));
+
+    router(
+        "/app/calendar",
+        () => $role!="" ? ([page, title, hideTitle] = [Calendar, "Appuntamenti", false]) : undefined
+    );
+
+    router(
+        "/app/schedule",
+        () => $role!="" ? ([page, title, hideTitle] = [Schedule, "Prenota", false]) : undefined
+    );
+
+    router(
+        "/app/users",
+        () => $role!="" ? ([page, title, hideTitle] = [Users, "Gestione", false]) : undefined
+    );
+
+    router(
+        "/app/conference",
+        () => $role!="" ? ([page, title, hideTitle] = [Conference, "Conferenza", true]) : undefined
+    );
+
     router.start();
-
-    let menu = [
-        { path: "/app/calendar", name: "Appuntamenti" },
-        { path: "/app/schedule", name: "Prenota" },
-        { path: "/app/users", name: "Gestione" },
-        { path: "/app/conference", name: "Conferenza" },
-    ];
 </script>
 
-<Layout {page} {menu} {title} {hideTitle}/>
+<Layout {page} {menu} {title} {hideTitle} />

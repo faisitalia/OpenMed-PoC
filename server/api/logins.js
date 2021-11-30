@@ -36,6 +36,8 @@ module.exports = function (app, db) {
             let name = out.nome + " " + out.cognome;
             let loggedUserCF = out.CF;
             res.send({ token, role, name, loggedUserCF })
+            
+
         }
         else res.send({ error: "Utente non trovato" })
         // res.send(out)
