@@ -16,9 +16,12 @@
     role.subscribe((r) => {
         menu = [];
         if (r != "") {
+            
             menu.push({ path: "/app/calendar", name: "Appuntamenti" });
-            menu.push({ path: "/app/schedule", name: "Prenota" });
-            menu.push({ path: "/app/users", name: "Gestione" });
+            if (r=="Infermiere" || r=="Amministratore"){
+                menu.push({ path: "/app/schedule", name: "Prenota" });
+                menu.push({ path: "/app/users", name: "Gestione" });
+            }
             menu.push({ path: "/app/conference", name: "Conferenza" });
         }
     });
