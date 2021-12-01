@@ -12,11 +12,11 @@ function sendmail(dest, subject, html) {
 
 function message(roomId,peerId) {
     return `
-<h1>Your appointment</h1>
+<h1>Tuo appuntamento</h1>
 
-<p>You have a scheduled visit on 15/10/2021 at 10.00</p>
+<p>Hai una visita sulla piattaforma openmed il 15/10/2021 alle 10.00</p>
 
-<a href="https://${config.openmed.publicHostname}:${config.openmed.publicPort}/app/conference?roomId=${roomId}&peerId=${peerId}">Click here to join the call</a>.
+<a href="https://${config.openmed.publicHostname}:${config.openmed.publicPort}/app/conference?roomId=${roomId}&peerId=${peerId}">Clicca qui per effettuare la visita online</a>.
 `
 }
 

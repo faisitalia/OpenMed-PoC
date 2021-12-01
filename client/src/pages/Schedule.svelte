@@ -155,7 +155,6 @@
         <div class="card-bordered w-full">
             <div class="card-header">
                 <h1 class="text-black text-lg">Nuovo appuntamento</h1>
-               
             </div>
             <form id="main" on:submit|preventDefault={submit}>
                 <div class="form-control">
@@ -211,13 +210,24 @@
                                     {/each}
                                 </select></th
                             >
-                            <th class="border  w-1/4">
+                        </tr>
+                    </table>
+                    <!-- svelte-ignore a11y-label-has-associated-control -->
+                    <label class="label">
+                        <span class="label-text text-black"
+                            >Indica la durata della visita</span
+                        >
+                    </label>
+                    <table class="table-auto  left-0">
+                        <tr>
+                            <th class="border  w-1/6  left-0">
                                 <input
                                     type="text"
                                     name="period"
                                     id="period"
                                     bind:value={data.period}
                                     class="input input-accent input-bordered w-full max-w-xs "
+                                    placeholder="30"
                                 />
                             </th>
                         </tr>
@@ -240,7 +250,8 @@
                             <option disabled="disabled">Paziente</option>
                             {#each users as usr}
                                 <option value={usr}>
-                                    {usr.nome} {usr.cognome}
+                                    {usr.nome}
+                                    {usr.cognome}
                                 </option>
                             {/each}
                         </select>
@@ -250,7 +261,7 @@
                 <div class="form-control">
                     <button
                         class="btn btn-accent content-center max-w-xs"
-                        type=submit
+                        type="submit"
                         color="primary"
                         block
                         href="pages/authentication/login">Prenota</button
