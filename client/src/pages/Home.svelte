@@ -61,10 +61,8 @@
                 loggedUserCF.set(isUser.loggedUserCF);
                
             }
-            console.log("Utente", isUser);
-        } else {
-            console.log("errors", errors);
-        }
+            
+        } 
     }
     function logout() {
         token.set("");

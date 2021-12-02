@@ -130,7 +130,7 @@
 
     let users;
     async function loadUsers() {
-        users = await get("/schedule/Patient");
+        users = await get("/schedule/Paziente");
     }
 </script>
 
