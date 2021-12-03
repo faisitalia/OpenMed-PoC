@@ -30,10 +30,10 @@ module.exports = function (app, db) {
         let CFUser = req.params.cf;
         let role = req.params.role;
         if (role == "Paziente") {
-            dataSched = await db.collection("schedule").find({ "paziente.CF": CFUser }).toArray()
+            dataSched = await db.collection("schedule").find({ "paziente.CF": CFUser }).sort({data: 1}).toArray()
         }
         else {
-            dataSched = await db.collection("schedule").find({ "CF": CFUser }).toArray()
+            dataSched = await db.collection("schedule").find({ "CF": CFUser }).sort({data: 1}).toArray()
         }
         res.send(dataSched)
     });

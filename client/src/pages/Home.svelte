@@ -4,6 +4,7 @@
     import { token, name, role, loggedUserCF } from "../state";
     import moment from "moment";
     import validate from "validate.js";
+    import Calendar from "./Calendar.svelte";
     validate.validators.presence.message = " non può essere vuoto";
     validate.validators.email.message = " non valida";
 
@@ -59,6 +60,7 @@
                 name.set(isUser.name);
                 role.set(isUser.role);
                 loggedUserCF.set(isUser.loggedUserCF);
+                
                
             }
             
@@ -137,18 +139,8 @@
                     </div>
                 </form>
             {:else}
-                <h1 class="card-title">Benvenuto, {$name}</h1>
-                <div class="card-actions">
-                    <a href="/app/calendar" class="btn btn-primary"
-                        >Lista visite programmate</a
-                    >
-                    <a href="/app/schedule" class="btn btn-primary"
-                        >Programma una visita</a
-                    >
-                    <button class="btn btn-secondary" on:click={logout}
-                        >Logout</button
-                    >
-                </div>
+                <Calendar />
+               
             {/if}
         </div>
     </div>

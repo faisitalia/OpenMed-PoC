@@ -7,7 +7,7 @@
   import Input from "sveltestrap/src/Input.svelte";
   import { usersEdit } from "../state";
   
-  validate.validators.presence.message = "Non può essere vuoto";
+  validate.validators.presence.message = " non può essere vuoto";
   validate.validators.email.message = " non valida";
   
   let ruolo = ["Paziente", "Medico", "Infermiere", "Amministratore"];

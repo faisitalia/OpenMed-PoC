@@ -3,7 +3,7 @@
     import { onMount } from "svelte";
 
     import validate from "validate.js";
-    validate.validators.presence.message = "Non può essere vuoto";
+    validate.validators.presence.message = "non può essere vuoto";
     validate.validators.email.message = "Non è un indirizzo email valido";
 
     import moment from "moment";
@@ -169,7 +169,7 @@
                         class="input input-accent input-bordered w-1/3"
                         type="date"
                         placeholder="YYYY-MM-DD"
-                        name="scheduledata"
+                        name="Data prenotazione"
                     />
                     <label for="scheduledata" class="label">
                         <span class="text-red"
