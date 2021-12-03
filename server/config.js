@@ -35,7 +35,7 @@ module.exports =
 	https  :
 	{
 		listenIp   : '0.0.0.0',
-		// NOTE: Don't change listenPort (client app assumes 4443).
+		// NOTE: Don't change listenPort (client app assumes 1024).
 		listenPort : config.publicPort,
 		// NOTE: Set your own valid certificate files.
 		tls        :
@@ -69,8 +69,8 @@ module.exports =
 				'svc',
 				'sctp'
 			],
-			rtcMinPort : process.env.MEDIASOUP_MIN_PORT || 40000,
-			rtcMaxPort : process.env.MEDIASOUP_MAX_PORT || 49999
+			rtcMinPort : process.env.MEDIASOUP_MIN_PORT || config.rtcMinPort,
+			rtcMaxPort : process.env.MEDIASOUP_MAX_PORT || config.rtcMaxPort,
 		},
 		// mediasoup Router options.
 		// See https://mediasoup.org/documentation/v3/mediasoup/api/#RouterOptions
