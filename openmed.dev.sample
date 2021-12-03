@@ -1,10 +1,12 @@
 {
     "publicHostname": "localhost",
-    "publicPort": 5000,
+    "publicPort": 1024,
     "publicIp": "127.0.0.1",
     "mongodbUrl": "mongodb://localhost/openmed",
     "gmailUsername": "",
     "gmailPassword": "",
     "sslCert": "",
-    "sslKey": ""
+    "sslKey": "",
+    "rtcMinPort": 5000,
+    "rtcMaxPort": 14999
 }

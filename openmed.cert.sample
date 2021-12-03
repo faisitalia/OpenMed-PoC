@@ -1,12 +1,12 @@
 {
     "publicHostname": "<your-host-name>",
-    "publicPort": 443,
+    "publicPort": 1025,
     "publicIp": "<your-public-ip>",
     "mongodbUrl": "mongodb://<your-mongo-username>:<your-mongo-password>@<your-mongo-host-name>:27017/<your-mongo-database-name>",
     "gmailUsername": "<your-gmail-address>",
     "gmailPassword": "<your-gmail-app-password>",
     "ssslCert": "/etc/letsencrypt/live/<your-host-name>/fullchain.pem",
     "sslKey": "/etc/letsencrypt/live/<your-hostname-name>/privkey.pem",
-    "rtcMinPort": 30000,
-    "rtcMaxPort": 39999
+    "rtcMinPort": 15000,
+    "rtcMaxPort": 24999
 }
