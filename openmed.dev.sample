@@ -7,6 +7,6 @@
     "gmailPassword": "",
     "sslCert": "",
     "sslKey": "",
-    "rtcMinPort": 30000,
-    "rtcMaxPort": 39999
+    "rtcMinPort": 5000,
+    "rtcMaxPort": 14999
 }
