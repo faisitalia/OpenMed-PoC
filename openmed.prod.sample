@@ -5,7 +5,7 @@
     "mongodbUrl": "mongodb://<your-mongo-username>:<your-mongo-password>@<your-mongo-host-name>:27017/<your-mongo-database-name>",
     "gmailUsername": "<your-gmail-address>",
     "gmailPassword": "<your-gmail-app-password>",
-    "ssslCert": "/etc/letsencrypt/live/<your-host-name>/fullchain.pem",
+    "sslCert": "/etc/letsencrypt/live/<your-host-name>/fullchain.pem",
     "sslKey": "/etc/letsencrypt/live/<your-hostname-name>/privkey.pem",
     "rtcMinPort": 30000,
     "rtcMaxPort": 39999
