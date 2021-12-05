@@ -3,7 +3,7 @@
     "publicPort": 1024,
     "publicIp": "127.0.0.1",
     "mongodbUrl": "mongodb://localhost/openmed",
-    "mailer": {
+    "mailConfig": {
         "provider": "google",
         "username": "",
         "password": ""
