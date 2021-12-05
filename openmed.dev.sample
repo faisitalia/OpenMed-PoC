@@ -3,8 +3,11 @@
     "publicPort": 1024,
     "publicIp": "127.0.0.1",
     "mongodbUrl": "mongodb://localhost/openmed",
-    "gmailUsername": "",
-    "gmailPassword": "",
+    "mailer": {
+        "provider": "google",
+        "username": "",
+        "password": ""
+    },
     "sslCert": "",
     "sslKey": "",
     "rtcMinPort": 30000,

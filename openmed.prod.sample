@@ -3,10 +3,16 @@
     "publicPort": 443,
     "publicIp": "<your-public-ip>",
     "mongodbUrl": "mongodb://<your-mongo-username>:<your-mongo-password>@<your-mongo-host-name>:27017/<your-mongo-database-name>",
-    "gmailUsername": "<your-gmail-address>",
-    "gmailPassword": "<your-gmail-app-password>",
+    "mailConfig": {
+        "provider": "<your-provider>",
+        "smtp": "<smtp-host-address-if-any>",
+        "port": "<smtp-port-if-any>",
+        "username": "<your-email-address>",
+        "password": "<your-password>"
+    },
     "sslCert": "/etc/letsencrypt/live/<your-host-name>/fullchain.pem",
     "sslKey": "/etc/letsencrypt/live/<your-hostname-name>/privkey.pem",
     "rtcMinPort": 30000,
     "rtcMaxPort": 39999
 }
+
