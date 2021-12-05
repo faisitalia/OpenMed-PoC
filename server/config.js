@@ -10,19 +10,29 @@
 const config = require("../openmed.json")
 const os = require('os');
 
-const gmailMailer = {
-	service: 'gmail',
+const gmailMailer =
+	config.mailConfig?.provider === "google"
+		? {
+			service: 'gmail',
+			auth: {
+				user: config?.mailConfig?.username,
+				pass: config?.mailConfig?.password,
+			}
+		}
+		: null;
+
+const otherMailer = {
+	streamTransport: true,
+	service: config.mailConfig.provider,
+	host: config.mailConfig.smtp,
+	port: config.mailConfig?.port ?? 25,
 	auth: {
-		user: config.gmailUsername,
-		pass: config.gmailPassword
-	}
+		user: config.mailConfig.username,
+		pass: config.mailConfig.password,
+	},
 }
 
-const streamMailer = {
-	streamTransport: true
-}
-
-const mailer = config.gmailUsername == "" ? streamMailer : gmailMailer
+const mailer = gmailMailer ?? otherMailer;
 
 module.exports =
 {  
