@@ -11,60 +11,92 @@
 
     // Hook up the form so we can prevent it from being posted
     let form = {};
-    let errors = {};
     onMount(() => (form = document.querySelector("form#main")));
 
-    function error(map, name) {
-        if (!map) return;
-        if (name in map) {
-            let label = document.querySelector("label[for='" + name + "']");
-            if (label) label.classList.add("text-red-500");
-            return map[name].join("<br>");
-        } else {
-            let label = document.querySelector("label[for='" + name + "']");
-            if (label) label.classList.remove("text-red-500");
+    let dateErrorMessage;
+    let timeErrorMessage;
+    const scheduleValidator = (date, hour, minute) => {
+        if(date == undefined || date == null || isNaN(date)) {
+            dateErrorMessage = "Non hai selezionato una data valida";
+            return;
         }
-        return "";
+
+        const selected = new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            parseInt(hour),
+            parseInt(minute),
+            0,
+            0,
+        );
+        const now = new Date(Date.now());
+
+        if(selected.getTime() > now.getTime()){ 
+            return;
+        }  // OK
+        else if(selected.getDate() < now.getDate()) {
+            dateErrorMessage = "Hai selezionato un giorno nel passato";
+        }
+        else {
+            timeErrorMessage = "Hai selezionato un orario antecedente all'orario attuale";
+        }
     }
 
-    // Before using it we must add the parse and format functions
-    // Here is a sample implementation using moment.js
-    validate.extend(validate.validators.datetime, {
-        // The value is guaranteed not to be null or undefined but otherwise it
-        // could be anything.
-        parse: function (value, options) {
-            return +moment.utc(value);
-        },
-        // Input is a unix timestamp
-        format: function (value, options) {
-            var format = options.dateOnly
-                ? "YYYY-MM-DD"
-                : "YYYY-MM-DD hh:mm:ss";
-            return moment.utc(value).format(format);
-        },
-    });
-    // These are the constraints used to validate the form
-    var constraints = {
-        scheduledata: {
-            // The user needs to give a valide schedule data
-            presence: true,
-            // and must be after now
-            date: {
-                earliest: moment().add(1, "days"),
-                message: "Almeno domani",
-            },
-        },
-    };
+    let patientErrorMessage;
+    const patientValidator = (val) => {
+        if (val==undefined || val==null || val=="Paziente"){
+            patientErrorMessage = "Non hai selezionato il paziente";
+        } else {
+            return null;
+        }
+    }
+
+    let durationErrorMessage;
+    const durationValidator = (val) => {
+        if (val==undefined || val==null) {
+            // There's a `30` placeholder
+            return;
+        } else if (val<10) {
+            durationErrorMessage = "Una visita dura almeno 10 min";
+        } else if (val>60){
+            durationErrorMessage = "Una visita non dura più di 60 min";
+        } else {
+            return null;
+        }
+    }
 
     function submit(event) {
+        let errors = false;
+
         // validate the form against the constraints
-        errors = validate(form, constraints);
-        if (!errors) {
-            //alert("success");
-            save(event);
-        } else {
-            console.log("errors", errors);
+        dateErrorMessage = null;
+        timeErrorMessage = null;
+        scheduleValidator(dateObject, selectedH, selectedM);
+        if(dateErrorMessage != null) {
+            errors = true;
+            console.log(`Error: ${dateErrorMessage}`);
         }
+        if(timeErrorMessage != null) {
+            errors = true;
+            console.log(`Error: ${timeErrorMessage}`);
+        }
+
+        patientErrorMessage = null;
+        patientValidator(selectedUser);
+        if(patientErrorMessage != null) {
+            errors = true;
+            console.log(`Error: ${patientErrorMessage}`);
+        }
+
+        durationErrorMessage = null;
+        durationValidator(selectedInterval);
+        if(durationErrorMessage != null) {
+            errors = true;
+            console.log(`Error: ${durationErrorMessage}`);
+        }
+
+        if (!errors) save(event);
     }
 
     let sent = false;
@@ -108,6 +140,9 @@
         "50",
         "55",
     ];
+    let selectedDate;
+    $: dateObject = new Date(selectedDate);
+    let selectedInterval;
     let selectedH, selectedM, selectedP;
     let usrCF = "";
     let selectedUser;
@@ -121,8 +156,9 @@
     function save(event) {
         event.preventDefault();
         data.ora = selectedH + ":" + selectedM;
-        data.data = document.getElementById("scheduledata").value;
+        data.data = dateObject;
         data.paziente = selectedUser;
+        data.period = selectedInterval;
         console.log(data);
         post("/schedule", data);
         sent = true;
@@ -170,12 +206,15 @@
                         type="date"
                         placeholder="YYYY-MM-DD"
                         name="scheduledata"
+                        bind:value={selectedDate}
                     />
-                    <label for="scheduledata" class="label">
-                        <span class="text-red"
-                            >{error(errors, "scheduledata")}</span
-                        >
-                    </label>
+                    {#if dateErrorMessage!=null}
+                        <label for="scheduledata" class="label">
+                            <span class="text-red-500">
+                                {dateErrorMessage}
+                            </span>
+                        </label>
+                    {/if}
                 </div>
                 <div class="form-control w-1/2">
                     <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -212,6 +251,13 @@
                             >
                         </tr>
                     </table>
+                    {#if timeErrorMessage!=null}
+                        <p class="label">
+                            <span class="text-red-500">
+                                {timeErrorMessage}
+                            </span>
+                        </p>
+                    {/if}
                     <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label class="label">
                         <span class="label-text text-black"
@@ -225,13 +271,20 @@
                                     type="text"
                                     name="period"
                                     id="period"
-                                    bind:value={data.period}
+                                    bind:value={selectedInterval}
                                     class="input input-accent input-bordered w-full max-w-xs "
                                     placeholder="30"
                                 />
                             </th>
                         </tr>
                     </table>
+                    {#if durationErrorMessage!=null}
+                        <p class="label">
+                            <span class="text-red-500">
+                                {durationErrorMessage}
+                            </span>
+                        </p>
+                    {/if}
                 </div>
                 <div class="form-control">
                     <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -255,6 +308,13 @@
                                 </option>
                             {/each}
                         </select>
+                        {#if patientErrorMessage!=null}
+                        <p class="label">
+                            <span class="text-red-500">
+                                {patientErrorMessage}
+                            </span>
+                        </p>
+                    {/if}
                     {/await}
                 </div>
                 <br />
