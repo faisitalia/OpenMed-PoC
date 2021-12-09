@@ -47,13 +47,16 @@ node -v
 
 Check you have a `v14.x.y`
 
-Note that since to install libraries it will try to build some native libraries (most notably [mediasoup](https://mediasoup.org/), you have also to install [the  appropriate C compiler](https://github.com/nodejs/node-gyp) for your platform.
+Note that since to install libraries it will try to build some native libraries (most notably [mediasoup](https://mediasoup.org/), you have also to install [the  appropriate C compiler](https://github.com/nodejs/node-gyp) for your platform, and the Python PIP tool.
+
 
 Hints for the more common cases: 
 
-- on Debian and Ubuntu you need to run `sudo apt-get install build-essential`;
-- on RedHat and CentOS you need `sudo yum groupinstall 'Development Tools'`;
+- on Debian and Ubuntu you need to run `sudo apt-get install build-essential python3-pip`;
+- on RedHat and CentOS you need `sudo yum groupinstall 'Development Tools'`
 - on OSX you need to install XCode command line tools.
+
+
 
 ## Installing or provisioninig a mongodb
 
@@ -64,7 +67,7 @@ Instructions to install a local community edition are [here](https://docs.mongod
 Many cloud companies also offers Mongodb hosted in cloud. You need to get from them credentials to access it.
 
 Once you got the credentials, either local or in cloud, take note of the server host, user, password and database to use, since those informations are required to connect to the database.
-
+ZZ
 ## Provisioning an SSL certificate
 
 In order to use WebRTC, on which OpenMed is based, you need to run SSL, hence you need to obtain an SSL certificate. This step is not required for development, but conferencing won't work.
