@@ -18,7 +18,7 @@
   }
 </script>
 
-<h1 class="mt-4">Tables</h1>
+<h1 class="mt-4">Utenti</h1>
 
 <Table bordered responsive>
   <thead>
@@ -52,5 +52,5 @@
   block
   href="pages/authentication/login">Elimina</button
 >
-<Button on:click={() => usersEdit.set("-")}>New</Button>
-<Button on:click={() => usersEdit.set(_id)}>Edit</Button>
+<button class="btn btn-accent" on:click={() => usersEdit.set("-")}>New</button>
+<button class="btn btn-accent" on:click={() => usersEdit.set(_id)}>Edit</button>

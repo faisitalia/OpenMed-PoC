@@ -7,7 +7,7 @@
     validate.validators.email.message = "Non è un indirizzo email valido";
 
     import moment from "moment";
-    import { name, loggedUserCF, role, loggedUser } from "../state";
+    import { name, loggedUserCF, loggedId, role, loggedUser, hospital } from "../state";
 
     // Hook up the form so we can prevent it from being posted
     let form = {};
@@ -45,13 +45,13 @@
     });
     // These are the constraints used to validate the form
     var constraints = {
-        scheduledata: {
+        data_prenotazione: {
             // The user needs to give a valide schedule data
             presence: true,
             // and must be after now
             date: {
-                earliest: moment().add(1, "days"),
-                message: "Almeno domani",
+                earliest: moment().add(0, "days"),
+                message: " non valida, non si può prenotare prima di oggi",
             },
         },
     };
@@ -111,18 +111,22 @@
     let selectedH, selectedM, selectedP;
     let usrCF = "";
     let selectedUser;
+    let selectedSurgery;
 
     let data = {
         CF: $loggedUserCF,
         ora: selectedH + selectedM,
         confermato: true,
+        period: 30,
     };
 
     function save(event) {
         event.preventDefault();
         data.ora = selectedH + ":" + selectedM;
-        data.data = document.getElementById("scheduledata").value;
+        data.data = document.getElementById("data_prenotazione").value;
         data.paziente = selectedUser;
+        data.idambulatorio = selectedSurgery;
+        data.operatore = $name;
         console.log(data);
         post("/schedule", data);
         sent = true;
@@ -131,6 +135,11 @@
     let users;
     async function loadUsers() {
         users = await get("/schedule/Paziente");
+    }
+    let surgeries;
+    async function loadSurgery() {
+        console.log("ospedale",$hospital)
+        surgeries = await get("/schedules/"+$hospital);
     }
 </script>
 
@@ -165,15 +174,15 @@
                         >
                     </label>
                     <input
-                        id="scheduledata"
+                        id="data_prenotazione"
                         class="input input-accent input-bordered w-1/3"
                         type="date"
                         placeholder="YYYY-MM-DD"
-                        name="Data prenotazione"
+                        name="data_prenotazione"
                     />
-                    <label for="scheduledata" class="label">
+                    <label for="data_prenotazione" class="label">
                         <span class="text-red"
-                            >{error(errors, "scheduledata")}</span
+                            >{error(errors, "data_prenotazione")}</span
                         >
                     </label>
                 </div>
@@ -233,6 +242,30 @@
                         </tr>
                     </table>
                 </div>
+                <div class="form-control">
+                    <!-- svelte-ignore a11y-label-has-associated-control -->
+                    <label class="label">
+                        <span class="label-text text-black"
+                            >Seleziona ambulatorio</span
+                        >
+                    </label>
+                    {#await loadSurgery()}
+                        <p>Caricamento...</p>
+                    {:then}
+                        <select
+                            bind:value={selectedSurgery}
+                            class="select select-bordered select-accent w-full max-w-xs"
+                        >
+                            <option disabled="disabled">Ambulatorio</option>
+                            {#each surgeries as srg}
+                                <option value={srg}>
+                                    {srg.idambulatorio}
+                                </option>
+                            {/each}
+                        </select>
+                    {/await}
+                </div>
+                <br />
                 <div class="form-control">
                     <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label class="label">

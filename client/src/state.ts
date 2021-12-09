@@ -12,6 +12,10 @@ export const token = writable("");
 
 export const name = writable("");
 
-export const role = writable("")
+export const role = writable("");
 
-export const loggedUserCF = writable("")
+export const loggedUserCF = writable("");
+
+export const loggedId = writable("");
+
+export const hospital = writable("");

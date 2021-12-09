@@ -38,7 +38,14 @@ module.exports = function (app, db) {
         res.send(dataSched)
     });
 
-
+    // Get surgery list
+    app.get("/api/schedules/:hospital",async(req,res) => {
+        console.log("get /api/schedules", req.params.hospital)
+        let hospital = req.params.hospital;
+        let data = await db.collection("ambulatorio").find({"idstruttura":hospital}).toArray();
+        //data.infermiere = db.schedule.aggregate([{$lookup:{ from:"anagrafica", localField:"CF",foreignField:"CF", as: "ind"}}]).toArray()
+        res.send(data)
+    })
 
 
     // Get a single schedule

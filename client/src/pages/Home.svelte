@@ -1,7 +1,7 @@
 <script>
     import { get, post, del } from "../util";
     import { onMount } from "svelte";
-    import { token, name, role, loggedUserCF } from "../state";
+    import { token, name, role, loggedUserCF, hospital, loggedId } from "../state";
     import moment from "moment";
     import validate from "validate.js";
     import Calendar from "./Calendar.svelte";
@@ -44,6 +44,7 @@
             // And must be at least 5 characters long
             length: {
                 minimum: 5,
+                message: "Troppo corta almeno 5 caratteri",
             },
         },
     };
@@ -60,6 +61,8 @@
                 name.set(isUser.name);
                 role.set(isUser.role);
                 loggedUserCF.set(isUser.loggedUserCF);
+                loggedId.set(isUser.loggedId)
+                hospital.set(isUser.hospital);
                 
                
             }
@@ -71,6 +74,8 @@
         name.set("");
         role.set("");
         loggedUserCF.set("");
+        loggedId.set("");
+        hospital.set("");
     }
     let data = {};
     import { loggedUser } from "../state";
