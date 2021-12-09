@@ -1,0 +1,14 @@
+[Unit]
+Description=OpenMed
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+WorkingDirectory=/home/faisitalia/OpenMed/server
+ExecStart=npm run start
+
+[Install]
+WantedBy=multi-user.target
