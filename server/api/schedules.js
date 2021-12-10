@@ -13,7 +13,7 @@ function sendmail(dest, subject, html) {
 
 function message(roomId, peerId, data, ora) {
     return `
-<h1>Tuo appuntamento</h1>
+    <h1>Tuo appuntamento</h1>
 
 <p>Hai una visita sulla piattaforma openmed il ${data} alle ${ora}</p>
 
@@ -63,7 +63,7 @@ module.exports = function (app, db) {
         let out = await db.collection("schedule").insertOne(req.body)
         let roomId = out.insertedId;
         let peerId = req.body.paziente._id;
-        let d = req.body.data;
+        let d = req.body.data.split("-").reverse().join("-");
         let h = req.body.ora;
         await sendmail(req.body.paziente.email, "Your Medical Visit", message(roomId, peerId, d, h))
         res.send(out)

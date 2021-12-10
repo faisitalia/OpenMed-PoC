@@ -14,6 +14,8 @@
     let errors = {};
     onMount(() => (form = document.querySelector("form#main")));
 
+
+
     function error(map, name) {
         if (!map) return;
         if (name in map) {
@@ -50,7 +52,7 @@
             presence: true,
             // and must be after now
             date: {
-                earliest: moment().add(0, "days"),
+                earliest:  moment().subtract(1,"days"),
                 message: " non valida, non si può prenotare prima di oggi",
             },
         },

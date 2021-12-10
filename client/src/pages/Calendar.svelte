@@ -39,7 +39,8 @@
                                 Appuntamento con <br />{sched.paziente?.nome ??
                                     "Nome"}
                                 {sched.paziente?.cognome ?? "Cognome"}<br />
-                                il {sched.data} alle {sched.ora}
+                               
+                                il {sched.data.split("-").reverse().join("-")} alle {sched.ora}
                             </h1>
                             <div class="justify-end card-actions">
                                 <button
@@ -66,7 +67,7 @@
                         <tr>
                             <th scope="row">Appuntamento del</th>
                             <td>
-                                {detail.data}
+                                {detail.data.split("-").reverse().join("-")}
                             </td>
                         </tr>
                         <tr>
