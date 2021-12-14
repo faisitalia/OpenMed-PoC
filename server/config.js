@@ -10,19 +10,15 @@
 const config = require("../openmed.json")
 const os = require('os');
 
-const gmailMailer =
-	config.mailConfig?.provider === "google"
-		? {
-			service: 'gmail',
-			auth: {
-				user: config?.mailConfig?.username,
-				pass: config?.mailConfig?.password,
-			}
-		}
-		: null;
+const gmailMailer = {
+	service: 'gmail',
+	auth: {
+		user: config?.mailConfig?.username,
+		pass: config?.mailConfig?.password,
+	}
+};
 
 const otherMailer = {
-	streamTransport: true,
 	service: config.mailConfig.provider,
 	host: config.mailConfig.smtp,
 	port: config.mailConfig?.port ?? 25,
@@ -32,7 +28,9 @@ const otherMailer = {
 	},
 }
 
-const mailer = gmailMailer ?? otherMailer;
+const mailer = config.mailConfig?.provider === "google"
+	? gmailMailer
+	: otherMailer;
 
 module.exports =
 {  
@@ -45,7 +43,7 @@ module.exports =
 	https  :
 	{
 		listenIp   : '0.0.0.0',
-		// NOTE: Don't change listenPort (client app assumes 1024).
+		// NOTE: Don't change listenPort (client app assumes 443).
 		listenPort : config.publicPort,
 		// NOTE: Set your own valid certificate files.
 		tls        :
@@ -79,8 +77,8 @@ module.exports =
 				'svc',
 				'sctp'
 			],
-			rtcMinPort : process.env.MEDIASOUP_MIN_PORT || config.rtcMinPort,
-			rtcMaxPort : process.env.MEDIASOUP_MAX_PORT || config.rtcMaxPort,
+			rtcMinPort : process.env.MEDIASOUP_MIN_PORT || 40000,
+			rtcMaxPort : process.env.MEDIASOUP_MAX_PORT || 49999
 		},
 		// mediasoup Router options.
 		// See https://mediasoup.org/documentation/v3/mediasoup/api/#RouterOptions

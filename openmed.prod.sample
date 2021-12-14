@@ -11,8 +11,6 @@
         "password": "<your-password>"
     },
     "sslCert": "/etc/letsencrypt/live/<your-host-name>/fullchain.pem",
-    "sslKey": "/etc/letsencrypt/live/<your-hostname-name>/privkey.pem",
-    "rtcMinPort": 30000,
-    "rtcMaxPort": 39999
+    "sslKey": "/etc/letsencrypt/live/<your-hostname-name>/privkey.pem"
 }
 
