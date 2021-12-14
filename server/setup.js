@@ -9,75 +9,57 @@ async function store(coll, id, val) {
 
 module.exports = async function (_db) {
     db = _db
-    await store("struttura", "id-struttura", {
-        "id-struttura": "struttura1",
-        "indirizzo": "Via Camelie 1 Torino",
-        "id-ambulatorio": "ambulatorio1",
-        "CF-amministratori": "SSSTTT05L05H777R"
+    await store("struttura", "idstruttura", {
+        "idstruttura": "C.D.C. FONDAZIONE POLIAMBULANZA",
+        "indirizzo": "Via Leonida Bissolati 57 25124 Brescia",
+        "CFamministratore": "CCCCCC11C11C111C"
 
     })
-    await store("struttura", "id-struttura", {
-        "id-struttura": "struttura2",
-        "indirizzo": "Via Fiume 2 Roma",
-        "id-ambulatorio": "ambulatorio2",
-        "CF-amministratori": "SSSTTT05L05H777T",
+    await store("struttura", "idstruttura", {
+        "idstruttura": "IRCCS SAN RAFFAELE",
+        "indirizzo": "Via Olgettina 60 20132 Milano ",
+        "CFamministratore": "CCCCCC11C11C111C",
 
     })
-    await store("ambulatorio", "id-ambulatorio", {
-        "id-ambulatorio": "ambulatorio1",
-        "indirizzo": "Via Fiume 3 Roma",
-        "id-stanza": "stanza1"
+    await store("ambulatorio", "idambulatorio", {
+        "idambulatorio": "Ambulatorio stomizzati 1",
+        "idstruttura":"C.D.C. FONDAZIONE POLIAMBULANZA",
+        "indirizzo": " ",
+        "idstanza": "Scala E, IV piano vicino segreteria della Ginecologia"
     })
-    await store("ambulatorio", "id-ambulatorio", {
-        "id-ambulatorio": "ambulatorio2",
-        "indirizzo": "Via Fiume 4 Roma",
-        "id-stanza": "stanza2"
+    await store("ambulatorio", "idambulatorio", {
+        "idambulatorio": "Ambulatorio stomizzati 2",
+        "idstruttura":"IRCCS SAN RAFFAELE",
+        "indirizzo": " ",
+        "idstanza": "Sett B piano terreno"
     })
-    await store("anagrafica", "CF", {
-        "ruolo": "Administrator",
-        "CF": "BBBEEE61C01W111Y",
-        "nome": "OpenMed",
-        "cognome": "Administrator",
-        "indirizzo": "Via Arno 22 Roma",
-        "cellulare": "33366666",
-        "email": "openmed@faisitalia.it",
-        "password": "pwd33",
-        "id-struttura": "struttura2"
+    await store("ambulatorio", "idambulatorio", {
+        "idambulatorio": "Ambulatorio stomizzati urologia",
+        "idstruttura":"IRCCS SAN RAFFAELE",
+        "indirizzo": " ",
+        "idstanza": "Settore Q piano terreno"
     })
     await store("anagrafica", "CF", {
-        "ruolo": "Nurse",
-        "CF": "TTTTTT61C01W111T",
-        "nome": "OpenMed",
-        "cognome": "Nurse",
-        "indirizzo": "Via Fiasco 4 Torino",
-        "cellulare": "33388888",
-        "email": "noiopensource@gmail.com",
-        "password": "pwd22",
-        "id-struttura": "struttura1",
-        "id-ambulatorio": "ambulatorio1"
+        "ruolo": "Amministratore",
+        "CF": "CCCCCC11C11C111C",
+        "nome": "Mario",
+        "cognome": "Rossi",
+        "indirizzo": "Via Roma  1 100 Roma",
+        "cellulare": "3381234567",
+        "email": "dev@openmed.cloud",
+        "password": "openmed",
+        "idstruttura": "IRCCS SAN RAFFAELE"
     })
     await store("anagrafica", "CF", {
-        "ruolo": "Patient",
-        "CF": "SSSSSS61C01W111S",
-        "nome": "OpenMed",
-        "cognome": "Patient",
-        "indirizzo": "Via Monte Conero 69 Torino",
-        "cellulare": "3332589",
-        "email": "nuvolarisorg@gmail.com",
-        "password": "pwd11",
-        "id-struttura": "struttura1",
-        "id-ambulatorio": "ambulatorio1"
+        "ruolo": "Amministratore",
+        "CF": "CCCCCC11C11C111F",
+        "nome": "Giuseppe",
+        "cognome": "Verdi",
+        "indirizzo": "Via Milano  1 12100 Milano",
+        "cellulare": "3387654321",
+        "email": "nicola.caione@gmail.com",
+        "password": "openmed",
+        "idstruttura": "C.D.C. FONDAZIONE POLIAMBULANZA"
     })
-    await store("anagrafica", "CF", {
-        "ruolo": "Doctor",
-        "CF": "DDDDKJ32F21F045H",
-        "nome": "OpenMed",
-        "cognome": "Doctor",
-        "indirizzo": "Via Delle Quaglie 45 Torino",
-        "cellulare": "3337777",
-        "email": "info@faisitalia.it",
-        "password": "pwd66",
-        "id-struttura": "struttura1",
-        "id-ambulatorio": "ambulatorio1"
-    })
+    
 }

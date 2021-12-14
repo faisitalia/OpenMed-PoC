@@ -7,14 +7,19 @@
     validate.validators.email.message = "Non è un indirizzo email valido";
 
     import moment from "moment";
-    import { name, loggedUserCF, loggedId, role, loggedUser, hospital } from "../state";
+    import {
+        name,
+        loggedUserCF,
+        loggedId,
+        role,
+        loggedUser,
+        hospital,
+    } from "../state";
 
     // Hook up the form so we can prevent it from being posted
     let form = {};
     let errors = {};
     onMount(() => (form = document.querySelector("form#main")));
-
-
 
     function error(map, name) {
         if (!map) return;
@@ -52,7 +57,7 @@
             presence: true,
             // and must be after now
             date: {
-                earliest:  moment().subtract(1,"days"),
+                earliest: moment().subtract(1, "days"),
                 message: " non valida, non si può prenotare prima di oggi",
             },
         },
@@ -114,6 +119,7 @@
     let usrCF = "";
     let selectedUser;
     let selectedSurgery;
+    let msg = "";
 
     let data = {
         CF: $loggedUserCF,
@@ -122,16 +128,49 @@
         period: 30,
     };
 
-    function save(event) {
+    async function loadDate(cf, d) {
+        return get("/schedule/" + cf + "/" + d);
+    }
+
+    async function save(event) {
         event.preventDefault();
         data.ora = selectedH + ":" + selectedM;
         data.data = document.getElementById("data_prenotazione").value;
         data.paziente = selectedUser;
         data.idambulatorio = selectedSurgery;
         data.operatore = $name;
-        console.log(data);
-        post("/schedule", data);
-        sent = true;
+
+        let dsc = await loadDate(data.CF, data.data);
+        let free = true;
+
+        let ln = dsc.length;
+        console.log("numero prenotazioni della data", ln);
+
+        for (var i = 0; i < ln; i++) {
+            let dsh = dsc[i];
+            /*verifica che non ci siano sovrapposizioni di appuntamenti */
+            const hm = dsh.ora.split(":");
+            let inizio = new Date(dsh.data);
+            inizio.setHours(hm[0]);
+            inizio.setMinutes(hm[1]);
+            let fine = new Date(inizio.getTime());
+            inizio.setMinutes(inizio.getMinutes() + parseInt(dsh.period));
+            //let fine = dsh.ora+dsh.period;
+            let dataPrenotazioneAttuale = new Date(dsh.data);
+            dataPrenotazioneAttuale.setHours(selectedH);
+            dataPrenotazioneAttuale.setMinutes(selectedM);
+            if (inizio < dataPrenotazioneAttuale < fine) {
+                msg = "Attenzione esiste una prenotazione precedente";
+                free = false;
+            }
+            console.log("Messaggio", msg);
+        }
+        if (free) {
+            post("/schedule", data);
+            msg = "";
+
+            sent = true;
+        }
     }
 
     let users;
@@ -140,8 +179,8 @@
     }
     let surgeries;
     async function loadSurgery() {
-        console.log("ospedale",$hospital)
-        surgeries = await get("/schedules/"+$hospital);
+        console.log("ospedale", $hospital);
+        surgeries = await get("/schedules/" + $hospital);
     }
 </script>
 
@@ -167,6 +206,10 @@
             <div class="card-header">
                 <h1 class="text-black text-lg">Nuovo appuntamento</h1>
             </div>
+
+            <!-- svelte-ignore missing-declaration -->
+            <h1><b>{msg}</b></h1>
+
             <form id="main" on:submit|preventDefault={submit}>
                 <div class="form-control">
                     <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -187,6 +230,7 @@
                             >{error(errors, "data_prenotazione")}</span
                         >
                     </label>
+                    <!-- svelte-ignore a11y-label-has-associated-control -->
                 </div>
                 <div class="form-control w-1/2">
                     <!-- svelte-ignore a11y-label-has-associated-control -->

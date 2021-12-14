@@ -57,9 +57,18 @@ module.exports = function (app, db) {
         res.send(data)
     })
 
+    // Get schedule in a day
+    app.get("/api/schedule/:cf/:date", async (req, res) => {
+        console.log("get /api/schedule/cf/date", req.params.cf+req.params.date)
+        let dt = await db.collection("schedule").find({ "CF": req.params.cf, "data": req.params.date }).toArray();
+        res.send(dt)
+    })
+
     // Create a new schedule
     app.post("/api/schedule", async (req, res) => {
         console.log("post /api/schedule ", req.body)
+        
+
         let out = await db.collection("schedule").insertOne(req.body)
         let roomId = out.insertedId;
         let peerId = req.body.paziente._id;
