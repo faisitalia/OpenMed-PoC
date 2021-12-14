@@ -44,6 +44,10 @@ module.exports =
 			key  : config.sslKey,
 		}
 	},
+	//AWS params
+	aws: {
+		s3Bucket: config.AWS_FILES_BUCKET
+	},
 	// mediasoup settings.
 	mediasoup :
 	{
