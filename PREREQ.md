@@ -47,6 +47,8 @@ Hints for the more common cases:
 - on RedHat and CentOS you need `sudo yum groupinstall 'Development Tools'`
 - on OSX you need to install XCode command line tools.
 
+
+
 ## Installing or provisioninig a mongodb
 
 The application uses [MongoDB](https://www.mongodb.com/) to store data. Hence, this prerequisite is essential both for development and production. You need  either to install mongodb on your platform or provision a cloud-based instance.

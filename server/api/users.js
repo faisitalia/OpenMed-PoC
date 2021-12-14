@@ -3,8 +3,8 @@ module.exports = function(app, db) {
     let ObjectId = require('mongodb').ObjectId;
 
     // Get all users
-    app.get("/api/users", async(req, res) => {
-        let data = await db.collection("anagrafica").find().toArray()
+    app.get("/api/users/:hospital", async(req, res) => {
+        let data = await db.collection("anagrafica").find({"idstruttura":req.params.hospital}).toArray()
         //console.log("get /api/users", data)
         res.send(data) 
     })
@@ -28,7 +28,7 @@ module.exports = function(app, db) {
         let out = await db.collection("anagrafica").insertOne(req.body)
         //let out = { "id": "michele", "email": "michele@example.com" }
         res.send(out)
-       // res.send(out)
+       
     })
 
     // Update a user

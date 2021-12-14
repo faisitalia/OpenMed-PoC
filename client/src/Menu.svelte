@@ -9,6 +9,16 @@
             menu.classList.toggle("hidden");
         });
     });
+
+    import { role, name, token, loggedUserCF } from "./state";
+    function logout() {
+        console.log("logout");
+        token.set("");
+        name.set("");
+        role.set("");
+        loggedUserCF.set("");
+    }
+    console.log("token", $token);
 </script>
 
 <nav class="bg-white shadow-lg">
@@ -30,10 +40,21 @@
                         class="menu items-stretch px-3 shadow-lg bg-base-100 horizontal rounded-box"
                     >
                         {#each menu as item}
-                            <li class={ item.name == title ? "bordered" : ""}>
+                            <li class={item.name == title ? "bordered" : ""}>
                                 <a href={item.path}>{item.name}</a>
                             </li>
                         {/each}
+
+                        {#if $token != ""}
+                            <li>
+                                <a
+                                    href="/"
+                                    on:click={logout}
+                                    
+                                    >Esci</a
+                                >
+                            </li>
+                        {/if}
                     </ul>
                 </div>
             </div>
@@ -69,6 +90,16 @@
                     >
                 </li>
             {/each}
+            {#if $token != ""}
+                <li class="active">
+                    <a
+                        href="/"
+                        on:click={logout}
+                        class="block text-sm px-2 py-4 text-white font-semibold bg-green-500"
+                        >Esci</a
+                    >
+                </li>
+            {/if}
         </ul>
     </div>
 </nav>

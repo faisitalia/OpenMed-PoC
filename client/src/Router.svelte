@@ -6,7 +6,9 @@
     import Calendar from "./pages/Calendar.svelte";
     import Conference from "./pages/Conference.svelte";
     import Users from "./pages/Users.svelte";
-    import { role } from "./state";
+    import { role,name,token,loggedUserCF } from "./state";
+
+    
 
     let page = Home;
     let title = "Home";
@@ -22,7 +24,7 @@
                 menu.push({ path: "/app/schedule", name: "Prenota" });
                 menu.push({ path: "/app/users", name: "Gestione" });
             }
-            menu.push({ path: "/app/conference", name: "Conferenza" });
+            menu.push({ path: "/app/conference", name: "Conferenza" });   
         }
     });
  
