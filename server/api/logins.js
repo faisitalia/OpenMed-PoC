@@ -35,7 +35,9 @@ module.exports = function (app, db) {
             let role = out.ruolo;
             let name = out.nome + " " + out.cognome;
             let loggedUserCF = out.CF;
-            res.send({ token, role, name, loggedUserCF })
+            let loggedId=out._id;
+            let hospital = out.idstruttura;
+            res.send({ token, role, name, loggedUserCF, hospital, loggedId })
             
 
         }

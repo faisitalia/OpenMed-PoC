@@ -4,7 +4,7 @@
   import Table from "sveltestrap/src/Table.svelte";
   import Button from "sveltestrap/src/Button.svelte";
   import { get, post, del } from "../util";
-  import { usersEdit } from "../state";
+  import { usersEdit,hospital } from "../state";
   let tableHeading = ["Ruolo", "Nome", "Cognome", "email"];
   let _id = "";
   let data = {};
@@ -18,7 +18,7 @@
   }
 </script>
 
-<h1 class="mt-4">Tables</h1>
+<h1 class="mt-4">Utenti</h1>
 
 <Table bordered responsive>
   <thead>
@@ -28,7 +28,7 @@
       {/each}
     </tr>
   </thead>
-  {#await get("/users") then users}
+  {#await get("/users/"+$hospital) then users}
     <tbody>
       <tr />
       {#each users as usr}
@@ -52,5 +52,5 @@
   block
   href="pages/authentication/login">Elimina</button
 >
-<Button on:click={() => usersEdit.set("-")}>New</Button>
-<Button on:click={() => usersEdit.set(_id)}>Edit</Button>
+<button class="btn btn-accent" on:click={() => usersEdit.set("-")}>New</button>
+<button class="btn btn-accent" on:click={() => usersEdit.set(_id)}>Edit</button>
