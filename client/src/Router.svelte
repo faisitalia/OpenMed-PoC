@@ -6,6 +6,7 @@
     import Calendar from "./pages/Calendar.svelte";
     import Conference from "./pages/Conference.svelte";
     import Users from "./pages/Users.svelte";
+    import MedicalRecord from "./pages/MedicalRecord.svelte";
     
     let page = Home;
     let title = "Home"
@@ -16,6 +17,7 @@
     router("/app/schedule", () => [page,title,hideTitle]  = [Schedule,"Prenota",false] );
     router("/app/users", () => [page,title,hideTitle] = [Users,"Gestione",false] );
     router("/app/conference", () => [page,title,hideTitle] = [Conference,"Conferenza",true]);
+    router("/app/medrecord", () => [page,title,hideTitle] = [MedicalRecord,"Cartella clinica",true]);
     
     
     router.start();
@@ -25,6 +27,7 @@
         { path: "/app/schedule", name: "Prenota" },
         { path: "/app/users", name: "Gestione" },
         { path: "/app/conference", name: "Conferenza" },
+        { path: "/app/medrecord", name: "Cartella clinica" },
     ];
 </script>
 
