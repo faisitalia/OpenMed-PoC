@@ -67,7 +67,7 @@ Instructions to install a local community edition are [here](https://docs.mongod
 Many cloud companies also offers Mongodb hosted in cloud. You need to get from them credentials to access it.
 
 Once you got the credentials, either local or in cloud, take note of the server host, user, password and database to use, since those informations are required to connect to the database.
-ZZ
+
 ## Provisioning an SSL certificate
 
 In order to use WebRTC, on which OpenMed is based, you need to run SSL, hence you need to obtain an SSL certificate. This step is not required for development, but conferencing won't work.
