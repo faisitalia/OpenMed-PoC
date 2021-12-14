@@ -13,16 +13,24 @@ const os = require('os');
 const gmailMailer = {
 	service: 'gmail',
 	auth: {
-		user: config.gmailUsername,
-		pass: config.gmailPassword
+		user: config?.mailConfig?.username,
+		pass: config?.mailConfig?.password,
 	}
+};
+
+const otherMailer = {
+	service: config.mailConfig.provider,
+	host: config.mailConfig.smtp,
+	port: config.mailConfig?.port ?? 25,
+	auth: {
+		user: config.mailConfig.username,
+		pass: config.mailConfig.password,
+	},
 }
 
-const streamMailer = {
-	streamTransport: true
-}
-
-const mailer = config.gmailUsername == "" ? streamMailer : gmailMailer
+const mailer = config.mailConfig?.provider === "google"
+	? gmailMailer
+	: otherMailer;
 
 module.exports =
 {  
@@ -35,7 +43,7 @@ module.exports =
 	https  :
 	{
 		listenIp   : '0.0.0.0',
-		// NOTE: Don't change listenPort (client app assumes 4443).
+		// NOTE: Don't change listenPort (client app assumes 443).
 		listenPort : config.publicPort,
 		// NOTE: Set your own valid certificate files.
 		tls        :
