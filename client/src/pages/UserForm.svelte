@@ -5,7 +5,8 @@
   import Form from "sveltestrap/src/Form.svelte";
   import Label from "sveltestrap/src/Label.svelte";
   import Input from "sveltestrap/src/Input.svelte";
-  import { usersEdit } from "../state";
+  import { usersEdit,hospital } from "../state";
+
   
   validate.validators.presence.message = " non può essere vuoto";
   validate.validators.email.message = " non valida";
@@ -93,6 +94,7 @@
     if (!errors) {
       console.log(data);
       event.preventDefault();
+      data.idstruttura = $hospital;
       let res = await post("/user", data);
       usersEdit.set("");
       console.log(res);

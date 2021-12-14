@@ -175,7 +175,7 @@
 
     let users;
     async function loadUsers() {
-        users = await get("/schedule/Paziente");
+        users = await get("/schedule/Paziente/"+$hospital);
     }
     let surgeries;
     async function loadSurgery() {

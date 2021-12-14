@@ -4,7 +4,7 @@
   import Table from "sveltestrap/src/Table.svelte";
   import Button from "sveltestrap/src/Button.svelte";
   import { get, post, del } from "../util";
-  import { usersEdit } from "../state";
+  import { usersEdit,hospital } from "../state";
   let tableHeading = ["Ruolo", "Nome", "Cognome", "email"];
   let _id = "";
   let data = {};
@@ -28,7 +28,7 @@
       {/each}
     </tr>
   </thead>
-  {#await get("/users") then users}
+  {#await get("/users/"+$hospital) then users}
     <tbody>
       <tr />
       {#each users as usr}

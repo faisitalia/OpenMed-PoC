@@ -49,11 +49,11 @@ module.exports = function (app, db) {
 
 
     // Get a single schedule
-    app.get("/api/schedule/:role", async (req, res) => {
+    app.get("/api/schedule/:role/:hospital", async (req, res) => {
         console.log("get /api/schedule", req.params.role)
         //let out = { "id": "michele", "email": "michele@example.com" }
         let role = req.params.role
-        let data = await db.collection("anagrafica").find({ "ruolo": role }).toArray()
+        let data = await db.collection("anagrafica").find({ "ruolo": role, "idstruttura":req.params.hospital }).toArray()
         res.send(data)
     })
 
