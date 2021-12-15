@@ -61,6 +61,14 @@ cd server
 npm run start
 ```
 
+You may want to install it as a system service. You can then edit the sample [openmed service](openmed.service) for systemd to select the correct directories and install on the sistem with:
+
+```
+sudo cp openmed.service /etc/systemd/system/
+sudo systemctl enable openmed
+sudo systemctl start openmed
+```
+
 <a name="development"/>
 
 # Development Launch

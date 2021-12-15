@@ -5,12 +5,13 @@
   import Form from "sveltestrap/src/Form.svelte";
   import Label from "sveltestrap/src/Label.svelte";
   import Input from "sveltestrap/src/Input.svelte";
-  import { usersEdit } from "../state";
+  import { usersEdit,hospital } from "../state";
+
   
-  validate.validators.presence.message = "Non può essere vuoto";
+  validate.validators.presence.message = " non può essere vuoto";
   validate.validators.email.message = " non valida";
   
-  let ruolo = ["Patient", "Doctor", "Nurse", "Administrator"];
+  let ruolo = ["Paziente", "Medico", "Infermiere", "Amministratore"];
   let role;
   let errors = {};
   let form = {};
@@ -93,6 +94,7 @@
     if (!errors) {
       console.log(data);
       event.preventDefault();
+      data.idstruttura = $hospital;
       let res = await post("/user", data);
       usersEdit.set("");
       console.log(res);
@@ -243,7 +245,7 @@
       <th>
         {#if $usersEdit == "-"}
         <Label for="inputConfirmPassword" class="small mb-1">
-          Confirm Password
+          Conferma Password
         </Label>
         <Input
           class="input input-accent input-bordered w-full max-w-xs "

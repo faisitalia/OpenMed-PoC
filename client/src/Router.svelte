@@ -7,28 +7,57 @@
     import Conference from "./pages/Conference.svelte";
     import Users from "./pages/Users.svelte";
     import MedicalRecord from "./pages/MedicalRecord.svelte";
-    
-    let page = Home;
-    let title = "Home"
-    let hideTitle = true
+    import { role,name,token,loggedUserCF } from "./state";
 
-    router("/", () => [page,title,hideTitle] = [Home,"Home",true]);
-    router("/app/calendar", () => [page,title,hideTitle]  = [Calendar,"Appuntamenti",false] );
-    router("/app/schedule", () => [page,title,hideTitle]  = [Schedule,"Prenota",false] );
-    router("/app/users", () => [page,title,hideTitle] = [Users,"Gestione",false] );
-    router("/app/conference", () => [page,title,hideTitle] = [Conference,"Conferenza",true]);
-    router("/app/medrecord", () => [page,title,hideTitle] = [MedicalRecord,"Cartella clinica",true]);
     
+
+    let page = Home;
+    let title = "Home";
+    let hideTitle = true;
+    let menu = [];
+
+    role.subscribe((r) => {
+        menu = [];
+        if (r != "") {
+            
+            menu.push({ path: "/app/calendar", name: "Appuntamenti" });
+            if (r=="Infermiere" || r=="Amministratore"){
+                menu.push({ path: "/app/schedule", name: "Prenota" });
+                menu.push({ path: "/app/users", name: "Gestione" });
+            }
+            menu.push({ path: "/app/conference", name: "Conferenza" });   
+            menu.push({ path: "/app/medrecord", name: "Cartella clinica" });   
+        }
+    });
+ 
+    router("/", () => ([page, title, hideTitle] = [Home, "Home", true]));
+
+    router(
+        "/app/calendar",
+        () => $role!="" ? ([page, title, hideTitle] = [Calendar, "Appuntamenti", false]) : undefined
+    );
+
+    router(
+        "/app/schedule",
+        () => $role!="" ? ([page, title, hideTitle] = [Schedule, "Prenota", false]) : undefined
+    );
+
+    router(
+        "/app/users",
+        () => $role!="" ? ([page, title, hideTitle] = [Users, "Gestione", false]) : undefined
+    );
+
+    router(
+        "/app/conference",
+        () => $role!="" ? ([page, title, hideTitle] = [Conference, "Conferenza", true]) : undefined
+    );
+
+    router(
+        "/app/medrecord", 
+        () => $role!="" ? ([page, title, hideTitle] = [MedicalRecord, "Cartella clinica", true]): undefined
+    );
     
     router.start();
-
-    let menu = [
-        { path: "/app/calendar", name: "Appuntamenti" },
-        { path: "/app/schedule", name: "Prenota" },
-        { path: "/app/users", name: "Gestione" },
-        { path: "/app/conference", name: "Conferenza" },
-        { path: "/app/medrecord", name: "Cartella clinica" },
-    ];
 </script>
 
-<Layout {page} {menu} {title} {hideTitle}/>
+<Layout {page} {menu} {title} {hideTitle} />

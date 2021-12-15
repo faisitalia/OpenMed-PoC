@@ -1,27 +1,18 @@
 # Prerequisites 
 
 Since OpenMed is a WebRTC server and generates email, to run it in production you need:
-
 - a server on internet with a public IP (a virtul machine is fine)
 - a DNS name that points to it
 - a SSL certificates for this DNS name 
-- a password or an app password for a Gmail account 
+- a proper email configuration, which means to have either:
+  - a password (or an app password if you've activated 2FA) for a Gmail account if you're using GMAIL as a email provider;
+  - or the full email configuration for your custom email provider.
 
 You can run locally for development but conferencing will not work.
 
-Essential prerequisites for development: 
-
+Essential prerequisites for a development environment: 
 - node v14
 - mongodb
-
-
-Essential prerequisites for production:
-
-- node v14
-- mongodb
-- a public server with a DNS name 
-- an SSL certificate for that domain name
-- a gmail account with an app password
 
 See below for installation instructions.
 
@@ -47,13 +38,16 @@ node -v
 
 Check you have a `v14.x.y`
 
-Note that since to install libraries it will try to build some native libraries (most notably [mediasoup](https://mediasoup.org/), you have also to install [the  appropriate C compiler](https://github.com/nodejs/node-gyp) for your platform.
+Note that since to install libraries it will try to build some native libraries (most notably [mediasoup](https://mediasoup.org/), you have also to install [the  appropriate C compiler](https://github.com/nodejs/node-gyp) for your platform, and the Python PIP tool.
+
 
 Hints for the more common cases: 
 
-- on Debian and Ubuntu you need to run `sudo apt-get install build-essential`;
-- on RedHat and CentOS you need `sudo yum groupinstall 'Development Tools'`;
+- on Debian and Ubuntu you need to run `sudo apt-get update` and then `sudo apt-get install build-essential python3-pip`;
+- on RedHat and CentOS you need `sudo yum groupinstall 'Development Tools'`
 - on OSX you need to install XCode command line tools.
+
+
 
 ## Installing or provisioninig a mongodb
 
@@ -88,17 +82,34 @@ The certificates will be then stored in:
 
 where `<your-domain-name>` is, of course, your domain name.
 
-## Get a Gmail api key
+## Mail config
+You can either use Gmail or your custom mail account.
 
-For sending emails OpenMed currently uses Gmail.
+### Get a Gmail api key
+To use Gmail as your current provider, follow these instructions.
+You need to put your account and your password.
 
-You need to put your account and your password. If you have 2FA enabled you need to generate an app password to be able to use their SMTP server.
+IF you have 2FA enabled you need to generate an app password to be able to use their SMTP server.
 
 To get an app password, go to:
-
 1. Go to Google Account
 2. Click on Security
 3. Click on Passwords under Signing to Google
 4. Enable 2 step verifications if you do not have it
 5. Generate an app password for "Mail" with a custom name "OpenMed"
 6. Write it down 
+
+### Get your custom config
+OpenMed assumes you can configure your custom e-mailer inside the `json` configuration file as described in the install instructions.
+
+Here a quick example:
+
+```
+"mailConfig": {
+        "provider": "<provider name other than `google`>",
+        "smtp": "<your-provider-host>",
+        "port": <your-provider-host>,
+        "username": "<user>@<mail-provider-host>",
+        "password": "<your password>"
+    },
+```

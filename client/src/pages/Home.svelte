@@ -1,10 +1,11 @@
 <script>
     import { get, post, del } from "../util";
     import { onMount } from "svelte";
-    import { token, name, role } from "../state";
+    import { token, name, role, loggedUserCF, hospital, loggedId } from "../state";
     import moment from "moment";
     import validate from "validate.js";
-    validate.validators.presence.message = "Non può essere vuoto";
+    import Calendar from "./Calendar.svelte";
+    validate.validators.presence.message = " non può essere vuoto";
     validate.validators.email.message = " non valida";
 
     // Hook up the form so we can prevent it from being posted
@@ -43,6 +44,7 @@
             // And must be at least 5 characters long
             length: {
                 minimum: 5,
+                message: "Troppo corta almeno 5 caratteri",
             },
         },
     };
@@ -54,19 +56,26 @@
             isUser = await post("/login", data);
             if ("error" in isUser) message = isUser.error;
             else {
+                console.log("isUser",isUser);
                 token.set(isUser.token);
                 name.set(isUser.name);
                 role.set(isUser.role);
+                loggedUserCF.set(isUser.loggedUserCF);
+                loggedId.set(isUser.loggedId)
+                hospital.set(isUser.hospital);
+                
+               
             }
-            console.log("Utente", isUser);
-        } else {
-            console.log("errors", errors);
-        }
+            
+        } 
     }
     function logout() {
         token.set("");
         name.set("");
         role.set("");
+        loggedUserCF.set("");
+        loggedId.set("");
+        hospital.set("");
     }
     let data = {};
     import { loggedUser } from "../state";
@@ -88,7 +97,7 @@
                         </label>
                         <input
                             bind:value={data.email}
-                            class="input input-accent input-bordered w-full max-w-xs "
+                            class="input input-accent input-bordered w-full max-w-xs text-black"
                             type="email"
                             name="email"
                             id="email"
@@ -107,7 +116,7 @@
                         </label>
                         <input
                             bind:value={data.password}
-                            class="input input-accent input-bordered w-full max-w-xs "
+                            class="input  input-accent input-bordered w-full max-w-xs text-black"
                             type="password"
                             name="password"
                             id="password"
@@ -135,18 +144,8 @@
                     </div>
                 </form>
             {:else}
-                <h1 class="card-title">Benvenuto, {$loggedUser}</h1>
-                <div class="card-actions">
-                    <a href="/app/calendar" class="btn btn-primary"
-                        >Attend a visit</a
-                    >
-                    <a href="/app/schedule" class="btn btn-primary"
-                        >Schedule a visit</a
-                    >
-                    <button class="btn btn-secondary" on:click={logout}
-                        >Logout</button
-                    >
-                </div>
+                <Calendar />
+               
             {/if}
         </div>
     </div>

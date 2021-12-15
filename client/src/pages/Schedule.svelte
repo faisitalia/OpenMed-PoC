@@ -3,10 +3,18 @@
     import { onMount } from "svelte";
 
     import validate from "validate.js";
-    validate.validators.presence.message = "Non può essere vuoto";
+    validate.validators.presence.message = "non può essere vuoto";
     validate.validators.email.message = "Non è un indirizzo email valido";
 
     import moment from "moment";
+    import {
+        name,
+        loggedUserCF,
+        loggedId,
+        role,
+        loggedUser,
+        hospital,
+    } from "../state";
 
     // Hook up the form so we can prevent it from being posted
     let form = {};
@@ -44,13 +52,13 @@
     });
     // These are the constraints used to validate the form
     var constraints = {
-        scheduledata: {
+        data_prenotazione: {
             // The user needs to give a valide schedule data
             presence: true,
             // and must be after now
             date: {
-                earliest: moment().add(1, "days"),
-                message: "Almeno domani",
+                earliest: moment().subtract(1, "days"),
+                message: " non valida, non si può prenotare prima di oggi",
             },
         },
     };
@@ -110,27 +118,69 @@
     let selectedH, selectedM, selectedP;
     let usrCF = "";
     let selectedUser;
+    let selectedSurgery;
+    let msg = "";
 
     let data = {
-        CF: "TTTTTT61C01W111T",
-        idstanza: "pippo",
+        CF: $loggedUserCF,
         ora: selectedH + selectedM,
         confermato: true,
+        period: 30,
     };
 
-    function save(event) {
+    async function loadDate(cf, d) {
+        return get("/schedule/" + cf + "/" + d);
+    }
+
+    async function save(event) {
         event.preventDefault();
         data.ora = selectedH + ":" + selectedM;
-        data.data = document.getElementById("scheduledata").value;
+        data.data = document.getElementById("data_prenotazione").value;
         data.paziente = selectedUser;
-        console.log(data);
-        post("/schedule", data);
-        sent = true;
+        data.idambulatorio = selectedSurgery;
+        data.operatore = $name;
+
+        let dsc = await loadDate(data.CF, data.data);
+        let free = true;
+
+        let ln = dsc.length;
+        console.log("numero prenotazioni della data", ln);
+
+        for (var i = 0; i < ln; i++) {
+            let dsh = dsc[i];
+            /*verifica che non ci siano sovrapposizioni di appuntamenti */
+            const hm = dsh.ora.split(":");
+            let inizio = new Date(dsh.data);
+            inizio.setHours(hm[0]);
+            inizio.setMinutes(hm[1]);
+            let fine = new Date(inizio.getTime());
+            inizio.setMinutes(inizio.getMinutes() + parseInt(dsh.period));
+            //let fine = dsh.ora+dsh.period;
+            let dataPrenotazioneAttuale = new Date(dsh.data);
+            dataPrenotazioneAttuale.setHours(selectedH);
+            dataPrenotazioneAttuale.setMinutes(selectedM);
+            if (inizio < dataPrenotazioneAttuale < fine) {
+                msg = "Attenzione esiste una prenotazione precedente";
+                free = false;
+            }
+            console.log("Messaggio", msg);
+        }
+        if (free) {
+            post("/schedule", data);
+            msg = "";
+
+            sent = true;
+        }
     }
 
     let users;
     async function loadUsers() {
-        users = await get("/schedule/Patient");
+        users = await get("/schedule/Paziente/"+$hospital);
+    }
+    let surgeries;
+    async function loadSurgery() {
+        console.log("ospedale", $hospital);
+        surgeries = await get("/schedules/" + $hospital);
     }
 </script>
 
@@ -156,6 +206,10 @@
             <div class="card-header">
                 <h1 class="text-black text-lg">Nuovo appuntamento</h1>
             </div>
+
+            <!-- svelte-ignore missing-declaration -->
+            <h1><b>{msg}</b></h1>
+
             <form id="main" on:submit|preventDefault={submit}>
                 <div class="form-control">
                     <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -165,17 +219,18 @@
                         >
                     </label>
                     <input
-                        id="scheduledata"
+                        id="data_prenotazione"
                         class="input input-accent input-bordered w-1/3"
                         type="date"
                         placeholder="YYYY-MM-DD"
-                        name="scheduledata"
+                        name="data_prenotazione"
                     />
-                    <label for="scheduledata" class="label">
+                    <label for="data_prenotazione" class="label">
                         <span class="text-red"
-                            >{error(errors, "scheduledata")}</span
+                            >{error(errors, "data_prenotazione")}</span
                         >
                     </label>
+                    <!-- svelte-ignore a11y-label-has-associated-control -->
                 </div>
                 <div class="form-control w-1/2">
                     <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -210,18 +265,53 @@
                                     {/each}
                                 </select></th
                             >
-                            <th class="border  w-1/4">
+                        </tr>
+                    </table>
+                    <!-- svelte-ignore a11y-label-has-associated-control -->
+                    <label class="label">
+                        <span class="label-text text-black"
+                            >Indica la durata della visita</span
+                        >
+                    </label>
+                    <table class="table-auto  left-0">
+                        <tr>
+                            <th class="border  w-1/6  left-0">
                                 <input
                                     type="text"
                                     name="period"
                                     id="period"
                                     bind:value={data.period}
                                     class="input input-accent input-bordered w-full max-w-xs "
+                                    placeholder="30"
                                 />
                             </th>
                         </tr>
                     </table>
                 </div>
+                <div class="form-control">
+                    <!-- svelte-ignore a11y-label-has-associated-control -->
+                    <label class="label">
+                        <span class="label-text text-black"
+                            >Seleziona ambulatorio</span
+                        >
+                    </label>
+                    {#await loadSurgery()}
+                        <p>Caricamento...</p>
+                    {:then}
+                        <select
+                            bind:value={selectedSurgery}
+                            class="select select-bordered select-accent w-full max-w-xs"
+                        >
+                            <option disabled="disabled">Ambulatorio</option>
+                            {#each surgeries as srg}
+                                <option value={srg}>
+                                    {srg.idambulatorio}
+                                </option>
+                            {/each}
+                        </select>
+                    {/await}
+                </div>
+                <br />
                 <div class="form-control">
                     <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label class="label">
@@ -239,7 +329,8 @@
                             <option disabled="disabled">Paziente</option>
                             {#each users as usr}
                                 <option value={usr}>
-                                    {usr.nome} {usr.cognome}
+                                    {usr.nome}
+                                    {usr.cognome}
                                 </option>
                             {/each}
                         </select>
@@ -249,7 +340,7 @@
                 <div class="form-control">
                     <button
                         class="btn btn-accent content-center max-w-xs"
-                        type=submit
+                        type="submit"
                         color="primary"
                         block
                         href="pages/authentication/login">Prenota</button

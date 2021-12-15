@@ -34,7 +34,12 @@ module.exports = function (app, db) {
             let token = generateRandomString(10);
             let role = out.ruolo;
             let name = out.nome + " " + out.cognome;
-            res.send({ token, role, name })
+            let loggedUserCF = out.CF;
+            let loggedId=out._id;
+            let hospital = out.idstruttura;
+            res.send({ token, role, name, loggedUserCF, hospital, loggedId })
+            
+
         }
         else res.send({ error: "Utente non trovato" })
         // res.send(out)
