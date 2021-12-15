@@ -32,6 +32,15 @@ The server can be further configured in many ways, changing the mailer, tuning t
 
 # Installation
 
+Install and build the app
+
+```
+cd app
+npm install --legacy-peer-deps
+npm run build
+cd ..
+```
+
 Install and build client libraries:
 
 ```
