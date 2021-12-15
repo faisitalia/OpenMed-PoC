@@ -20,9 +20,9 @@
         logState(state);
         cleanupUnusedElements(state.producers, state.consumers);
         associateTrack(state.producers, "video", "producer");
-        //associateTrack(state.producers, "audio", "producer");
+        associateTrack(state.producers, "audio", "producer");
         associateTrack(state.consumers, "video", "consumer");
-        //associateTrack(state.consumers, "audio", "consumer");
+        associateTrack(state.consumers, "audio", "consumer");
     }
 
     onMount(() => {
@@ -59,7 +59,7 @@
                 id="consumer-audio0"
                 autoPlay
                 playsInline
-                muted={false}
+                muted
                 controls={false}
             />
         </div>
@@ -80,7 +80,7 @@
                 id="producer-audio0"
                 autoPlay
                 playsInline
-                muted={false}
+                muted
                 controls={false}
             />
         </div>
@@ -98,7 +98,7 @@
                 id="consumer-audio1"
                 autoPlay
                 playsInline
-                muted={false}
+                muted
                 controls={false}
             />
         </div>
@@ -116,7 +116,7 @@
                 id="consumer-audio3"
                 autoPlay
                 playsInline
-                muted={false}
+                muted
                 controls={false}
             />
         </div>
