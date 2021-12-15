@@ -1,9 +1,9 @@
 {
-  "name": "mediasoup-demo-app",
+  "name": "openmed-conferencing",
   "version": "3.0.0",
   "private": true,
   "description": "mediasoup demo app",
-  "author": "Iñaki Baz Castillo <ibc@aliax.net>",
+  "author": "Iñaki Baz Castillo <ibc@aliax.net> with modification Michele Sciabarra",
   "license": "All Rights Reserved",
   "main": "lib/index.jsx",
   "scripts": {

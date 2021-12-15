@@ -9,3 +9,4 @@ config.json
 attic/
 certs/
 openmed.json
+client/public/conference/
