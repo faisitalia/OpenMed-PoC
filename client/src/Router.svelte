@@ -47,7 +47,7 @@
 
     router(
         "/app/conference",
-        () => $role!="" ? ([page, title, hideTitle] = [Conference, "Conferenza", true]) : undefined
+        () =>  ([page, title, hideTitle] = [Conference, "Conferenza", true]) 
     );
 
     router.start();

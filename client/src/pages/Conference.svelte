@@ -20,9 +20,9 @@
         logState(state);
         cleanupUnusedElements(state.producers, state.consumers);
         associateTrack(state.producers, "video", "producer");
-        //associateTrack(state.producers, "audio", "producer");
+        associateTrack(state.producers, "audio", "producer");
         associateTrack(state.consumers, "video", "consumer");
-        //associateTrack(state.consumers, "audio", "consumer");
+        associateTrack(state.consumers, "audio", "consumer");
     }
 
     onMount(() => {
