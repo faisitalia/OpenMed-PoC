@@ -62,7 +62,7 @@ const BANNER_OPTIONS =
 	pkg         : PKG,
 	currentYear : (new Date()).getFullYear()
 };
-const OUTPUT_DIR = '../client/public';
+const OUTPUT_DIR = '../client/public/conference';
 
 // Set Node 'development' environment (unless externally set).
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';

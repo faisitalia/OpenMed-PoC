@@ -32,7 +32,11 @@ The server can be further configured in many ways, changing the mailer, tuning t
 
 # Installation
 
-Install and build the app
+Run all the steps with the script `./install.sh` 
+
+Otherwise, run all the step manually:
+
+## Install and build the app
 
 ```
 cd app
@@ -41,7 +45,7 @@ npm run build
 cd ..
 ```
 
-Install and build client libraries:
+## Install and build client libraries:
 
 ```
 cd client
@@ -50,7 +54,7 @@ npm run build
 cd ..
 ```
 
-Install server libraries and setup the database:
+## Install server libraries and setup the database:
 
 ```
 cd server
