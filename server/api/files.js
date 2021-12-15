@@ -1,7 +1,10 @@
 const config = require("../config.js")
 const AWS = require('aws-sdk');
+const bodyParser = require('body-parser');
 
 module.exports = (app) => {
+
+    var urlencodedParser = bodyParser.urlencoded({ limit: '50mb', extended: true });
 
     AWS.config.getCredentials(function (err) {
         if (err) console.log(err.stack);
@@ -93,19 +96,23 @@ module.exports = (app) => {
      * Params:
      * - userId: id univoco dell'utente
     */
-    app.put("/api/files/:userId/:fileName", async(req, res) => {
+    app.put("/api/files/:userId/:fileName" ,async(req, res) => {
         console.log("PUT /api/files")
         let s3 = new AWS.S3();
         // const path = 'tests.json';
         const path = req.params.userId + '/';
-        const fileName = req.params.fileName;
-        const body = {msg: 'ciao'};
+        const key = path + req.params.fileName;
+        const type = req.query.type;
+        const body = new Buffer(req.body.file, 'base64');
 
         let putparams = {
             Bucket: config.aws.s3Bucket,
-            Key: path + fileName,
-            Body: body.toString()
+            Key: key,
+            Body: body,
+            ContentType: req.body.type
         };
+
+        console.log('params:',putparams);
 
         // Put object into S3
         s3.putObject(putparams, (error, data) => {
@@ -114,7 +121,7 @@ module.exports = (app) => {
                 return res.status(500).send(error);
             }
             console.log(data);
-            res.status(200).send(path + fileName);
+            res.status(200).send({key: key});
         });
     })
 

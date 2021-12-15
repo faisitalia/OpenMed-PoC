@@ -25,6 +25,14 @@
         const resp = await get("/files/url/" + record.Key);
         console.log("signedURL:", resp);
         window.open(resp.url);
+        // fetch(resp.url)
+        //     .then(res => res.blob())
+        //     .then(blob => {
+        //         console.log(blob);
+        //         const donwloadedFile = new File([blob], "File name",{ type: blob.type })
+        //         const obj_url = URL.createObjectURL(blob);
+        //         window.open(obj_url)
+        // })
     }
 
     // One or more files upload
@@ -37,12 +45,26 @@
             console.warn('Nessun file selezionato');
         }else{
             for(const file of curFiles) {
-                let fileName = file.name;
-                console.log('fileName:', fileName);
-                var myReader = new FileReader();
-                myReader.readAsDataURL(file);
-                const resp = await put("/files/test1/" + fileName, file);
-                console.log('upload resp',resp);
+                if(file){
+                    let fileName = file.name;
+                    let type = file.type;
+                    console.log('file:', file);
+                    console.log('fileName:', fileName);
+
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+
+                    reader.addEventListener("load", async () => {
+                        let data = {
+                            type: type,
+                            file: reader.result
+                        };
+                        console.log('reader:',reader.result);
+                        // let fileToSend = new File([reader.result], fileName, metadata);
+                        const resp = await put("/files/test1/" + fileName , data);
+                        console.log('upload resp',resp);
+                    }, false);
+                }
             }
         }
     }

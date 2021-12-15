@@ -14,9 +14,7 @@ module.exports = async function(app, rootDir) {
     const client =  new mongo.MongoClient(mongoUrl)
     await client.connect()
     const db = client.db(mongoDb)
-
-    app.use(express.json())
-    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json({ limit: '50mb', extended: true }));
     app.use(express.static(rootDir));
 	app.get('/app/*', (req, res) => {
 		let file = rootDir+"/index.html"
