@@ -4,8 +4,8 @@
     import Table from "sveltestrap/src/Table.svelte";
     import Button from "sveltestrap/src/Button.svelte";
     import { get, put, del } from "../util";
-    import { usersEdit } from "../state";
     let tableHeading = ["Nome file", "Data", "Dimensione", "Azioni"];
+    import { name, loggedId } from "../state";
     let _id = "";
     let data = {};
 
@@ -61,7 +61,7 @@
                         };
                         console.log('reader:',reader.result);
                         // let fileToSend = new File([reader.result], fileName, metadata);
-                        const resp = await put("/files/test1/" + fileName , data);
+                        const resp = await put("/files/" + $loggedId + "/" + fileName , data);
                         console.log('upload resp',resp);
                     }, false);
                 }
@@ -70,8 +70,8 @@
     }
 </script>
 
-<h1 class="mt-4">Tables</h1>
-
+User name: {$name}<br>
+loggedId: {$loggedId}
 <Table bordered responsive>
     <thead>
         <tr>
@@ -80,7 +80,7 @@
             {/each}
         </tr>
     </thead>
-    {#await get("/files/test1") then records}
+    {#await get("/files/" + $loggedId) then records}
         <tbody>
             <tr />
             {#each records as record}

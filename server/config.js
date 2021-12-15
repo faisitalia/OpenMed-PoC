@@ -54,7 +54,7 @@ module.exports =
 	},
 	//AWS params
 	aws: {
-		s3Bucket: config.AWS_FILES_BUCKET
+		s3Bucket: config.awsBucket
 	},
 	// mediasoup settings.
 	mediasoup :

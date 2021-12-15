@@ -11,6 +11,7 @@
         "password": "<your-password>"
     },
     "sslCert": "/etc/letsencrypt/live/<your-host-name>/fullchain.pem",
-    "sslKey": "/etc/letsencrypt/live/<your-hostname-name>/privkey.pem"
+    "sslKey": "/etc/letsencrypt/live/<your-hostname-name>/privkey.pem",
+    "awsBucket": "openmedprod"
 }
 

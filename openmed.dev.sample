@@ -11,5 +11,6 @@
     "sslCert": "",
     "sslKey": "",
     "rtcMinPort": 30000,
-    "rtcMaxPort": 39999
+    "rtcMaxPort": 39999,
+    "awsBucket": "openmedtest"
 }
