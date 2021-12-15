@@ -59,7 +59,7 @@
                 id="consumer-audio0"
                 autoPlay
                 playsInline
-                muted={false}
+                muted
                 controls={false}
             />
         </div>
@@ -80,7 +80,7 @@
                 id="producer-audio0"
                 autoPlay
                 playsInline
-                muted={false}
+                muted
                 controls={false}
             />
         </div>
@@ -98,7 +98,7 @@
                 id="consumer-audio1"
                 autoPlay
                 playsInline
-                muted={false}
+                muted
                 controls={false}
             />
         </div>
@@ -116,7 +116,7 @@
                 id="consumer-audio3"
                 autoPlay
                 playsInline
-                muted={false}
+                muted
                 controls={false}
             />
         </div>
