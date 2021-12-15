@@ -31,14 +31,12 @@
  *   Alias for `gulp dist`.
  */
 
-const fs = require('fs');
 const path = require('path');
 const gulp = require('gulp');
 const gulpif = require('gulp-if');
 const gutil = require('gulp-util');
 const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
-const header = require('gulp-header');
 const touch = require('gulp-touch-cmd');
 const browserify = require('browserify');
 const watchify = require('watchify');
@@ -55,14 +53,12 @@ const cssBase64 = require('gulp-css-base64');
 const nib = require('nib');
 const browserSync = require('browser-sync');
 
-const PKG = require('./package.json');
-const BANNER = fs.readFileSync('banner.txt').toString();
-const BANNER_OPTIONS =
-{
-	pkg         : PKG,
-	currentYear : (new Date()).getFullYear()
+const PKG = {
+	'name' : 'openmed-conferencing',
+	'main' : './lib/index.jsx'
 };
-const OUTPUT_DIR = '../client/public';
+
+const OUTPUT_DIR = '../client/public/conference';
 
 // Set Node 'development' environment (unless externally set).
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -123,9 +119,7 @@ function bundle(options)
 			.pipe(buffer())
 			.pipe(rename(`${PKG.name}.js`))
 			.pipe(gulpif(process.env.NODE_ENV === 'production',
-				uglify()
-			))
-			.pipe(header(BANNER, BANNER_OPTIONS))
+				uglify()))
 			.pipe(gulp.dest(OUTPUT_DIR));
 	}
 

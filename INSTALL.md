@@ -32,7 +32,11 @@ The server can be further configured in many ways, changing the mailer, tuning t
 
 # Installation
 
-Install and build the app
+Run all the steps with the script `./install.sh` 
+
+Otherwise, run all the step manually:
+
+## Install and build the app
 
 ```
 cd app
@@ -41,7 +45,7 @@ npm run build
 cd ..
 ```
 
-Install and build client libraries:
+## Install and build client libraries:
 
 ```
 cd client
@@ -50,7 +54,7 @@ npm run build
 cd ..
 ```
 
-Install server libraries and setup the database:
+## Install server libraries and setup the database:
 
 ```
 cd server
@@ -63,6 +67,12 @@ cd ...
 
 # Production Launch
 
+Before all, to use port below 4443 you have to enable capability to bind ports:
+
+```
+sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/node
+```
+
 To start the full server:
 
 ```
@@ -73,6 +83,7 @@ npm run start
 You may want to install it as a system service. You can then edit the sample [openmed service](openmed.service) for systemd to select the correct directories and install on the sistem with:
 
 ```
+sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/node
 sudo cp openmed.service /etc/systemd/system/
 sudo systemctl enable openmed
 sudo systemctl start openmed
