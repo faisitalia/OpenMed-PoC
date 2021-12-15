@@ -1,5 +1,6 @@
 const config = require("../config.js")
 const mailer = require("nodemailer").createTransport(config.mailer)
+let ObjectId = require('mongodb').ObjectId;
 
 
 function sendmail(dest, subject, html) {
@@ -86,8 +87,13 @@ module.exports = function (app, db) {
     })
 
     // Delete a schedule
-    app.delete("/api/schedule", (req, res) => {
-        let out = { "ok": true, "count": 1 }
+    app.del("/api/schedule/:dt", async(req, res) => {   
+        //let out = {"ok": true, "count": 1}
+        let data = req.params.dt
+        let _id = new ObjectId(data)
+        console.log("id",_id)
+        let out = await db.collection("schedule").deleteOne( { _id: _id } )
+        
         res.send(out)
-    })
+    }) 
 }

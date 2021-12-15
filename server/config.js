@@ -10,33 +10,11 @@
 const config = require("../openmed.json")
 const os = require('os');
 
-const gmailMailer = {
-	service: 'gmail',
-	auth: {
-		user: config?.mailConfig?.username,
-		pass: config?.mailConfig?.password,
-	}
-};
-
-const otherMailer = {
-	service: config.mailConfig.provider,
-	host: config.mailConfig.smtp,
-	port: config.mailConfig?.port ?? 25,
-	auth: {
-		user: config.mailConfig.username,
-		pass: config.mailConfig.password,
-	},
-}
-
-const mailer = config.mailConfig?.provider === "google"
-	? gmailMailer
-	: otherMailer;
-
 module.exports =
 {  
 	openmed: config,
 	// mailer
-	mailer: mailer,
+	mailer: config.mailConfig,
 	// Listening hostname (just for `gulp live` task).
 	domain : config.publicHostname,
 	// Signaling settings (protoo WebSocket server and HTTP API server).

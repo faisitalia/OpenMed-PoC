@@ -1,12 +1,14 @@
 <script>
     import { get, post, del } from "../util";
-    import { loggedUserCF, role } from "../state";
+    import { loggedUserCF, role, loggedId } from "../state";
     import { onMount } from "svelte";
+    import Calendar from "./Calendar.svelte";
     import Table from "sveltestrap/src/Table.svelte";
     import { schedule_update } from "svelte/internal";
     import { relativeTimeRounding } from "moment";
 
     let detail = undefined;
+    let dt;
     let now = new Date(),
         month,
         day,
@@ -22,6 +24,17 @@
 
         dateString = [year, month, day].join("-");
     });
+    async function elimina(id) {
+    let dt = id;
+    console.log("data",dt);
+    let res = await del("/schedule/"+dt);
+    
+    detail=undefined;
+  }
+  function back(){
+    detail=undefined;
+  }
+    
 </script>
 
 {#await get("/schedules/" + $loggedUserCF + "/" + $role)}
@@ -114,10 +127,12 @@
             
            
             <br />
+            
+            {#if (dt = new Date(detail.data)<=now)}
+            
             <a
-                href="/app/conference?roomId={detail._id}&peerId={detail
-                    .paziente._id}"
-                class="btn btn-primary"
+                href="/app/conference?roomId={detail._id}&peerId={$loggedId}"
+                class="btn btn-accent"
             >
                 Inizia visita
                 <svg
@@ -134,6 +149,14 @@
                     />
                 </svg>
             </a>
+            {/if}
+            <button class="btn btn-accent" on:click={() => elimina(detail._id)}
+                >Elimina appuntamento</button
+              >
+              <button class="btn btn-accent" on:click={() => back()}
+                >Torna alla lista</button
+              >
         </div>
+        
     {/if}
 {/await}
