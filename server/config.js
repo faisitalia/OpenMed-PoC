@@ -1,7 +1,7 @@
 /**
  * IMPORTANT (PLEASE READ THIS):
  *
- * This is not the "configuration file" of mediasoup. This is the configuration
+	 * This is not the "configuration file" of mediasoup. This is the configuration
  * file of the mediasoup-demo app. mediasoup itself is a server-side library, it
  * does not read any "configuration file". Instead it exposes an API. This demo
  * application just reads settings from this file (once copied to config.js) and
@@ -123,8 +123,8 @@ module.exports =
 			listenIps :
 			[
 				{
-					ip          : config.publicIp,
-					announcedIp : process.env.MEDIASOUP_ANNOUNCED_IP
+					ip          : "0.0.0.0",
+					announcedIp : config.publicIp 
 				}
 			],
 			initialAvailableOutgoingBitrate : 1000000,
@@ -140,8 +140,8 @@ module.exports =
 		{
 			listenIp :
 			{
-				ip          : config.publicIp,
-				announcedIp : process.env.MEDIASOUP_ANNOUNCED_IP
+				ip          : "0.0.0.0",
+				announcedIp : config.publicIp 
 			},
 			maxSctpMessageSize : 262144
 		}
