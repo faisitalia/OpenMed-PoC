@@ -1,5 +1,7 @@
+#!/bin/bash
+set -e
 cd app
-npm install --legacy-peer-dependencies
+npm install --legacy-peer-deps
 npm run build
 cd ../client
 npm install

@@ -36,27 +36,19 @@ Run all the steps with the script `./install.sh`
 
 Otherwise, run all the step manually:
 
-## Install and build the app
 
 ```
+#Install and build the app
 cd app
 npm install --legacy-peer-deps
 npm run build
 cd ..
-```
-
-## Install and build client libraries:
-
-```
+# Install and build client libraries:
 cd client
 npm install
 npm run build
 cd ..
-```
-
-## Install server libraries and setup the database:
-
-```
+# Install server libraries and setup the database:
 cd server
 npm install
 npm run setup
