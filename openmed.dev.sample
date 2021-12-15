@@ -4,7 +4,7 @@
     "publicIp": "127.0.0.1",
     "mongodbUrl": "mongodb://localhost/openmed",
     "mailConfig": {
-        "provider": "google",
+        "provider": "gmail",
         "username": "",
         "password": ""
     },

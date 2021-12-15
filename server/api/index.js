@@ -15,6 +15,10 @@ module.exports = async function(app, rootDir) {
 
     app.use(express.json())
     app.use(express.static(rootDir));
+    app.get("/app/conference", (req, res) => {
+		let file = rootDir+"/conference/index.html"
+		res.sendFile(file)
+	})
 	app.get('/app/*', (req, res) => {
 		let file = rootDir+"/index.html"
 		res.sendFile(file)
