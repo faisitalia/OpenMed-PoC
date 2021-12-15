@@ -6,6 +6,7 @@
     import Calendar from "./pages/Calendar.svelte";
     import Conference from "./pages/Conference.svelte";
     import Users from "./pages/Users.svelte";
+    import MedicalRecord from "./pages/MedicalRecord.svelte";
     import { role,name,token,loggedUserCF } from "./state";
 
     
@@ -25,6 +26,7 @@
                 menu.push({ path: "/app/users", name: "Gestione" });
             }
             menu.push({ path: "/app/conference", name: "Conferenza" });   
+            menu.push({ path: "/app/medrecord", name: "Cartella clinica" });   
         }
     });
  
@@ -50,6 +52,11 @@
         () => $role!="" ? ([page, title, hideTitle] = [Conference, "Conferenza", true]) : undefined
     );
 
+    router(
+        "/app/medrecord", 
+        () => $role!="" ? ([page, title, hideTitle] = [MedicalRecord, "Cartella clinica", true]): undefined
+    );
+    
     router.start();
 </script>
 
