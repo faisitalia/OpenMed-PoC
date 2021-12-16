@@ -57,3 +57,14 @@ export function del(path, data) {
         return x
     })   
 }
+export function putS3URL(path, data) {
+    return fetch(path,
+    {
+        method: "PUT",
+        body: data
+    })
+    .then(x => {
+        console.log(x)
+        return x
+    })   
+}

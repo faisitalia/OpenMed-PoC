@@ -3,18 +3,16 @@
     import BreadcrumbItem from "sveltestrap/src/BreadcrumbItem.svelte";
     import Table from "sveltestrap/src/Table.svelte";
     import Button from "sveltestrap/src/Button.svelte";
-    import { get, put, del } from "../util";
+    import { get, putS3URL, del } from "../util";
     let tableHeading = ["Nome file", "Data", "Dimensione", "Azioni"];
     import { name, loggedId } from "../state";
     let _id = "";
     let data = {};
 
-    async function elimina(event) {
-        let data = { _id: _id };
-        event.preventDefault();
-        let res = await del("/user", data);
-        console.log(res);
-        location.href = location.href;
+    async function getFilesList() {
+        const list = await get("/files/" + $loggedId);
+        console.log('files list:', list);
+        return list;
     }
 
     // File download
@@ -22,7 +20,7 @@
         console.log("download record:", record);
         // console.log('download event:',event);
 
-        const resp = await get("/files/url/" + record.Key);
+        const resp = await get("/files/url/" + record.Key + "?mode=getObject");
         console.log("signedURL:", resp);
         window.open(resp.url);
         // fetch(resp.url)
@@ -51,19 +49,32 @@
                     console.log('file:', file);
                     console.log('fileName:', fileName);
 
-                    var reader = new FileReader();
-                    reader.readAsDataURL(file);
+                    const key = $loggedId + "/" + fileName;
 
-                    reader.addEventListener("load", async () => {
-                        let data = {
-                            type: type,
-                            file: reader.result
-                        };
-                        console.log('reader:',reader.result);
-                        // let fileToSend = new File([reader.result], fileName, metadata);
-                        const resp = await put("/files/" + $loggedId + "/" + fileName , data);
-                        console.log('upload resp',resp);
-                    }, false);
+                    let resp = await get("/files/url/" + key + "?mode=putObject");
+                    const signedURL = resp.url;
+                    console.log('put URL:', signedURL);
+
+                    resp = await putS3URL(signedURL, file);
+                    console.log('put resp:', resp);
+                    if(resp.ok){
+                        alert('File caricato con successo!');
+                        window.location.reload();
+                    }
+                        
+                    // var reader = new FileReader();
+                    // reader.readAsDataURL(file);
+
+                    // reader.addEventListener("load", async () => {
+                    //     let data = {
+                    //         type: type,
+                    //         file: reader.result
+                    //     };
+                    //     console.log('reader:',reader.result);
+                    //     // let fileToSend = new File([reader.result], fileName, metadata);
+                    //     const resp = await put("/files/" + $loggedId + "/" + fileName , data);
+                    //     console.log('upload resp',resp);
+                    // }, false);
                 }
             }
         }
@@ -80,7 +91,7 @@ loggedId: {$loggedId}
             {/each}
         </tr>
     </thead>
-    {#await get("/files/" + $loggedId) then records}
+    {#await getFilesList() then records}
         <tbody>
             <tr />
             {#each records as record}

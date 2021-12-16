@@ -70,11 +70,16 @@ module.exports = (app) => {
             region: 'eu-central-1'
         });
         const path = req.params.userId + '/' +req.params.fileName;
+        const mode = req.query.mode;
+
+        console.log("mode: ", mode);
+        console.log("path: ", path);
+
         const signedUrlExpireSeconds = 60 * 25;
 
         try {
             ///GET
-            const url = s3.getSignedUrl('getObject', {
+            const url = s3.getSignedUrl(mode, {
                 Bucket: config.aws.s3Bucket,
                 Key: path,
                 // 'Content-Type': 'application/pdf',
@@ -103,19 +108,21 @@ module.exports = (app) => {
         const path = req.params.userId + '/';
         const key = path + req.params.fileName;
         const type = req.query.type;
-        const body = new Buffer(req.body.file, 'base64');
+        const body = Buffer.from(req.body.file, 'base64');
+        // const base64Response = await fetch(req.body.file);
+        // const blob = await req.body.file.blob();
 
         let putparams = {
             Bucket: config.aws.s3Bucket,
             Key: key,
-            Body: body,
+            Body: req.body.file,
             ContentType: req.body.type
         };
 
         console.log('params:',putparams);
 
         // Put object into S3
-        s3.putObject(putparams, (error, data) => {
+        s3.upload(putparams, (error, data) => {
             if (error) {
                 console.error(error);
                 return res.status(500).send(error);
