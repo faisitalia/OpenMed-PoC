@@ -14,7 +14,7 @@
     event.preventDefault();
     let res = await del("/user", data);
     console.log(res);
-    location.href = location.href
+    location.reload(true);
   }
 </script>
 

@@ -77,7 +77,10 @@
         loggedId.set("");
         hospital.set("");
     }
-    let data = {};
+    let data = {
+        "username": "info@sciabarra.com",
+        "password": "openmed"
+    };
     import { loggedUser } from "../state";
 </script>
 
@@ -86,7 +89,7 @@
         <figure>
             <img alt="OpenMed" src="/splash.jpg" />
         </figure>
-        <div class="justify-end card-body">
+        <div class="justify-end card-body align:center">
             <img alt="openmed" src="/openmed2.png" />
             {#if $token == ""}
                 <form id="main">

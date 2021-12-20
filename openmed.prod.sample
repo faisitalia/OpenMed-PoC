@@ -3,13 +3,7 @@
     "publicPort": 443,
     "publicIp": "<your-public-ip>",
     "mongodbUrl": "mongodb://<your-mongo-username>:<your-mongo-password>@<your-mongo-host-name>:27017/<your-mongo-database-name>",
-    "mailConfig": {
-        "provider": "<your-provider>",
-        "smtp": "<smtp-host-address-if-any>",
-        "port": "<smtp-port-if-any>",
-        "username": "<your-email-address>",
-        "password": "<your-password>"
-    },
+    "mailConfig": <node-mailer-transport-config>,
     "sslCert": "/etc/letsencrypt/live/<your-host-name>/fullchain.pem",
     "sslKey": "/etc/letsencrypt/live/<your-hostname-name>/privkey.pem"
 }
