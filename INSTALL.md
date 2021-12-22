@@ -19,14 +19,39 @@ For production, copy the `openmed.prod.sample` to `openmed.json` and replace *al
 
 - `<your-public-ip>` with the public IP address of your server 
 - `<your-host-name>` with the fully qualified hostname you generate the the SSL for 
-- `<your-gmail-address>` with your Gmail email address
-- `<your-gmail-app-password>` with your Gmail app password
 - `<your-mongo-username>` and `<your-mongo-password>` with MongoDB username and passwords
 - `<your-mongo-host-name>` and `<your-mongo-database-name>` with MongoDB hostname and database
 - replace also `<your-host-name>` for `ssl` keys and 
 - check that the `ssl.cert` and `ssl.key` points to the correct files for your SSL certificates
+- replace `<node-mailer-transport-config>` with a valid [nodemailer](https://nodemailer.com/smtp/) transport configuration. 
 
-The server can be further configured in many ways, changing the mailer, tuning the conferences and much more, editing manually the `./server/config.js`.
+For example, a config for a generic SMTP looks like this:
+
+```
+"mailConfig": {
+    "host": "smtp.ergonet.it",
+    "port": 465,
+    "secure": false, 
+    "auth": {
+        "user": "visite@openmed.cloud",
+        "pass": "<my-password-here>"
+    } 
+},
+```
+
+while a config for using GMAIL looks like this:
+
+```
+ "mailConfig" : {
+    "service": "gmail",
+    "auth": {
+        "user": "noiopensource@gmail.com",
+        "pass": "<gmail-app-password>"
+    }
+},
+```
+
+The server can be further configured in many ways, changing the mailer, tuning the conferences and much more, editing manually the `./server/config.js`. 
 
 <a name="installation"/>
 

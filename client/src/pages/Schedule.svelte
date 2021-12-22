@@ -61,6 +61,14 @@
                 message: " non valida, non si può prenotare prima di oggi",
             },
         },
+        ambulatorio: {
+      // paziente is required
+        presence: true,
+     },
+        paziente: {
+      // paziente is required
+        presence: true,
+     },
     };
 
     function submit(event) {
@@ -301,6 +309,8 @@
                         <select
                             bind:value={selectedSurgery}
                             class="select select-bordered select-accent w-full max-w-xs"
+                            name="ambulatorio"
+                            id="paziente"
                         >
                             <option disabled="disabled">Ambulatorio</option>
                             {#each surgeries as srg}
@@ -325,6 +335,8 @@
                         <select
                             bind:value={selectedUser}
                             class="select select-bordered select-accent w-full max-w-xs"
+                            name="paziente"
+                            id="paziente"
                         >
                             <option disabled="disabled">Paziente</option>
                             {#each users as usr}

@@ -278,11 +278,11 @@
     block
     href="pages/authentication/login"
   >
-    Update Account
+    Aggiorna utente
   </button>
   
   {/if}
   <button class="btn btn-accent" on:click={() => usersEdit.set("")}
-    >List</button
+    >Lista utenti</button
   >
 </form>
