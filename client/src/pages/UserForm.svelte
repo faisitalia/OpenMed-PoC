@@ -11,7 +11,7 @@
   validate.validators.presence.message = " non può essere vuoto";
   validate.validators.email.message = " non valida";
   
-  let ruolo = ["Paziente", "Medico", "Infermiere", "Amministratore"];
+  let ruolo = ["Paziente", "Medico", "Infermiere", "Stomaterapista","Caregiver"];
   let role;
   let errors = {};
   let form = {};

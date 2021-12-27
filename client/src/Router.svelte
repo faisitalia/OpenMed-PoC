@@ -20,12 +20,13 @@
         if (r != "") {
             
             menu.push({ path: "/app/calendar", name: "Appuntamenti" });
-            if (r=="Infermiere" || r=="Amministratore"){
+            if (r=="Infermiere" || r=="Amministratore" || r=="Stomaterapista"){
                 menu.push({ path: "/app/schedule", name: "Prenota" });
                 menu.push({ path: "/app/users", name: "Gestione" });
             }
             menu.push({ path: "/app/conference", name: "Conferenza" });   
         }
+        
     });
  
     router("/", () => ([page, title, hideTitle] = [Home, "Home", true]));

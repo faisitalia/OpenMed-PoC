@@ -1,21 +1,25 @@
 <script>
-  import Breadcrumb from "sveltestrap/src/Breadcrumb.svelte";
-  import BreadcrumbItem from "sveltestrap/src/BreadcrumbItem.svelte";
-  import Table from "sveltestrap/src/Table.svelte";
-  import Button from "sveltestrap/src/Button.svelte";
+   import Table from "sveltestrap/src/Table.svelte";
   import { get, post, del } from "../util";
   import { usersEdit,hospital } from "../state";
+import { onMount } from "svelte";
   let tableHeading = ["Ruolo", "Nome", "Cognome", "email"];
   let _id = "";
   let data = {};
 
   async function elimina(event) {
     let data = { _id: _id };
-    event.preventDefault();
-    let res = await del("/user", data);
-    console.log(res);
-    location.reload(true);
+    del("/user", data).then(res => {
+      console.log(res);
+      load()
+    })  
+	};
+  
+  let users = []
+  async function load() {
+    users = await get("/users/"+$hospital)
   }
+  onMount(load)
 </script>
 
 <h1 class="mt-4">Utenti</h1>
@@ -28,7 +32,6 @@
       {/each}
     </tr>
   </thead>
-  {#await get("/users/"+$hospital) then users}
     <tbody>
       <tr />
       {#each users as usr}
@@ -43,14 +46,12 @@
         </tr>
       {/each}
     </tbody>
-  {/await}
 </Table>
 <button
   class="btn btn-accent"
   on:click={elimina}
   color="primary"
-  block
-  href="pages/authentication/login">Elimina</button
+  block>Elimina</button
 >
 <button class="btn btn-accent" on:click={() => usersEdit.set("-")}>New</button>
 <button class="btn btn-accent" on:click={() => usersEdit.set(_id)}>Edit</button>

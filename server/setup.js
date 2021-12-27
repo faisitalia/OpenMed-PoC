@@ -24,19 +24,19 @@ module.exports = async function (_db) {
     await store("ambulatorio", "idambulatorio", {
         "idambulatorio": "Ambulatorio stomizzati 1",
         "idstruttura":"C.D.C. FONDAZIONE POLIAMBULANZA",
-        "indirizzo": " ",
+        "indirizzo": "Via Leonida Bissolati 57 25124 Brescia",
         "idstanza": "Scala E, IV piano vicino segreteria della Ginecologia"
     })
     await store("ambulatorio", "idambulatorio", {
         "idambulatorio": "Ambulatorio stomizzati 2",
         "idstruttura":"IRCCS SAN RAFFAELE",
-        "indirizzo": " ",
+        "indirizzo": "Via Olgettina 60 20132 Milano",
         "idstanza": "Sett B piano terreno"
     })
     await store("ambulatorio", "idambulatorio", {
         "idambulatorio": "Ambulatorio stomizzati urologia",
         "idstruttura":"IRCCS SAN RAFFAELE",
-        "indirizzo": " ",
+        "indirizzo": "Via Olgettina 60 20132 Milano",
         "idstanza": "Settore Q piano terreno"
     })
     await store("anagrafica", "CF", {

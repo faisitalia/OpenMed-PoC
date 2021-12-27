@@ -105,6 +105,7 @@
                             <th scope="row"> Posizione Ambulatorio</th>
                             <td>
                                 {detail.idambulatorio?.indirizzo ?? "indirizzo"}
+                                {detail.idambulatorio?.idstanza ?? "idstanza"}
                             </td>
                         </tr>
                         <tr>
