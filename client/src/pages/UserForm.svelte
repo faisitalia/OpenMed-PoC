@@ -11,7 +11,7 @@
   validate.validators.presence.message = " non può essere vuoto";
   validate.validators.email.message = " non valida";
   
-  let ruolo = ["Paziente", "Medico", "Infermiere", "Amministratore"];
+  let ruolo = ["Paziente", "Medico", "Infermiere", "Stomaterapista","Caregiver"];
   let role;
   let errors = {};
   let form = {};
@@ -278,11 +278,11 @@
     block
     href="pages/authentication/login"
   >
-    Update Account
+    Aggiorna utente
   </button>
   
   {/if}
   <button class="btn btn-accent" on:click={() => usersEdit.set("")}
-    >List</button
+    >Lista utenti</button
   >
 </form>

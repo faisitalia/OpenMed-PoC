@@ -3,11 +3,15 @@
     "publicPort": 1024,
     "publicIp": "127.0.0.1",
     "mongodbUrl": "mongodb://localhost/openmed",
+<<<<<<< HEAD
     "mailConfig": {
         "provider": "gmail",
         "username": "",
         "password": ""
     },
+=======
+    "mailConfig": <nodemailer-transport-config>,
+>>>>>>> work in progress
     "sslCert": "",
     "sslKey": "",
     "rtcMinPort": 30000,

@@ -34,6 +34,9 @@
                             class="h-8 w-auto mr-2"
                         />
                     </a>
+                    {#if $name!=""}
+                        {$name}
+                    {/if}
                 </div>
                 <div class="hidden md:flex items-center space-x-1">
                     <ul

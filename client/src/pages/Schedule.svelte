@@ -61,7 +61,18 @@
                 message: " non valida, non si può prenotare prima di oggi",
             },
         },
+        ambulatorio: {
+      // paziente is required
+        presence: true,
+     },
+        paziente: {
+      // paziente is required
+        presence: true,
+     },
+        
     };
+    
+
 
     function submit(event) {
         // validate the form against the constraints
@@ -77,12 +88,6 @@
     let sent = false;
 
     let hours = [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
         "07",
         "08",
         "09",
@@ -96,10 +101,7 @@
         "17",
         "18",
         "19",
-        "20",
-        "21",
-        "22",
-        "23",
+        "20"
     ];
     let minutes = [
         "00",
@@ -194,7 +196,7 @@
                 <div class="justify-end card-actions">
                     <button
                         class="btn btn-primary"
-                        on:click={() => (sent = false)}
+                        on:click={() => (sent = false, errors={})}
                     >
                         OK
                     </button>
@@ -301,6 +303,8 @@
                         <select
                             bind:value={selectedSurgery}
                             class="select select-bordered select-accent w-full max-w-xs"
+                            name="ambulatorio"
+                            id="paziente"
                         >
                             <option disabled="disabled">Ambulatorio</option>
                             {#each surgeries as srg}
@@ -310,6 +314,11 @@
                             {/each}
                         </select>
                     {/await}
+                    <label for="ambulatorio" class="label">
+                        <span class="text-red"
+                            >{error(errors, "ambulatorio")}</span
+                        >
+                    </label>
                 </div>
                 <br />
                 <div class="form-control">
@@ -325,6 +334,8 @@
                         <select
                             bind:value={selectedUser}
                             class="select select-bordered select-accent w-full max-w-xs"
+                            name="paziente"
+                            id="paziente"
                         >
                             <option disabled="disabled">Paziente</option>
                             {#each users as usr}
@@ -335,6 +346,11 @@
                             {/each}
                         </select>
                     {/await}
+                    <label for="paziente" class="label">
+                        <span class="text-red"
+                            >{error(errors, "paziente")}</span
+                        >
+                    </label>
                 </div>
                 <br />
                 <div class="form-control">
