@@ -87,11 +87,10 @@ module.exports = function (app, db) {
     })
 
     // Delete a schedule
-    app.del("/api/schedule/:dt", async(req, res) => {   
+    app.delete("/api/schedule/:id", async(req, res) => {   
         //let out = {"ok": true, "count": 1}
-        let data = req.params.dt
-        let _id = new ObjectId(data)
-        console.log("id",_id)
+        console.log("id",req.params.id)
+        let _id = new ObjectId(req.params.id)
         let out = await db.collection("schedule").deleteOne( { _id: _id } )
         
         res.send(out)

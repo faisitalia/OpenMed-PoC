@@ -19,7 +19,7 @@ module.exports = function(app, db) {
         res.send(data)
     })
 
-    let _id = "6199136ae3c68ef5bb529760"
+    //let _id = "6199136ae3c68ef5bb529760"
 
     // Create a new user
     

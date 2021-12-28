@@ -196,7 +196,7 @@
                 <div class="justify-end card-actions">
                     <button
                         class="btn btn-primary"
-                        on:click={() => (sent = false)}
+                        on:click={() => (sent = false, errors={})}
                     >
                         OK
                     </button>
